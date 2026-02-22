@@ -1,0 +1,116 @@
+/* PAGE BACKGROUND */
+.pk-page {
+  flex: 1;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #eef1f5 100%);
+  margin-bottom: 140px;
+}
+.page-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* -------------------------------
+   BREADCRUMB (SAMA PERSIS STYLE KT)
+---------------------------------- */
+.pk-breadcrumb {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.pk-breadcrumb-link {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.pk-breadcrumb-link:hover {
+  background: rgba(221, 197, 136, 0.15);
+  transform: translateX(-2px);
+}
+
+.pk-breadcrumb-separator {
+  color: var(--color-text-light);
+  opacity: 0.6;
+}
+
+.pk-breadcrumb-current {
+  background: var(--color-white);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  color: var(--color-dark);
+}
+
+/* -------------------------------
+   TABLE
+---------------------------------- */
+.pk-table-container {
+  overflow-x: auto;
+  margin-top: 30px;
+}
+
+.pk-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.pk-table th {
+  background: var(--color-primary);
+  color: white;
+  padding: 14px 18px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.pk-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.pk-table tr:hover {
+  background: rgba(221, 197, 136, 0.06);
+}
+
+/* Status badge */
+.pk-status {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.pk-status.lulus {
+  background: #d4f7d4;
+  color: #1a7a1a;
+}
+
+.pk-status.tidak-lulus {
+  background: #ffd3d3;
+  color: #b71c1c;
+}
+
+/* Empty */
+.pk-empty {
+  text-align: center;
+  margin-top: 30px;
+  color: var(--color-text-light);
+  font-size: 16px;
+}
