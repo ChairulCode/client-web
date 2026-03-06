@@ -3,7 +3,7 @@ import { useLocation, Link as RouterLink } from "react-router-dom";
 import ScrollLink from "react-scroll/modules/components/Link";
 
 import Logo from "/assets/logo.svg";
-import { navTabs2 } from "../../data";
+import { navTabs2, navTabs2SMA } from "../../data"; // ← tambah navTabs2SMA
 import type { NavTab } from "../../data";
 import { FaTimes } from "react-icons/fa";
 import { RiMenu3Fill } from "react-icons/ri";
@@ -23,6 +23,11 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
 
   const location = useLocation();
   const isHome = location.pathname === "/";
+
+  // ── Pilih navTabs sesuai level ─────────────────────────────
+  // Hanya SMA yang mendapatkan menu "Pengumuman Kelulusan"
+  const isSMA = level?.toUpperCase() === "SMA";
+  const activeNavTabs = isSMA ? navTabs2SMA : navTabs2;
 
   const handleScroll = () => setVisible(window.scrollY > 145);
 
@@ -82,8 +87,6 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
 
     const rawId = String(tab.id);
 
-    // TAMBAHKAN LOGIK INI:
-    // Jika ID adalah portal-utama, paksa kembali ke root path "/"
     if (rawId === "halaman-utama") return "/";
 
     if (rawId === "/" || rawId === "home") {
@@ -107,15 +110,12 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
   const isTabActive = (tab: NavTab) => {
     const id = String(tab.id);
 
-    // scroll active
     if (activeSection === id) return true;
 
-    // homepage scroll links
     if (isHome && tab.type === "scroll") return false;
 
     const finalPath = getFinalPath(tab);
 
-    // match exact path only (fix double active)
     return location.pathname === finalPath;
   };
 
@@ -224,7 +224,8 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
           <FaTimes />
         </div>
 
-        {renderNavTabs(navTabs2)}
+        {/* Render navTabs sesuai level (SMA vs lainnya) */}
+        {renderNavTabs(activeNavTabs)}
 
         {isMobile && (
           <RouterLink

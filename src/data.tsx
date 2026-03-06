@@ -1,4 +1,4 @@
-// Existing types
+// ─── Types ────────────────────────────────────────────────────
 export type NavType = "scroll" | "link" | "route";
 
 export interface NavTab {
@@ -9,6 +9,7 @@ export interface NavTab {
   children?: NavTab[];
 }
 
+// ─── navTabs: untuk halaman utama (home) ──────────────────────
 export const navTabs: NavTab[] = [
   { name: "Beranda", id: "/", type: "route" },
   {
@@ -27,7 +28,7 @@ export const navTabs: NavTab[] = [
   { name: "Ekstrakurikuler", id: "/ekstrakurikuler", type: "route" },
 ];
 
-// route khusus untuk get tiap tingkatan
+// ─── navTabs2: untuk PG-TK, SD, SMP (TANPA Pengumuman Kelulusan) ─
 export const navTabs2: NavTab[] = [
   {
     name: "Halaman Utama",
@@ -39,12 +40,10 @@ export const navTabs2: NavTab[] = [
     name: "About",
     id: "/about",
     type: "route",
-    // Bisa diakses langsung untuk about umum
   },
   { name: "Prestasi", id: "/prestasi", type: "route" },
-  { name: "kegiatan", id: "/kegiatan", type: "route" },
+  { name: "Kegiatan", id: "/kegiatan", type: "route" },
   { name: "Pengumuman", id: "/pengumuman", type: "route" },
-  { name: "Pengumuman Kelulusan", id: "/pengumuman-kelulusan", type: "route" },
   {
     name: "Nilai Mapel",
     id: "/nilai",
@@ -52,6 +51,35 @@ export const navTabs2: NavTab[] = [
   },
 ];
 
+// ─── navTabs2SMA: KHUSUS SMA (DENGAN Pengumuman Kelulusan) ────
+export const navTabs2SMA: NavTab[] = [
+  {
+    name: "Halaman Utama",
+    id: "halaman-utama",
+    type: "route",
+  },
+  { name: "Beranda", id: "/", type: "route" },
+  {
+    name: "About",
+    id: "/about",
+    type: "route",
+  },
+  { name: "Prestasi", id: "/prestasi", type: "route" },
+  { name: "Kegiatan", id: "/kegiatan", type: "route" },
+  { name: "Pengumuman", id: "/pengumuman", type: "route" },
+  {
+    name: "Pengumuman Kelulusan",
+    id: "/pengumuman-kelulusan",
+    type: "route",
+  },
+  {
+    name: "Nilai Mapel",
+    id: "/nilai",
+    type: "route",
+  },
+];
+
+// ─── Slide ────────────────────────────────────────────────────
 export interface Slide {
   [x: string]: any;
   id: number;
@@ -143,6 +171,7 @@ export const slides: Slide[] = [
   },
 ];
 
+// ─── WelcomeData ──────────────────────────────────────────────
 export interface WelcomeData {
   headingEmoji: string;
   headingMain: string;
@@ -165,6 +194,7 @@ export const welcomeData: WelcomeData = {
   buttonText: "Mulai Jelajah",
 };
 
+// ─── Announcement ─────────────────────────────────────────────
 export interface Announcement {
   [x: string]: any;
   id: number;
@@ -237,6 +267,8 @@ export const announcements1: Announcement[] = [
     level: "PG-TK",
   },
 ];
+
+// ─── Activity ─────────────────────────────────────────────────
 export interface Activity {
   id: number;
   date: string;
@@ -285,7 +317,7 @@ export const activities: Activity[] = [
   },
 ];
 
-// NEW: Fasilitas Data Structure
+// ─── Facility ─────────────────────────────────────────────────
 export interface Facility {
   id: number;
   name: string;
@@ -294,7 +326,7 @@ export interface Facility {
   icon: string;
 }
 
-// consume data announcement
+// ─── Announcements (consume) ──────────────────────────────────
 export const announcements: Announcement[] = [
   {
     id: 1,
@@ -358,9 +390,8 @@ export const announcements: Announcement[] = [
   },
 ];
 
-// Ganti nama interface
+// ─── Announcement2 ────────────────────────────────────────────
 export interface Announcement2Item {
-  // atau Announcement2Type, IAnnouncement2
   id: number;
   title: string;
   type: string;
@@ -369,7 +400,6 @@ export interface Announcement2Item {
   level: "SD" | "SMP" | "SMA" | "PG-TK";
 }
 
-// Update type di array
 export const announcements2: Announcement2Item[] = [
   {
     id: 1,
@@ -445,6 +475,7 @@ export const announcements2: Announcement2Item[] = [
   },
 ];
 
+// ─── Facilities ───────────────────────────────────────────────
 export const facilities: Facility[] = [
   {
     id: 1,
@@ -535,7 +566,8 @@ export const facilities: Facility[] = [
     icon: "🧑🏻‍⚕️",
   },
 ];
-// data lagu mars
+
+// ─── Lagu Mars ────────────────────────────────────────────────
 export const songs = [
   {
     id: 1,
@@ -564,9 +596,7 @@ export const songs = [
   },
 ];
 
-// data pengumuman kelulusan
-// src/data/kelulusan.ts
-
+// ─── Kelulusan (data statis, sudah digantikan API) ────────────
 export interface KelulusanItem {
   id: number;
   name: string;
@@ -611,10 +641,7 @@ export const kelulusanList: KelulusanItem[] = [
   },
 ];
 
-// =========================
-// TIPE DATA NILAI MAPEL
-// =========================
-
+// ─── Nilai Mapel ──────────────────────────────────────────────
 export interface NilaiMapelItem {
   id: number;
   mapel: string;
@@ -622,10 +649,6 @@ export interface NilaiMapelItem {
   keterangan: string;
   level: "SD" | "SMP" | "SMA" | "PG-TK";
 }
-
-// =========================
-// DATA NILAI MAPEL
-// =========================
 
 export const nilaiMapelList: NilaiMapelItem[] = [
   {
@@ -649,8 +672,6 @@ export const nilaiMapelList: NilaiMapelItem[] = [
     keterangan: "Luar biasa dalam analisis.",
     level: "SMA",
   },
-
-  // contoh SD
   {
     id: 4,
     mapel: "Matematika",
