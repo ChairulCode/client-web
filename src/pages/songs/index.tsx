@@ -35,9 +35,9 @@ const Songs = () => {
       audioUrl: `${audio}`,
       lyrics: [
         "1, 2, 3, 4",
-        "Pribukit, Pribukit",
+        "Tribukit, Tribukit",
         "Itu nama suatu perguruan",
-        "Pribukit, Pribukit, Pribukit",
+        "Tribukit, Tribukit, Tribukit",
         "Sekarang bernama W. R. Supratman",
 
         "Perguruan yang menjadi sanjungan",

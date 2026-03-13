@@ -152,7 +152,14 @@ const Ekstrakurikuler = () => {
     },
   ];
 
-  const categories = ["Semua", "Seni", "Olahraga", "Teknologi", "Bahasa"];
+  const categories = [
+    "Semua",
+    "Seni",
+    "Olahraga",
+    "Teknologi",
+    "Bahasa",
+    "Keterampilan",
+  ];
 
   const filteredExtracurriculars =
     selectedCategory === "Semua"

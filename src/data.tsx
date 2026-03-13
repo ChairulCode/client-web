@@ -482,7 +482,7 @@ export const facilities: Facility[] = [
     name: "Ruangan Kelas Full AC + Proyektor",
     description:
       "Ruangan kelas yang sejuk dan nyaman dengan AC serta dilengkapi proyektor modern untuk mendukung pembelajaran interaktif dan efektif.",
-    image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800",
+    image: "/assets/ruang-kelas.jpeg",
     icon: "🏛️",
   },
   {
@@ -498,7 +498,7 @@ export const facilities: Facility[] = [
     name: "Laboratorium Fisika",
     description:
       "Laboratorium fisika lengkap dengan alat peraga dan peralatan eksperimen untuk mendukung pembelajaran sains yang mendalam dan praktis.",
-    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800",
+    image: "/assets/img-lab-fisika1.jpeg",
     icon: "🔎",
   },
   {
@@ -514,7 +514,7 @@ export const facilities: Facility[] = [
     name: "Laboratorium Biologi",
     description:
       "Laboratorium biologi dilengkapi mikroskop dan specimen untuk mempelajari kehidupan dan organisme secara detail dan komprehensif.",
-    image: "/assets/img-lab-biologi.jpeg",
+    image: "/assets/img-lab-biologi1.jpeg",
     icon: "🔬",
   },
   {
@@ -522,7 +522,7 @@ export const facilities: Facility[] = [
     name: "Laboratorium Bahasa",
     description:
       "Laboratorium bahasa modern dengan audio visual dan headset untuk meningkatkan kemampuan listening dan speaking siswa.",
-    image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800",
+    image: "/assets/lab-bahasa.jpeg",
     icon: "💬",
   },
   {
@@ -530,7 +530,7 @@ export const facilities: Facility[] = [
     name: "Perpustakaan",
     description:
       "Perpustakaan modern dengan koleksi buku lengkap dan ruang baca nyaman untuk mendukung literasi dan kegiatan belajar siswa.",
-    image: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800",
+    image: "/assets/perpus.jpeg",
     icon: "📖",
   },
   {
@@ -546,7 +546,7 @@ export const facilities: Facility[] = [
     name: "Indoor Playground TK",
     description:
       "Playground indoor yang aman dan edukatif khusus untuk siswa TK dengan berbagai permainan yang merangsang kreativitas anak.",
-    image: "/assets/img-playground.png",
+    image: "/assets/playground.jpeg",
     icon: "🛝",
   },
   {

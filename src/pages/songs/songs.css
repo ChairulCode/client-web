@@ -42,8 +42,8 @@ body {
   overflow-y: auto;
   padding-right: 15px;
   /* Masking effect agar lirik memudar di bagian bawah saat di-scroll */
-  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  /* mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); */
 }
 
 /* Scrollbar halus untuk lirik */

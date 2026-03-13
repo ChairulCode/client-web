@@ -18,7 +18,7 @@ import {
   Hash,
   School,
   Shield,
-  Download, // Tambahan icon untuk tombol cetak
+  Download,
 } from "lucide-react";
 import { Input } from "../../components/ui/input/input";
 import {
@@ -71,7 +71,7 @@ const labelKelas = (k: string) =>
 
 export default function PengumumanKelulusan() {
   const navigate = useNavigate();
-  const printRef = useRef<HTMLDivElement>(null); // Ref untuk menangkap elemen kartu
+  const printRef = useRef<HTMLDivElement>(null);
 
   const [kelas, setKelas] = useState("");
   const [nomorInduk, setNomorInduk] = useState("");
@@ -81,7 +81,7 @@ export default function PengumumanKelulusan() {
   const [hasil, setHasil] = useState<HasilKelulusan | null>(null);
   const [tanggalAkses, setTanggalAkses] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
-  const [isPrinting, setIsPrinting] = useState(false); // State loading saat proses PDF
+  const [isPrinting, setIsPrinting] = useState(false);
 
   useEffect(() => {
     if (status !== "idle" && status !== "loading") {
@@ -141,31 +141,24 @@ export default function PengumumanKelulusan() {
     setErrorMsg("");
   };
 
-  // Fungsi untuk Generate PDF
   const handleDownloadPDF = async () => {
     if (!printRef.current) return;
     setIsPrinting(true);
-
     try {
-      const element = printRef.current;
-      const canvas = await html2canvas(element, {
-        scale: 3, // Skala tinggi agar teks tajam
+      const canvas = await html2canvas(printRef.current, {
+        scale: 3,
         useCORS: true,
         backgroundColor: "#ffffff",
       });
-
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
         format: "a4",
       });
-
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const imgProps = pdf.getImageProperties(imgData);
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      // Menambahkan gambar ke PDF dengan margin atas 15mm
       pdf.addImage(imgData, "PNG", 0, 15, pdfWidth, pdfHeight);
       pdf.save(`Lulus_${hasil?.nomor_siswa}_${hasil?.nama_siswa}.pdf`);
     } catch (error) {
@@ -178,118 +171,317 @@ export default function PengumumanKelulusan() {
   return (
     <>
       <style>{`
-        /* ... CSS Original Anda tetap di sini ... */
-        .pk { --gold: #ddc588; --color-primary: #eddfa5; --gold-d: #c4a55e; --gold-dark: #8a6a20; --gold-pale: #fdf8ed; --ink: #1a1408; --ink2: #3d2e0a; --ink3: #6b5320; }
-        .pk { min-height: 100vh; display: flex; flex-direction: column; background: #f5f5f0; font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; }
-        .pk-hero { background: var(--gold); position: relative; overflow: hidden; }
-        .pk-hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 65% 80% at 95% 10%, rgba(255,255,255,0.25) 0%, transparent 55%), radial-gradient(ellipse 50% 60% at 5% 95%, rgba(100,70,10,0.18) 0%, transparent 55%); }
-        .pk-hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(-55deg, transparent, transparent 48px, rgba(255,255,255,0.06) 48px, rgba(255,255,255,0.06) 49px ); }
-        .pk-hero-inner { position: relative; z-index: 1; max-width: 660px; margin: 0 auto; padding: 52px 24px 44px; }
-        .pk-bc { display: flex; align-items: center; gap: 7px; margin-bottom: 32px; }
-        .pk-bc-btn { background: none; border: none; cursor: pointer; padding: 0; font-size: 12px; font-weight: 600; color: var(--ink2); transition: color .15s; text-decoration: underline; text-underline-offset: 3px; }
-        .pk-bc-btn:hover { color: var(--ink); }
-        .pk-bc-sep { width: 13px; height: 13px; color: var(--ink3); opacity: .6; }
-        .pk-bc-cur { font-size: 12px; font-weight: 700; color: var(--ink); }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+        .pk {
+          --gold: #ddc588; --gold-l: #eddfa5; --gold-d: #c4a55e;
+          --gold-dark: #8a6a20; --gold-pale: #fdf8ed; --gold-deep: #5a3e10;
+          --ink: #1a1408; --ink2: #3d2e0a; --ink3: #6b5320;
+          --surface: #faf9f6; --white: #ffffff;
+          --shadow-gold: 0 8px 32px rgba(196,165,94,0.18);
+          --radius-card: 20px;
+          min-height: 100vh; display: flex; flex-direction: column;
+          background: var(--surface);
+          font-family: 'DM Sans', system-ui, sans-serif;
+        }
+
+        /* ── HERO ── */
+        .pk-hero {
+          background: linear-gradient(135deg, #1a1408 0%, #2d2010 50%, #1a1408 100%);
+          position: relative; overflow: hidden;
+        }
+        .pk-hero::before {
+          content: ""; position: absolute; inset: 0; pointer-events: none;
+          background:
+            radial-gradient(ellipse 70% 80% at 90% 5%, rgba(221,197,136,0.12) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 50% at 10% 100%, rgba(221,197,136,0.08) 0%, transparent 55%);
+        }
+        /* diagonal lines texture */
+        .pk-hero::after {
+          content: ""; position: absolute; inset: 0; pointer-events: none;
+          background: repeating-linear-gradient(
+            -55deg, transparent, transparent 60px,
+            rgba(221,197,136,0.04) 60px, rgba(221,197,136,0.04) 61px
+          );
+        }
+        .pk-hero-inner {
+          position: relative; z-index: 1;
+          max-width: 660px; margin: 0 auto; padding: 56px 24px 48px;
+        }
+
+        /* ── BREADCRUMB ── */
+        .pk-bc { display: flex; align-items: center; gap: 8px; margin-bottom: 36px; }
+        .pk-bc-btn {
+          background: none; border: none; cursor: pointer; padding: 0;
+          font-size: 12px; font-weight: 600; color: rgba(221,197,136,0.6);
+          transition: color .15s; font-family: 'DM Sans', sans-serif;
+        }
+        .pk-bc-btn:hover { color: var(--gold); }
+        .pk-bc-sep { width: 12px; height: 12px; color: rgba(221,197,136,0.3); }
+        .pk-bc-cur { font-size: 12px; font-weight: 700; color: var(--gold); }
+
+        /* ── HERO BODY ── */
         .pk-hero-body { display: flex; align-items: flex-start; gap: 20px; }
-        .pk-iconbox { display: none; flex-shrink: 0; width: 62px; height: 62px; border-radius: 16px; background: rgba(26,20,8,0.12); border: 1.5px solid rgba(26,20,8,0.2); align-items: center; justify-content: center; }
+        .pk-iconbox {
+          display: none; flex-shrink: 0; width: 64px; height: 64px;
+          border-radius: 18px;
+          background: linear-gradient(135deg, rgba(221,197,136,0.15), rgba(221,197,136,0.05));
+          border: 1px solid rgba(221,197,136,0.25);
+          align-items: center; justify-content: center;
+        }
         @media(min-width:500px){ .pk-iconbox { display:flex; } }
-        .pk-pill { display: inline-flex; align-items: center; gap: 7px; padding: 5px 14px; border-radius: 999px; margin-bottom: 16px; background: rgba(26,20,8,0.12); border: 1.5px solid rgba(26,20,8,0.18); }
-        .pk-pill-txt { font-size: 10px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: var(--ink2); }
-        .pk-title { font-size: clamp(26px, 5.5vw, 40px); font-weight: 900; line-height: 1.15; letter-spacing: -.025em; color: var(--ink); margin: 0 0 12px; }
-        .pk-title .g { color: #fff; text-shadow: 0 1px 6px rgba(100,70,10,0.35); }
-        .pk-desc { font-size: 14px; line-height: 1.75; color: var(--ink2); max-width: 430px; margin: 0; }
-        .pk-desc strong { color: var(--ink); font-weight: 700; }
-        .pk-strip { margin-top: 28px; padding-top: 20px; border-top: 1.5px solid rgba(26,20,8,0.15); display: flex; gap: 24px; flex-wrap: wrap; }
-        .pk-strip-item { display: flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 500; color: var(--ink3); }
-        .pk-strip-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ink); opacity: .4; flex-shrink: 0; }
-        .pk-content { flex: 1; max-width: 660px; margin: 0 auto; width: 100%; padding: 30px 24px 48px; }
-        .pk-notice { display: flex; align-items: flex-start; gap: 12px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; }
+        .pk-pill {
+          display: inline-flex; align-items: center; gap: 7px;
+          padding: 5px 14px; border-radius: 999px; margin-bottom: 18px;
+          background: rgba(221,197,136,0.1); border: 1px solid rgba(221,197,136,0.2);
+        }
+        .pk-pill-txt {
+          font-size: 10px; font-weight: 700; letter-spacing: .15em;
+          text-transform: uppercase; color: rgba(221,197,136,0.7);
+        }
+        .pk-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(28px, 5.5vw, 44px); font-weight: 900;
+          line-height: 1.12; letter-spacing: -.02em;
+          color: rgba(255,255,255,0.92); margin: 0 0 14px;
+        }
+        .pk-title .g {
+          color: var(--gold);
+          text-shadow: 0 0 40px rgba(221,197,136,0.4);
+        }
+        .pk-desc { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.5); max-width: 430px; margin: 0; }
+        .pk-desc strong { color: rgba(221,197,136,0.8); font-weight: 600; }
+        .pk-strip {
+          margin-top: 32px; padding-top: 22px;
+          border-top: 1px solid rgba(221,197,136,0.12);
+          display: flex; gap: 24px; flex-wrap: wrap;
+        }
+        .pk-strip-item { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 500; color: rgba(221,197,136,0.45); }
+        .pk-strip-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gold-d); opacity: .5; flex-shrink: 0; }
+
+        /* ── CONTENT ── */
+        .pk-content { flex: 1; max-width: 660px; margin: 0 auto; width: 100%; padding: 32px 24px 52px; }
+
+        /* ── NOTICE ── */
+        .pk-notice {
+          display: flex; align-items: flex-start; gap: 12px;
+          background: #fffcf0; border: 1px solid #f5e6b0;
+          border-radius: 12px; padding: 13px 16px; margin-bottom: 22px;
+        }
         .pk-notice h4 { margin: 0 0 2px; font-size: 13px; font-weight: 700; color: #78350f; }
         .pk-notice p  { margin: 0; font-size: 12px; color: #92400e; line-height: 1.6; }
-        .pk-card { background: #fff; border-radius: 20px; border: 1px solid #e5e5e5; box-shadow: 0 2px 12px rgba(0,0,0,.07); overflow: hidden; }
-        .pk-stripe { height: 4px; background: linear-gradient(90deg, var(--gold-d), var(--gold), var(--gold-l)); }
-        .pk-ch { padding: 22px 24px 0; }
-        .pk-ch h2 { margin: 0 0 4px; font-size: 15px; font-weight: 700; color: #111; }
-        .pk-ch p  { margin: 0; font-size: 13px; color: #666; line-height: 1.65; }
-        .pk-ch p strong { color: #222; }
-        .pk-hr { height: 1px; background: #f0f0f0; margin: 18px 24px; }
-        .pk-cb { padding: 0 24px 24px; }
+
+        /* ── FORM CARD ── */
+        .pk-card {
+          background: var(--white); border-radius: var(--radius-card);
+          border: 1px solid #ece9e0;
+          box-shadow: 0 2px 16px rgba(26,20,8,0.06), 0 1px 3px rgba(26,20,8,0.04);
+          overflow: hidden;
+        }
+        .pk-stripe { height: 3px; background: linear-gradient(90deg, var(--gold-deep), var(--gold-d), var(--gold), var(--gold-l), var(--gold)); }
+        .pk-ch { padding: 24px 26px 0; }
+        .pk-ch h2 { margin: 0 0 5px; font-size: 16px; font-weight: 700; color: #111; letter-spacing: -.01em; }
+        .pk-ch p  { margin: 0; font-size: 13px; color: #777; line-height: 1.65; }
+        .pk-ch p strong { color: #333; }
+        .pk-hr { height: 1px; background: #f3f0e8; margin: 20px 26px; }
+        .pk-cb { padding: 0 26px 26px; }
         .pk-field { margin-bottom: 18px; }
-        .pk-lbl { display: block; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #999; margin-bottom: 7px; }
+        .pk-lbl { display: block; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #999; margin-bottom: 8px; }
         .pk-lbl .r { color: #f87171; font-weight: 400; text-transform: none; font-size: 12px; }
         .pk-iw { position: relative; }
-        .pk-cnt { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; transition: all .2s; }
-        .pk-cnt.ok { background: #fdf3d0; color: #7a5c10; }
-        .pk-cnt.no { background: #f0f0f0; color: #aaa; }
-        .pk-hint { display: flex; align-items: center; gap: 7px; background: #fafafa; border: 1px solid #efefef; border-radius: 8px; padding: 8px 12px; margin-top: 7px; font-size: 12px; color: #777; }
-        .pk-hint code { background: #fff; border: 1px solid #e5e5e5; color: var(--gold-dark); font-family: monospace; font-weight: 700; padding: 1px 8px; border-radius: 5px; font-size: 11px; }
-        .pk-btn { width: 100%; height: 50px; border: none; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 700; letter-spacing: .04em; cursor: pointer; transition: all .2s; background: var(--ink); color: var(--gold); border: 1.5px solid rgba(221,197,136,.25); box-shadow: 0 4px 14px rgba(0,0,0,.2); }
-        .pk-btn:hover:not(:disabled) { transform: translateY(-1px); background: #2a2010; border-color: var(--gold); box-shadow: 0 6px 20px rgba(0,0,0,.28), 0 0 0 1px rgba(221,197,136,.2); }
-        .pk-btn:active:not(:disabled) { transform: scale(0.99); }
-        .pk-btn:disabled { background: #f0f0f0; color: #bbb; border-color: #e5e5e5; box-shadow: none; cursor: not-allowed; }
-        .pk-res  { margin-top: 26px; animation: pkUp .3s ease; }
-        .pk-sep  { height: 1px; background: #f0f0f0; margin-bottom: 26px; }
-        .pk-rbox { border-radius: 16px; overflow: hidden; border: 2px solid; }
-        .pk-rbox.ok { border-color: #e8d89a; }
-        .pk-rbox.no { border-color: #fecaca; }
-        .pk-rbar { height: 5px; }
-        .pk-rbar.ok { background: linear-gradient(90deg, var(--gold-d), var(--gold), var(--gold-l)); }
-        .pk-rbar.no { background: linear-gradient(90deg, #ef4444, #f43f5e); }
-        .pk-rbody { padding: 20px; }
-        .pk-rbody.ok { background: linear-gradient(135deg, #fdf8ed, #fefef8); }
-        .pk-rbody.no { background: linear-gradient(135deg, #fff5f5, #fff1f2); }
-        .pk-srow { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-        .pk-sicon { width: 46px; height: 46px; border-radius: 13px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-        .pk-sicon.ok { background: #fdf3d0; }
-        .pk-sicon.no { background: #fee2e2; }
-        .pk-badge { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 4px 14px; border-radius: 999px; }
-        .pk-badge.ok { background: var(--ink); color: var(--gold); border: 1px solid rgba(221,197,136,.2); }
-        .pk-badge.no { background: linear-gradient(135deg,#dc2626,#f43f5e); color: #fff; }
-        .pk-stp { font-size: 11px; color: #aaa; font-weight: 500; margin-top: 4px; }
-        .pk-nama { border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
-        .pk-nama.ok { background: var(--ink); border: 1px solid rgba(221,197,136,.2); }
-        .pk-nama.no { background: linear-gradient(135deg,#dc2626,#f43f5e); }
-        .pk-nlbl { font-size: 9px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; margin-bottom: 4px; }
-        .pk-nlbl.ok { color: rgba(221,197,136,.45); }
-        .pk-nlbl.no { color: rgba(255,255,255,.5); }
-        .pk-nval { font-size: 22px; font-weight: 900; line-height: 1.2; }
-        .pk-nval.ok { color: var(--gold); }
-        .pk-nval.no { color: #fff; }
-        .pk-dgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .pk-ditem { display: flex; align-items: flex-start; gap: 10px; border-radius: 10px; padding: 10px 12px; }
-        .pk-ditem.ok { background: rgba(253,248,237,.9); }
-        .pk-ditem.no { background: rgba(255,245,245,.9); }
-        .pk-dicon { flex-shrink: 0; margin-top: 1px; border-radius: 7px; padding: 5px; }
-        .pk-dicon.ok { background: #fdf3d0; }
-        .pk-dicon.no { background: #fee2e2; }
-        .pk-dlbl { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #aaa; margin-bottom: 2px; }
-        .pk-dval { font-size: 13px; font-weight: 600; color: #111; }
-        .pk-ket { margin-top: 8px; border-radius: 10px; padding: 10px 14px; }
-        .pk-ket.ok { background: rgba(253,248,237,.9); border: 1px solid #e8d89a; }
-        .pk-ket.no { background: rgba(255,245,245,.9); border: 1px solid #fecaca; }
-        .pk-klbl { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #aaa; margin-bottom: 4px; }
-        .pk-kval { font-size: 13px; color: #555; line-height: 1.65; font-style: italic; }
-        .pk-reset { width: 100%; height: 40px; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; background: transparent; border: 1.5px solid #e5e5e5; border-radius: 10px; color: #888; font-size: 13px; font-weight: 500; cursor: pointer; transition: all .15s; }
-        .pk-reset:hover { border-color: var(--gold); color: var(--gold-dark); background: var(--gold-pale); }
-
-        /* Style tambahan untuk Tombol Cetak PDF */
-        .pk-btn-pdf {
-          width: 100%; height: 48px; margin-top: 12px;
-          display: flex; align-items: center; justify-content: center; gap: 8px;
-          background: #1a1408; color: #ddc588;
-          border-radius: 12px; font-size: 14px; font-weight: 700;
-          cursor: pointer; transition: all .2s; border: 1px solid #c9a96e;
-          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        .pk-cnt {
+          position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
+          font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px; transition: all .2s;
         }
-        .pk-btn-pdf:hover { background: #000; transform: translateY(-1px); }
-        .pk-btn-pdf:disabled { opacity: 0.7; cursor: not-allowed; }
+        .pk-cnt.ok { background: #fdf3d0; color: #7a5c10; }
+        .pk-cnt.no { background: #f3f3f3; color: #bbb; }
+        .pk-hint {
+          display: flex; align-items: center; gap: 7px;
+          background: #fafaf8; border: 1px solid #eeebe0;
+          border-radius: 8px; padding: 8px 12px; margin-top: 8px;
+          font-size: 12px; color: #888;
+        }
+        .pk-hint code {
+          background: var(--white); border: 1px solid #e8e3d5;
+          color: var(--gold-dark); font-family: 'Courier New', monospace;
+          font-weight: 700; padding: 1px 8px; border-radius: 5px; font-size: 11px;
+        }
 
-        .pk-alert { margin-top: 18px; border-radius: 12px; overflow: hidden; animation: pkUp .25s ease; }
+        /* Submit button */
+        .pk-btn {
+          width: 100%; height: 52px; border: none; border-radius: 13px;
+          display: flex; align-items: center; justify-content: center; gap: 9px;
+          font-size: 14px; font-weight: 700; letter-spacing: .04em;
+          cursor: pointer; transition: all .22s;
+          background: linear-gradient(135deg, #1a1408 0%, #2d2010 100%);
+          color: var(--gold);
+          border: 1px solid rgba(221,197,136,0.2);
+          box-shadow: 0 4px 16px rgba(26,20,8,0.22), 0 1px 3px rgba(26,20,8,0.12);
+          font-family: 'DM Sans', sans-serif;
+        }
+        .pk-btn:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 28px rgba(26,20,8,0.28), 0 2px 6px rgba(26,20,8,0.16);
+          border-color: rgba(221,197,136,0.4);
+        }
+        .pk-btn:active:not(:disabled) { transform: scale(0.99); }
+        .pk-btn:disabled { background: #f3f3f1; color: #ccc; border-color: #ebebeb; box-shadow: none; cursor: not-allowed; }
+
+        /* ── RESULT ── */
+        .pk-res { margin-top: 28px; animation: pkUp .35s cubic-bezier(.2,.8,.3,1); }
+        .pk-sep { height: 1px; background: linear-gradient(90deg, transparent, #e8e3d5, transparent); margin-bottom: 28px; }
+
+        /* Certificate card */
+        .pk-cert {
+          border-radius: 18px; overflow: hidden;
+          border: 1px solid;
+          position: relative;
+        }
+        .pk-cert.ok { border-color: #d4b97a; background: #fff; }
+        .pk-cert.no { border-color: #fca5a5; background: #fff; }
+
+        /* top accent bar */
+        .pk-cert-bar { height: 6px; }
+        .pk-cert-bar.ok { background: linear-gradient(90deg, var(--gold-deep), var(--gold-d) 30%, var(--gold) 60%, var(--gold-l)); }
+        .pk-cert-bar.no { background: linear-gradient(90deg, #dc2626, #ef4444 40%, #f87171); }
+
+        /* watermark ornament */
+        .pk-cert-ornament {
+          position: absolute; top: 0; right: 0; width: 220px; height: 220px;
+          pointer-events: none; overflow: hidden; border-radius: 0 18px 0 0;
+        }
+        .pk-cert-ornament-inner {
+          position: absolute; top: -60px; right: -60px;
+          width: 200px; height: 200px; border-radius: 50%;
+          border: 40px solid;
+          opacity: 0.045;
+        }
+        .pk-cert-ornament-inner.ok { border-color: var(--gold-d); }
+        .pk-cert-ornament-inner.no { border-color: #dc2626; }
+
+        .pk-cert-body { padding: 30px 28px 24px; position: relative; z-index: 1; }
+
+        /* status row */
+        .pk-status-row { display: flex; align-items: center; gap: 16px; margin-bottom: 26px; }
+        .pk-status-icon {
+          width: 64px; height: 64px; border-radius: 18px; flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .pk-status-icon.ok {
+          background: linear-gradient(135deg, var(--gold-pale), #fdf3d0);
+          border: 1px solid #e8d89a;
+          box-shadow: 0 2px 8px rgba(196,165,94,0.2);
+        }
+        .pk-status-icon.no {
+          background: linear-gradient(135deg, #fff5f5, #fee2e2);
+          border: 1px solid #fca5a5;
+        }
+        .pk-badge {
+          display: inline-block; font-size: 12px; font-weight: 800;
+          letter-spacing: .12em; text-transform: uppercase;
+          padding: 7px 20px; border-radius: 999px;
+        }
+        .pk-badge.ok {
+          background: linear-gradient(135deg, var(--gold-deep), var(--gold-dark));
+          color: var(--gold-l);
+          box-shadow: 0 2px 10px rgba(90,62,16,0.3);
+        }
+        .pk-badge.no {
+          background: linear-gradient(135deg, #b91c1c, #dc2626);
+          color: #fff;
+          box-shadow: 0 2px 10px rgba(185,28,28,0.25);
+        }
+        .pk-year { font-size: 13px; color: #aaa; font-weight: 500; margin-top: 6px; }
+
+        /* name block */
+        .pk-name-block { border-radius: 16px; padding: 24px 26px; margin-bottom: 16px; }
+        .pk-name-block.ok {
+          background: linear-gradient(135deg, var(--ink) 0%, #2d2010 100%);
+          border: 1px solid rgba(221,197,136,0.15);
+          box-shadow: 0 4px 20px rgba(26,20,8,0.2);
+        }
+        .pk-name-block.no {
+          background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
+          box-shadow: 0 4px 20px rgba(185,28,28,0.2);
+        }
+        .pk-name-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 8px; }
+        .pk-name-eyebrow.ok { color: rgba(221,197,136,0.4); }
+        .pk-name-eyebrow.no { color: rgba(255,255,255,0.45); }
+        .pk-name-value {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(26px, 5vw, 34px); font-weight: 700; line-height: 1.2;
+        }
+        .pk-name-value.ok { color: var(--gold); }
+        .pk-name-value.no { color: #fff; }
+
+        /* detail grid */
+        .pk-dgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+        .pk-ditem { display: flex; align-items: flex-start; gap: 12px; border-radius: 13px; padding: 14px 16px; }
+        .pk-ditem.ok { background: #faf8f2; border: 1px solid #f0eadb; }
+        .pk-ditem.no { background: #fff9f9; border: 1px solid #fde8e8; }
+        .pk-dicon-wrap { flex-shrink: 0; border-radius: 9px; padding: 8px; margin-top: 1px; }
+        .pk-dicon-wrap.ok { background: #fdf3d0; }
+        .pk-dicon-wrap.no { background: #fee2e2; }
+        .pk-dlbl { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #bbb; margin-bottom: 5px; }
+        .pk-dval { font-size: 15px; font-weight: 600; color: #222; line-height: 1.3; }
+
+        /* keterangan */
+        .pk-ket { border-radius: 13px; padding: 16px 20px; }
+        .pk-ket.ok { background: #faf8f2; border: 1px solid #e8dfc8; }
+        .pk-ket.no { background: #fff9f9; border: 1px solid #fde8e8; }
+        .pk-klbl { font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #bbb; margin-bottom: 7px; }
+        .pk-kval { font-size: 14px; color: #666; line-height: 1.75; font-style: italic; }
+
+        /* cert footer */
+        .pk-cert-footer {
+          padding: 14px 28px 16px;
+          display: flex; align-items: center; justify-content: space-between;
+          border-top: 1px solid;
+        }
+        .pk-cert-footer.ok { background: #faf7ef; border-color: #ede7d5; }
+        .pk-cert-footer.no { background: #fff8f8; border-color: #fde8e8; }
+        .pk-cert-foot-txt { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+        .pk-cert-foot-txt.ok { color: #b8941e; }
+        .pk-cert-foot-txt.no { color: #dc2626; }
+        .pk-cert-foot-brand { font-size: 11px; font-weight: 500; color: #ccc; }
+
+        /* action buttons */
+        .pk-actions { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+        .pk-btn-pdf {
+          width: 100%; height: 50px;
+          display: flex; align-items: center; justify-content: center; gap: 9px;
+          background: linear-gradient(135deg, #1a1408 0%, #2d2010 100%);
+          color: var(--gold); border-radius: 13px;
+          font-size: 14px; font-weight: 700; letter-spacing: .04em;
+          cursor: pointer; transition: all .22s;
+          border: 1px solid rgba(221,197,136,0.25);
+          box-shadow: 0 4px 14px rgba(26,20,8,0.2);
+          font-family: 'DM Sans', sans-serif;
+        }
+        .pk-btn-pdf:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(26,20,8,0.28);
+          border-color: rgba(221,197,136,0.45);
+        }
+        .pk-btn-pdf:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+        .pk-reset {
+          width: 100%; height: 42px;
+          display: flex; align-items: center; justify-content: center; gap: 7px;
+          background: transparent; border: 1.5px solid #e8e3d8;
+          border-radius: 11px; color: #999; font-size: 13px; font-weight: 600;
+          cursor: pointer; transition: all .18s;
+          font-family: 'DM Sans', sans-serif;
+        }
+        .pk-reset:hover { border-color: var(--gold-d); color: var(--gold-dark); background: var(--gold-pale); }
+
+        /* alerts */
+        .pk-alert { margin-top: 20px; border-radius: 13px; overflow: hidden; animation: pkUp .25s ease; }
         .pk-abar { height: 3px; }
         .pk-abar.danger  { background: linear-gradient(90deg,#ef4444,#f43f5e); }
         .pk-abar.warning { background: linear-gradient(90deg, var(--gold-d), var(--gold)); }
-        .pk-ain { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; }
-        .pk-aibox { width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .pk-ain { display: flex; align-items: flex-start; gap: 12px; padding: 15px 18px; }
+        .pk-aibox { width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
         .pk-aibox.danger  { background: #fee2e2; }
         .pk-aibox.warning { background: #fdf3d0; }
         .pk-alert.danger  { background: #fff5f5; border: 1px solid #fecaca; }
@@ -301,15 +493,16 @@ export default function PengumumanKelulusan() {
         .pk-amsg.danger  { color: #dc2626; }
         .pk-amsg.warning { color: #92400e; }
         .pk-amsg strong  { font-weight: 700; color: #78350f; }
-        .pk-foot { text-align: center; font-size: 11px; color: #bbb; margin-top: 18px; }
 
-        @keyframes pkUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .pk-foot { text-align: center; font-size: 11px; color: #ccc; margin-top: 20px; letter-spacing: .02em; }
+
+        @keyframes pkUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pkSpin { to { transform: rotate(360deg); } }
         .pk-spin { animation: pkSpin .8s linear infinite; display: inline-block; }
       `}</style>
 
       <div className="pk">
-        {/* Hero Section */}
+        {/* ── HERO ── */}
         <div className="pk-hero">
           <div className="pk-hero-inner">
             <nav className="pk-bc">
@@ -322,17 +515,20 @@ export default function PengumumanKelulusan() {
               <ChevronRight className="pk-bc-sep" />
               <span className="pk-bc-cur">SMA</span>
             </nav>
-
             <div className="pk-hero-body">
               <div className="pk-iconbox">
                 <GraduationCap
-                  style={{ width: 28, height: 28, color: "var(--ink)" }}
+                  style={{ width: 28, height: 28, color: "var(--gold)" }}
                 />
               </div>
               <div>
                 <div className="pk-pill">
                   <Shield
-                    style={{ width: 10, height: 10, color: "var(--ink2)" }}
+                    style={{
+                      width: 10,
+                      height: 10,
+                      color: "rgba(221,197,136,0.6)",
+                    }}
                   />
                   <span className="pk-pill-txt">
                     Pengumuman Resmi · T.P. {TAHUN_AJARAN}
@@ -364,7 +560,7 @@ export default function PengumumanKelulusan() {
           </div>
         </div>
 
-        {/* Content Section */}
+        {/* ── CONTENT ── */}
         <div className="pk-content">
           <div className="pk-notice">
             <AlertTriangle
@@ -398,7 +594,7 @@ export default function PengumumanKelulusan() {
             <div className="pk-hr" />
             <div className="pk-cb">
               <form onSubmit={handleCek} noValidate>
-                {/* Inputs ... (tetap sama) */}
+                {/* Kelas */}
                 <div className="pk-field">
                   <label className="pk-lbl">
                     Kelas <span className="r">*</span>
@@ -408,15 +604,15 @@ export default function PengumumanKelulusan() {
                       style={{
                         height: 44,
                         borderRadius: 10,
-                        border: "1.5px solid #e5e5e5",
-                        background: "#fafafa",
+                        border: "1.5px solid #eae7de",
+                        background: "#fafaf8",
                         fontSize: 14,
                       }}
                     >
                       <SelectValue placeholder="Pilih kelas Anda" />
                     </SelectTrigger>
                     <SelectContent
-                      style={{ borderRadius: 12, border: "1px solid #e5e5e5" }}
+                      style={{ borderRadius: 12, border: "1px solid #eae7de" }}
                     >
                       {KELAS_OPTIONS.map((o) => (
                         <SelectItem
@@ -431,6 +627,7 @@ export default function PengumumanKelulusan() {
                   </Select>
                 </div>
 
+                {/* Nomor Induk */}
                 <div className="pk-field">
                   <label className="pk-lbl">
                     Nomor Induk <span className="r">*</span>
@@ -446,8 +643,8 @@ export default function PengumumanKelulusan() {
                       style={{
                         height: 44,
                         borderRadius: 10,
-                        border: "1.5px solid #e5e5e5",
-                        background: "#fafafa",
+                        border: "1.5px solid #eae7de",
+                        background: "#fafaf8",
                         fontSize: 14,
                         paddingRight: 56,
                       }}
@@ -460,7 +657,8 @@ export default function PengumumanKelulusan() {
                   </div>
                 </div>
 
-                <div className="pk-field" style={{ marginBottom: 22 }}>
+                {/* Tanggal Lahir */}
+                <div className="pk-field" style={{ marginBottom: 24 }}>
                   <label className="pk-lbl">
                     Tanggal Lahir <span className="r">*</span>
                   </label>
@@ -474,8 +672,8 @@ export default function PengumumanKelulusan() {
                     style={{
                       height: 44,
                       borderRadius: 10,
-                      border: "1.5px solid #e5e5e5",
-                      background: "#fafafa",
+                      border: "1.5px solid #eae7de",
+                      background: "#fafaf8",
                       fontFamily: "monospace",
                       letterSpacing: "0.08em",
                       fontSize: 14,
@@ -491,9 +689,9 @@ export default function PengumumanKelulusan() {
                       }}
                     />
                     <span>
-                      <strong style={{ color: "#444" }}>Contoh:</strong> 17
+                      <strong style={{ color: "#555" }}>Contoh:</strong> 17
                       Agustus 2005{" "}
-                      <span style={{ color: "#ccc", margin: "0 4px" }}>→</span>
+                      <span style={{ color: "#ddd", margin: "0 4px" }}>→</span>
                       <code>20050817</code>
                     </span>
                   </div>
@@ -521,45 +719,50 @@ export default function PengumumanKelulusan() {
                 </button>
               </form>
 
+              {/* ── RESULT CARD ── */}
               {status === "found" && hasil && (
                 <div className="pk-res">
                   <div className="pk-sep" />
 
-                  {/* WRAPPER PRINT - Elemen ini yang akan jadi PDF */}
+                  {/* wrapper for PDF capture */}
                   <div
                     ref={printRef}
-                    style={{
-                      background: "#fff",
-                      padding: "10px",
-                      borderRadius: "16px",
-                    }}
+                    style={{ background: "#fff", borderRadius: 20, padding: 4 }}
                   >
                     <div
-                      className={`pk-rbox ${hasil.status_lulus ? "ok" : "no"}`}
+                      className={`pk-cert ${hasil.status_lulus ? "ok" : "no"}`}
                     >
+                      {/* top color bar */}
                       <div
-                        className={`pk-rbar ${hasil.status_lulus ? "ok" : "no"}`}
+                        className={`pk-cert-bar ${hasil.status_lulus ? "ok" : "no"}`}
                       />
-                      <div
-                        className={`pk-rbody ${hasil.status_lulus ? "ok" : "no"}`}
-                      >
-                        <div className="pk-srow">
+
+                      {/* decorative watermark circle */}
+                      <div className="pk-cert-ornament">
+                        <div
+                          className={`pk-cert-ornament-inner ${hasil.status_lulus ? "ok" : "no"}`}
+                        />
+                      </div>
+
+                      <div className="pk-cert-body">
+                        {/* status row */}
+                        <div className="pk-status-row">
                           <div
-                            className={`pk-sicon ${hasil.status_lulus ? "ok" : "no"}`}
+                            className={`pk-status-icon ${hasil.status_lulus ? "ok" : "no"}`}
                           >
                             {hasil.status_lulus ? (
                               <CheckCircle2
                                 style={{
-                                  width: 24,
-                                  height: 24,
+                                  width: 32,
+                                  height: 32,
                                   color: "#c9a96e",
                                 }}
                               />
                             ) : (
                               <XCircle
                                 style={{
-                                  width: 24,
-                                  height: 24,
+                                  width: 32,
+                                  height: 32,
                                   color: "#dc2626",
                                 }}
                               />
@@ -573,27 +776,29 @@ export default function PengumumanKelulusan() {
                                 ? "✓ Dinyatakan Lulus"
                                 : "✗ Belum Lulus"}
                             </span>
-                            <p className="pk-stp">
+                            <p className="pk-year">
                               Tahun Pelajaran {hasil.tahun_ajaran}
                             </p>
                           </div>
                         </div>
 
+                        {/* name block */}
                         <div
-                          className={`pk-nama ${hasil.status_lulus ? "ok" : "no"}`}
+                          className={`pk-name-block ${hasil.status_lulus ? "ok" : "no"}`}
                         >
                           <p
-                            className={`pk-nlbl ${hasil.status_lulus ? "ok" : "no"}`}
+                            className={`pk-name-eyebrow ${hasil.status_lulus ? "ok" : "no"}`}
                           >
                             Nama Siswa
                           </p>
                           <p
-                            className={`pk-nval ${hasil.status_lulus ? "ok" : "no"}`}
+                            className={`pk-name-value ${hasil.status_lulus ? "ok" : "no"}`}
                           >
                             {hasil.nama_siswa}
                           </p>
                         </div>
 
+                        {/* detail grid */}
                         <div className="pk-dgrid">
                           {[
                             {
@@ -622,12 +827,12 @@ export default function PengumumanKelulusan() {
                               className={`pk-ditem ${hasil.status_lulus ? "ok" : "no"}`}
                             >
                               <div
-                                className={`pk-dicon ${hasil.status_lulus ? "ok" : "no"}`}
+                                className={`pk-dicon-wrap ${hasil.status_lulus ? "ok" : "no"}`}
                               >
                                 <Icon
                                   style={{
-                                    width: 12,
-                                    height: 12,
+                                    width: 15,
+                                    height: 15,
                                     color: hasil.status_lulus
                                       ? "#a07830"
                                       : "#991b1b",
@@ -645,17 +850,34 @@ export default function PengumumanKelulusan() {
                         {hasil.keterangan && (
                           <div
                             className={`pk-ket ${hasil.status_lulus ? "ok" : "no"}`}
+                            style={{ marginTop: 8 }}
                           >
                             <p className="pk-klbl">Keterangan</p>
                             <p className="pk-kval">"{hasil.keterangan}"</p>
                           </div>
                         )}
                       </div>
+
+                      {/* certificate footer */}
+                      <div
+                        className={`pk-cert-footer ${hasil.status_lulus ? "ok" : "no"}`}
+                      >
+                        <span
+                          className={`pk-cert-foot-txt ${hasil.status_lulus ? "ok" : "no"}`}
+                        >
+                          {hasil.status_lulus
+                            ? "Dokumen Resmi Kelulusan"
+                            : "Dokumen Hasil Evaluasi"}
+                        </span>
+                        <span className="pk-cert-foot-brand">
+                          Perguruan WR Supratman
+                        </span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Tombol Aksi (Tidak Masuk PDF) */}
-                  <div style={{ marginTop: 20 }}>
+                  {/* action buttons — tidak masuk PDF */}
+                  <div className="pk-actions">
                     <button
                       className="pk-btn-pdf"
                       onClick={handleDownloadPDF}
@@ -671,12 +893,11 @@ export default function PengumumanKelulusan() {
                         </>
                       ) : (
                         <>
-                          <Download style={{ width: 18, height: 18 }} /> Simpan
-                          Hasil (PDF)
+                          <Download style={{ width: 16, height: 16 }} /> Simpan
+                          sebagai PDF
                         </>
                       )}
                     </button>
-
                     <button className="pk-reset" onClick={handleReset}>
                       <RotateCcw style={{ width: 13, height: 13 }} /> Cek Siswa
                       Lain
@@ -685,7 +906,7 @@ export default function PengumumanKelulusan() {
                 </div>
               )}
 
-              {/* Status alerts ... (tetap sama) */}
+              {/* not found */}
               {status === "not_found" && (
                 <div className="pk-alert danger">
                   <div className="pk-abar danger" />
@@ -702,6 +923,8 @@ export default function PengumumanKelulusan() {
                   </div>
                 </div>
               )}
+
+              {/* locked */}
               {status === "locked" && (
                 <div className="pk-alert warning">
                   <div className="pk-abar warning" />
@@ -725,11 +948,13 @@ export default function PengumumanKelulusan() {
               )}
             </div>
           </div>
+
           <p className="pk-foot">
             Pengumuman resmi ini hanya dapat diakses oleh siswa yang
             bersangkutan.
           </p>
         </div>
+
         <Footer />
       </div>
     </>
