@@ -8,10 +8,221 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
 }
 
-/* Akreditasi Badge - Fixed Position for All Devices */
+/* =============================================
+   DEKORATIF KIRI - blur glow circle
+   ============================================= */
+.header-carousel-container::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 0%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(180, 160, 100, 0.13) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* =============================================
+   DEKORATIF KANAN - blur glow circle (simetris)
+   ============================================= */
+.header-carousel-container::after {
+  content: "";
+  position: absolute;
+  top: 10%;
+  right: 0%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(100, 140, 200, 0.13) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* =============================================
+   PANEL DEKORATIF KIRI
+   ============================================= */
+.deco-panel-left {
+  position: absolute;
+  left: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.deco-line-left {
+  width: 3px;
+  height: 120px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(180, 160, 100, 0.5) 30%,
+    rgba(180, 160, 100, 0.8) 50%,
+    rgba(180, 160, 100, 0.5) 70%,
+    transparent 100%
+  );
+  border-radius: 4px;
+  animation: linePulseLeft 3s ease-in-out infinite;
+}
+
+.deco-dot-left {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(180, 160, 100, 0.7);
+  box-shadow: 0 0 12px rgba(180, 160, 100, 0.5);
+  animation: dotGlowLeft 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.deco-label-left {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(180, 160, 100, 0.6);
+  white-space: nowrap;
+  animation: fadePulse 4s ease-in-out infinite;
+}
+
+/* =============================================
+   PANEL DEKORATIF KANAN (simetris dengan kiri)
+   ============================================= */
+.deco-panel-right {
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.deco-line-right {
+  width: 3px;
+  height: 120px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(100, 140, 200, 0.5) 30%,
+    rgba(100, 140, 200, 0.8) 50%,
+    rgba(100, 140, 200, 0.5) 70%,
+    transparent 100%
+  );
+  border-radius: 4px;
+  animation: linePulseRight 3s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.deco-dot-right {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(100, 140, 200, 0.7);
+  box-shadow: 0 0 12px rgba(100, 140, 200, 0.5);
+  animation: dotGlowRight 3s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.deco-label-right {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(100, 140, 200, 0.6);
+  white-space: nowrap;
+  animation: fadePulse 4s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* =============================================
+   KEYFRAMES DEKORATIF
+   ============================================= */
+@keyframes linePulseLeft {
+  0%,
+  100% {
+    opacity: 0.6;
+    height: 100px;
+  }
+  50% {
+    opacity: 1;
+    height: 130px;
+  }
+}
+
+@keyframes linePulseRight {
+  0%,
+  100% {
+    opacity: 0.6;
+    height: 100px;
+  }
+  50% {
+    opacity: 1;
+    height: 130px;
+  }
+}
+
+@keyframes dotGlowLeft {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(180, 160, 100, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(180, 160, 100, 0.8);
+    transform: scale(1.3);
+  }
+}
+
+@keyframes dotGlowRight {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(100, 140, 200, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(100, 140, 200, 0.8);
+    transform: scale(1.3);
+  }
+}
+
+@keyframes fadePulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* =============================================
+   BADGE KIRI - Akreditasi
+   ============================================= */
 .akreditasi-badge {
   position: absolute;
   top: 8%;
@@ -46,6 +257,87 @@
     0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* =============================================
+   BADGE TENGAH - Logo WR Supratman
+   ============================================= */
+.logo-wr-badge {
+  position: absolute;
+  top: 0% !important;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+  z-index: 20;
+  transition: all 0.3s ease;
+  animation: floatBadgeWR 3s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+.logo-wr-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: contain;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 4px solid white;
+  transition: all 0.3s ease;
+  display: block;
+  background: white;
+}
+
+.logo-wr-badge:hover {
+  transform: translateX(-50%) rotate(0deg) scale(1.1);
+  animation-play-state: paused;
+}
+
+.logo-wr-badge:hover .logo-wr-img {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.25),
+    0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* =============================================
+   BADGE KANAN - Logo Mikroskil
+   ============================================= */
+.logo-mikroskil-badge {
+  position: absolute;
+  top: 8%;
+  right: 5%;
+  z-index: 20;
+  transform: rotate(12deg);
+  transition: all 0.3s ease;
+  animation: floatBadgeRight 3s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+.logo-mikroskil-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: contain;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 4px solid white;
+  transition: all 0.3s ease;
+  display: block;
+  background: white;
+}
+
+.logo-mikroskil-badge:hover {
+  transform: rotate(12deg) scale(1.1);
+  animation-play-state: paused;
+}
+
+.logo-mikroskil-badge:hover .logo-mikroskil-img {
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.25),
+    0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* =============================================
+   KEYFRAMES FLOAT BADGE
+   ============================================= */
 @keyframes floatBadge {
   0%,
   100% {
@@ -55,8 +347,39 @@
     transform: rotate(-12deg) translateY(-10px);
   }
 }
+@keyframes floatBadgeWR {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(0deg) translateY(0px);
+  }
+  50% {
+    transform: translateX(-50%) rotate(0deg) translateY(-10px);
+  }
+}
 
-/* Improved Slide Wrapper */
+@keyframes floatBadgeCenter {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(6deg) translateY(0px);
+  }
+  50% {
+    transform: translateX(-50%) rotate(6deg) translateY(-10px);
+  }
+}
+
+@keyframes floatBadgeRight {
+  0%,
+  100% {
+    transform: rotate(12deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(12deg) translateY(-10px);
+  }
+}
+
+/* =============================================
+   SWIPER & SLIDE
+   ============================================= */
 .slide-wrapper-content {
   width: 100%;
   display: flex;
@@ -81,7 +404,6 @@
   position: relative;
 }
 
-/* Pagination Styles */
 .header-swiper .swiper-pagination {
   position: absolute;
   bottom: 15px !important;
@@ -98,7 +420,6 @@
   backdrop-filter: blur(10px);
 }
 
-/* Carousel Slide */
 .carousel-slide {
   position: relative;
   width: 90vw !important;
@@ -112,7 +433,6 @@
   transition: transform 0.3s ease;
 }
 
-/* Image Styling */
 .slide-image {
   width: 100%;
   height: 400px;
@@ -123,7 +443,6 @@
   overflow: hidden;
 }
 
-/* Add overlay gradient for better text readability */
 .slide-image::after {
   content: "";
   position: absolute;
@@ -134,7 +453,6 @@
   pointer-events: none;
 }
 
-/* Content Box */
 .slide-content {
   position: relative;
   width: 100%;
@@ -159,7 +477,9 @@
   text-overflow: ellipsis;
 }
 
-/* Pagination Bullets */
+/* =============================================
+   PAGINATION BULLETS
+   ============================================= */
 .swiper-pagination-bullet {
   width: 12px !important;
   height: 12px !important;
@@ -225,7 +545,9 @@
   }
 }
 
-/* Active Slide Enhancement */
+/* =============================================
+   SLIDE ACTIVE / PREV / NEXT
+   ============================================= */
 .swiper-slide-active .slide-wrapper-content {
   transform: scale(1.05);
   opacity: 1;
@@ -233,7 +555,6 @@
   z-index: 5;
 }
 
-/* Side Slides with Better Visibility */
 .swiper-slide-prev .slide-wrapper-content,
 .swiper-slide-next .slide-wrapper-content {
   transform: scale(0.85);
@@ -241,7 +562,6 @@
   filter: brightness(0.8);
 }
 
-/* Far slides - more subtle */
 .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(
     .swiper-slide-next
   )
@@ -251,19 +571,41 @@
   filter: brightness(0.6) blur(2px);
 }
 
-/* Hover Effect */
 .carousel-slide:hover .slide-wrapper-content {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
 }
 
-/* Mobile - Extra Small Devices (< 576px) */
+/* =============================================
+   RESPONSIVE - Mobile & Tablet (sembunyikan deco panel)
+   ============================================= */
 @media (max-width: 575px) {
+  .deco-panel-left,
+  .deco-panel-right {
+    display: none;
+  }
+
   .akreditasi-badge {
     top: 5%;
     left: 4%;
   }
-
   .akreditasi-img {
+    width: 60px;
+    height: 60px;
+    border: 3px solid white;
+  }
+  .logo-wr-badge {
+    top: 5%;
+  }
+  .logo-wr-img {
+    width: 60px;
+    height: 60px;
+    border: 3px solid white;
+  }
+  .logo-mikroskil-badge {
+    top: 5%;
+    right: 4%;
+  }
+  .logo-mikroskil-img {
     width: 60px;
     height: 60px;
     border: 3px solid white;
@@ -273,46 +615,60 @@
     height: 70vh;
     min-height: 400px;
   }
-
   .carousel-slide {
     width: 85vw !important;
     max-width: 340px;
     padding: 15px 0;
   }
-
   .slide-image {
     height: 280px;
   }
-
   .slide-content {
     font-size: 0.9rem;
     padding: 20px;
     min-height: 100px;
   }
-
   .header-swiper {
     padding-bottom: 40px;
   }
-
   .swiper-pagination-bullet {
     width: 10px !important;
     height: 10px !important;
   }
-
   .swiper-pagination-bullet-active {
     width: 12px !important;
     height: 12px !important;
   }
 }
 
-/* Tablet - Small (576px - 767px) */
 @media (min-width: 576px) and (max-width: 767px) {
+  .deco-panel-left,
+  .deco-panel-right {
+    display: none;
+  }
+
   .akreditasi-badge {
     top: 6%;
     left: 4.5%;
   }
-
   .akreditasi-img {
+    width: 70px;
+    height: 70px;
+    border: 3px solid white;
+  }
+  .logo-wr-badge {
+    top: 6%;
+  }
+  .logo-wr-img {
+    width: 70px;
+    height: 70px;
+    border: 3px solid white;
+  }
+  .logo-mikroskil-badge {
+    top: 6%;
+    right: 4.5%;
+  }
+  .logo-mikroskil-img {
     width: 70px;
     height: 70px;
     border: 3px solid white;
@@ -321,30 +677,47 @@
   .header-carousel-container {
     min-height: 550px;
   }
-
   .carousel-slide {
     width: 80vw !important;
     max-width: 420px;
   }
-
   .slide-image {
     height: 320px;
   }
-
   .slide-content {
     font-size: 1rem;
     padding: 22px 25px;
   }
 }
 
-/* Tablet - Medium (768px - 1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
+  .deco-panel-left,
+  .deco-panel-right {
+    display: none;
+  }
+
   .akreditasi-badge {
     top: 7%;
     left: 5%;
   }
-
   .akreditasi-img {
+    width: 85px;
+    height: 85px;
+    border: 3.5px solid white;
+  }
+  .logo-wr-badge {
+    top: 7%;
+  }
+  .logo-wr-img {
+    width: 85px;
+    height: 85px;
+    border: 3.5px solid white;
+  }
+  .logo-mikroskil-badge {
+    top: 7%;
+    right: 5%;
+  }
+  .logo-mikroskil-img {
     width: 85px;
     height: 85px;
     border: 3.5px solid white;
@@ -353,25 +726,20 @@
   .header-carousel-container {
     min-height: 600px;
   }
-
   .carousel-slide {
     width: 75vw !important;
     max-width: 460px;
   }
-
   .slide-image {
     height: 360px;
   }
-
   .slide-content {
     font-size: 1.05rem;
     padding: 25px 28px;
   }
-
   .swiper-slide-active .slide-wrapper-content {
     transform: scale(1.04);
   }
-
   .swiper-slide-prev .slide-wrapper-content,
   .swiper-slide-next .slide-wrapper-content {
     transform: scale(0.88);
@@ -379,14 +747,32 @@
   }
 }
 
-/* Desktop (1024px+) */
+/* =============================================
+   RESPONSIVE - Desktop (1024px+)
+   ============================================= */
 @media (min-width: 1024px) {
   .akreditasi-badge {
     top: 8%;
     left: 5%;
   }
-
   .akreditasi-img {
+    width: 95px;
+    height: 95px;
+    border: 4px solid white;
+  }
+  .logo-wr-badge {
+    top: -3%;
+  }
+  .logo-wr-img {
+    width: 95px;
+    height: 95px;
+    border: 4px solid white;
+  }
+  .logo-mikroskil-badge {
+    top: 8%;
+    right: 5%;
+  }
+  .logo-mikroskil-img {
     width: 95px;
     height: 95px;
     border: 4px solid white;
@@ -395,40 +781,62 @@
   .header-carousel-container {
     min-height: 650px;
   }
-
   .carousel-slide {
     width: 85vw !important;
     max-width: 500px;
   }
-
   .slide-image {
     height: 400px;
   }
-
   .slide-content {
     font-size: 1.1rem;
     padding: 25px 30px;
   }
-
   .swiper-slide-active .slide-wrapper-content {
     transform: scale(1.08);
   }
-
   .swiper-slide-prev .slide-wrapper-content,
   .swiper-slide-next .slide-wrapper-content {
     transform: scale(0.85);
     opacity: 0.7;
   }
+
+  .deco-line-left,
+  .deco-line-right {
+    height: 120px;
+  }
+  .deco-label-left,
+  .deco-label-right {
+    font-size: 10px;
+  }
 }
 
-/* Large Desktop (1400px+) */
+/* =============================================
+   RESPONSIVE - Large Desktop (1400px+)
+   ============================================= */
 @media (min-width: 1400px) {
   .akreditasi-badge {
     top: 8%;
     left: 6%;
   }
-
   .akreditasi-img {
+    width: 110px;
+    height: 110px;
+    border: 4px solid white;
+  }
+  .logo-wr-badge {
+    top: -3%;
+  }
+  .logo-wr-img {
+    width: 110px;
+    height: 110px;
+    border: 4px solid white;
+  }
+  .logo-mikroskil-badge {
+    top: 8%;
+    right: 6%;
+  }
+  .logo-mikroskil-img {
     width: 110px;
     height: 110px;
     border: 4px solid white;
@@ -438,28 +846,59 @@
     max-width: 1800px;
     margin: 0 auto;
   }
-
   .header-swiper {
     max-width: 1400px;
   }
-
   .carousel-slide {
     max-width: 550px;
   }
-
   .slide-image {
     height: 420px;
   }
+
+  .deco-panel-left {
+    left: 1.5%;
+  }
+  .deco-panel-right {
+    right: 1.5%;
+  }
+  .deco-line-left,
+  .deco-line-right {
+    height: 150px;
+  }
 }
 
-/* Landscape Mode - Short Screen Height */
+/* =============================================
+   RESPONSIVE - Landscape Mode (Short Screen)
+   ============================================= */
 @media (max-height: 500px) and (orientation: landscape) {
+  .deco-panel-left,
+  .deco-panel-right {
+    display: none;
+  }
+
   .akreditasi-badge {
     top: 5%;
     left: 3%;
   }
-
   .akreditasi-img {
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+  }
+  .logo-wr-badge {
+    top: 5%;
+  }
+  .logo-wr-img {
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+  }
+  .logo-mikroskil-badge {
+    top: 5%;
+    right: 3%;
+  }
+  .logo-mikroskil-img {
     width: 50px;
     height: 50px;
     border: 2px solid white;
@@ -469,27 +908,25 @@
     height: 95vh;
     min-height: 380px;
   }
-
   .carousel-slide {
     height: auto !important;
   }
-
   .slide-image {
     height: 220px;
   }
-
   .slide-content {
     font-size: 0.85rem;
     padding: 15px 20px;
     min-height: 80px;
   }
-
   .header-swiper {
     padding-bottom: 35px;
   }
 }
 
-/* Animation for shimmer effect */
+/* =============================================
+   LOADING SHIMMER
+   ============================================= */
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
@@ -499,7 +936,6 @@
   }
 }
 
-/* Loading state */
 .slide-image.loading {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
