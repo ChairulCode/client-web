@@ -30,24 +30,17 @@ const Navbar: React.FC = () => {
   };
 
   const isTabActive = (tab: NavTab): boolean => {
-    if (location.pathname === tab.id) {
-      return true;
-    }
-
-    // Check apakah ada child yang aktif
+    if (location.pathname === tab.id) return true;
     if (tab.children && tab.children.length > 0) {
       return tab.children.some((child) => location.pathname === child.id);
     }
-
     return false;
   };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1000);
-    };
+    const handleResize = () => setIsMobile(window.innerWidth <= 1000);
 
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
@@ -68,7 +61,6 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     if (visible) {
-      // Animasi muncul dari atas
       gsap.fromTo(
         ".navbar.visible",
         { y: -100, opacity: 0 },
@@ -77,7 +69,6 @@ const Navbar: React.FC = () => {
     } else {
       gsap.set(".navbar", { y: 0, opacity: 1 });
     }
-
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -90,10 +81,10 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className={`navbar ${visible ? "visible" : ""}`}>
-      {open && (
-        <div className="sidebar_overlay" onClick={closeMobileMenu}></div>
-      )}
+      {open && <div className="sidebar_overlay" onClick={closeMobileMenu} />}
+
       <img src={Logo} alt="Logo" className="img-logo !w-20 h-auto" />
+
       <div className={`box nav_tabs ${open ? "open" : ""}`}>
         <div className="icon_container cancel_btn" onClick={closeMobileMenu}>
           <FaTimes />
@@ -106,26 +97,21 @@ const Navbar: React.FC = () => {
             return (
               <div key={index} className="navbar-dropdown-container">
                 <div
-                  className={`navbar-dropdown-trigger ${
-                    isActive ? "active" : ""
-                  }`}
+                  className={`navbar-dropdown-trigger ${isActive ? "active" : ""}`}
                   onClick={(e) => handleDropdownClick(tab.id, e)}
                 >
-                  <p>{tab.name}</p>
+                  {/* ✅ span — tidak terkena global p { font-size: 15px } */}
+                  <span className="nav-label">{tab.name}</span>
                 </div>
 
                 <div
-                  className={`navbar-dropdown-menu ${
-                    openDropdown === tab.id ? "show" : ""
-                  }`}
+                  className={`navbar-dropdown-menu ${openDropdown === tab.id ? "show" : ""}`}
                 >
                   {tab.children.map((child: NavTab, i: number) => (
                     <RouterLink
                       key={i}
                       to={child.id}
-                      className={`navbar-dropdown-item ${
-                        location.pathname === child.id ? "active" : ""
-                      }`}
+                      className={`navbar-dropdown-item ${location.pathname === child.id ? "active" : ""}`}
                       onClick={closeMobileMenu}
                     >
                       {child.name}
@@ -148,32 +134,23 @@ const Navbar: React.FC = () => {
                 offset={-70}
                 onClick={closeMobileMenu}
               >
-                <p>{tab.name}</p>
+                {/* ✅ span — tidak terkena global p { font-size: 15px } */}
+                <span className="nav-label">{tab.name}</span>
               </ScrollLink>
             );
-          } else if (tab.type === "link") {
-            return (
-              <RouterLink
-                key={index}
-                to={tab.id}
-                className={`tab ${isActive ? "active" : ""}`}
-                onClick={closeMobileMenu}
-              >
-                <p>{tab.name}</p>
-              </RouterLink>
-            );
-          } else {
-            return (
-              <RouterLink
-                key={index}
-                to={tab.id}
-                className={`tab ${isActive ? "active" : ""}`}
-                onClick={closeMobileMenu}
-              >
-                <p>{tab.name}</p>
-              </RouterLink>
-            );
           }
+
+          return (
+            <RouterLink
+              key={index}
+              to={tab.id}
+              className={`tab ${isActive ? "active" : ""}`}
+              onClick={closeMobileMenu}
+            >
+              {/* ✅ span — tidak terkena global p { font-size: 15px } */}
+              <span className="nav-label">{tab.name}</span>
+            </RouterLink>
+          );
         })}
 
         {isMobile && (

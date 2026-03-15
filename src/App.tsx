@@ -16,6 +16,7 @@ import KegiatanTingkatan from "./pages/pages_details/kegiatan-tingkatan";
 import PengumumanTingkatan from "./pages/pages_details/pengumuman-tingkatan";
 import PengumumanKelulusan from "./pages/pages_details/pengumuman-kelulusan";
 import NilaiTingkatan from "./pages/pages_details/nilai-tingkatan";
+import InformationDetail from "./pages/pages_details/information-detail";
 function App() {
   return (
     <Router>
@@ -50,6 +51,10 @@ function App() {
         ></Route>
         <Route path="/prestasi/:id" element={<PrestasiDetail />} />
         <Route path="/kegiatan/:id" element={<ActivityDetail />}></Route>
+        <Route
+          path="/informasi-sekolah"
+          element={<InformationDetail />}
+        ></Route>
       </Routes>
     </Router>
   );

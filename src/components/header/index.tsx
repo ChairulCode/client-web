@@ -57,6 +57,17 @@ export interface CarouselsResponse {
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
+// ✅ Helper: encode path gambar agar spasi dan karakter special di-handle dengan benar
+const buildImageUrl = (basUrl: string, path: string): string => {
+  if (!path) return "";
+  // encode tiap segment (pisah berdasarkan "/") lalu gabung kembali
+  const encoded = path
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+  return `${basUrl}/${encoded}`;
+};
+
 const Header = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<CarouselsResponse["data"]>([]);
@@ -72,13 +83,13 @@ const Header = () => {
         setIsLoading(true);
         const response = await getRequest(`carousels?page=1&limit=100`);
 
+        // filter hanya is_published, sort by urutan, max 10
         const filteredAndSorted = response.data
-          .filter((slide: Data) => slide.is_published && slide.is_featured)
+          .filter((slide: Data) => slide.is_published)
           .sort((a: Data, b: Data) => a.urutan - b.urutan)
           .slice(0, 10);
 
         setData(filteredAndSorted);
-        console.log("Top 10 Carousel Items:", filteredAndSorted);
       } catch (error) {
         console.log(error);
       } finally {
@@ -87,8 +98,6 @@ const Header = () => {
     };
     getData();
   }, []);
-
-  const featuredSlides = data;
 
   return (
     <div className="relative px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
@@ -120,10 +129,10 @@ const Header = () => {
           <div className="flex items-center justify-center h-full">
             <div className="text-white text-lg">Loading carousel...</div>
           </div>
-        ) : featuredSlides.length === 0 ? (
+        ) : data.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-white text-lg">
-              No featured content available
+              Belum ada carousel yang ditampilkan
             </div>
           </div>
         ) : (
@@ -134,7 +143,7 @@ const Header = () => {
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            loop={featuredSlides.length > 1}
+            loop={data.length > 1}
             centeredSlides={true}
             slidesPerView="auto"
             spaceBetween={30}
@@ -155,38 +164,30 @@ const Header = () => {
             breakpoints={{
               320: {
                 spaceBetween: 20,
-                coverflowEffect: {
-                  depth: 100,
-                  modifier: 1,
-                },
+                coverflowEffect: { depth: 100, modifier: 1 },
               },
               768: {
                 spaceBetween: 25,
-                coverflowEffect: {
-                  depth: 150,
-                  modifier: 1.3,
-                },
+                coverflowEffect: { depth: 150, modifier: 1.3 },
               },
               1024: {
                 spaceBetween: 30,
-                coverflowEffect: {
-                  depth: 200,
-                  modifier: 1.5,
-                },
+                coverflowEffect: { depth: 200, modifier: 1.5 },
               },
             }}
           >
-            {featuredSlides.map((slide, _index) => (
+            {data.map((slide) => (
               <SwiperSlide
                 key={slide.carousel_id}
                 className="carousel-slide cursor-pointer"
                 onClick={() => handleNavigate(slide.carousel_id)}
               >
                 <div className="slide-wrapper-content">
+                  {/* ✅ FIX: encode URL agar spasi di nama file tidak break backgroundImage */}
                   <div
                     className="slide-image"
                     style={{
-                      backgroundImage: `url(${BASE_URL}/${slide.path_gambar})`,
+                      backgroundImage: `url('${buildImageUrl(BASE_URL, slide.path_gambar)}')`,
                     }}
                     role="img"
                     aria-label={slide.judul}

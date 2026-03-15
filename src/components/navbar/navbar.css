@@ -9,7 +9,11 @@
   top: 0;
   left: 0;
   right: 0;
+  box-shadow:
+    0 1px 0 rgba(221, 197, 136, 0.25),
+    0 4px 16px rgba(30, 58, 138, 0.06);
 }
+
 .navbar.visible {
   position: sticky;
   top: 0;
@@ -25,7 +29,7 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── LOGO desktop ── */
+/* ── LOGO ── */
 .navbar > img.img-logo {
   width: 80px;
   height: auto;
@@ -36,25 +40,40 @@
   width: 62px;
 }
 
-/* ── TAB (desktop) — DIPERBESAR ── */
+/* =============================================
+   NAV LABEL — pakai span bukan p
+   Ini yang sekarang mengatur ukuran font tab
+   ============================================= */
+.nav-label {
+  font-size: 20px; /* ← ubah di sini untuk perbesar/perkecil */
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+
+.navbar.visible .nav-label {
+  font-size: 17px; /* ← ukuran saat sticky/scroll */
+}
+
+/* ── TAB (desktop) ── */
 .navbar .nav_tabs .tab {
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 18px 28px; /* naik dari 16px 24px */
+  padding: 18px 28px;
   cursor: pointer;
   color: var(--color-text);
   border-radius: var(--radius-3);
   text-decoration: none;
   overflow: hidden;
-  font-size: 60px !important;
   font-weight: 700;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navbar.visible .nav_tabs .tab {
   padding: 15px 24px;
-  font-size: 17px !important;
 }
 
 .navbar .nav_tabs .tab.active {
@@ -87,7 +106,7 @@
   display: inline-block;
 }
 
-/* ── DROPDOWN TRIGGER (desktop) — DIPERBESAR ── */
+/* ── DROPDOWN TRIGGER ── */
 .navbar-dropdown-trigger {
   position: relative;
   display: inline-flex;
@@ -101,13 +120,11 @@
   background: none;
   border: none;
   font-family: inherit;
-  font-size: 30px !important;
   font-weight: 700;
 }
 
 .navbar.visible .navbar-dropdown-trigger {
   padding: 15px 24px;
-  font-size: 17px !important;
 }
 
 .navbar-dropdown-trigger:hover {
@@ -167,10 +184,10 @@
   max-height: 300px;
 }
 
-/* ── DROPDOWN ITEM — DIPERBESAR ── */
+/* ── DROPDOWN ITEM ── */
 .navbar-dropdown-item {
   display: block;
-  padding: 1.5rem 2.2rem; /* naik dari 1.3rem 2rem */
+  padding: 1.4rem 2rem;
   color: var(--color-text, #374151);
   text-decoration: none;
   transition: all 0.2s ease;
@@ -192,7 +209,7 @@
 .navbar-dropdown-item.active {
   background: linear-gradient(135deg, var(--color-primary, #3b82f6), #f1c40f);
   color: white;
-  font-weight: 650;
+  font-weight: 700;
 }
 
 .navbar-dropdown-item:active {
@@ -214,7 +231,7 @@
   z-index: -1;
 }
 
-/* ── CONTACT BUTTON (desktop only) — TIDAK DIUBAH ── */
+/* ── CONTACT BUTTON (desktop) — TIDAK DIUBAH ── */
 .navbar .contact_btn,
 .navbar a.contact_btn,
 .navbar .btn.contact_btn,
@@ -223,7 +240,7 @@
   color: var(--color-white) !important;
   border-radius: var(--radius-3);
   font-weight: 700;
-  font-size: 1.45rem; /* TETAP sama, tidak diperbesar */
+  font-size: 1.45rem;
   letter-spacing: 0.5px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -234,7 +251,7 @@
 .navbar.visible .btn.contact_btn,
 .navbar.visible a.btn.contact_btn {
   padding: 14px 28px;
-  font-size: 1.3rem; /* TETAP sama */
+  font-size: 1.3rem;
 }
 
 .navbar .contact_btn:hover,
@@ -295,7 +312,6 @@
     padding: 8px 15px;
   }
 
-  /* Logo tablet */
   .navbar > img.img-logo {
     position: absolute;
     left: 50%;
@@ -325,7 +341,6 @@
     z-index: 10;
   }
 
-  /* Sidebar panel */
   .navbar .nav_tabs {
     position: fixed;
     height: 100%;
@@ -350,13 +365,17 @@
     display: flex;
   }
 
-  /* Tab di sidebar — ukuran MOBILE tetap normal, tidak ikut diperbesar */
+  /* Mobile: nav-label kecil */
+  .nav-label {
+    font-size: 0.95rem !important;
+    font-weight: 600;
+  }
+
   .navbar .nav_tabs .tab {
     padding: 13px 18px;
     border-radius: var(--radius-3);
     width: 100%;
     justify-content: flex-start;
-    font-size: 0.95rem !important; /* tetap mobile-size */
     font-weight: 600;
   }
 
@@ -409,7 +428,6 @@
     display: block;
   }
 
-  /* Dropdown di sidebar */
   .navbar-dropdown-container {
     width: 100%;
     margin-bottom: 4px;
@@ -422,7 +440,6 @@
     background: transparent;
     border: none;
     border-radius: var(--radius-3);
-    font-size: 0.95rem; /* tetap mobile-size */
     font-weight: 600;
   }
 
@@ -452,14 +469,13 @@
 
   .navbar-dropdown-menu {
     position: static;
-    margin: 4px 0 12px 0;
+    margin: 4px 0 12px 12px;
     box-shadow: none;
     background: rgba(0, 0, 0, 0.05);
     backdrop-filter: none;
     border: none;
     border-radius: var(--radius-3);
     border-left: 3px solid var(--color-primary, #3b82f6);
-    margin-left: 12px;
     opacity: 1;
     visibility: visible;
     transform: none;
@@ -467,7 +483,6 @@
     max-height: 0;
     transition:
       max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.3s ease,
       padding 0.3s ease;
     padding: 0;
   }
@@ -483,7 +498,7 @@
 
   .navbar-dropdown-item {
     padding: 11px 18px 11px 28px;
-    font-size: 0.9rem; /* tetap mobile-size */
+    font-size: 0.9rem;
     color: var(--color-text);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
@@ -519,14 +534,14 @@
     opacity: 1;
   }
 
-  /* ── Button Pendaftaran di sidebar — TIDAK DIUBAH ── */
+  /* Button pendaftaran sidebar — TIDAK DIUBAH */
   .navbar .nav_tabs .contact_tab_mobile {
     background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
     color: var(--color-white);
     padding: 12px 18px;
     border-radius: var(--radius-3);
     font-weight: 600;
-    font-size: 0.95rem; /* TETAP sama */
+    font-size: 0.95rem;
     letter-spacing: 0.3px;
     text-align: center;
     margin-top: 10px;
@@ -581,13 +596,15 @@
     padding-top: 60px;
   }
 
-  .navbar .nav_tabs .tab {
+  .nav-label {
     font-size: 0.875rem !important;
+  }
+
+  .navbar .nav_tabs .tab {
     padding: 11px 16px;
   }
 
   .navbar-dropdown-trigger {
-    font-size: 0.875rem;
     padding: 11px 16px;
   }
 
@@ -597,7 +614,7 @@
   }
 
   .navbar .nav_tabs .contact_tab_mobile {
-    font-size: 0.875rem; /* TETAP sama */
+    font-size: 0.875rem;
     padding: 11px 16px;
   }
 }
@@ -617,13 +634,15 @@
     padding-top: 55px;
   }
 
-  .navbar .nav_tabs .tab {
+  .nav-label {
     font-size: 0.825rem !important;
+  }
+
+  .navbar .nav_tabs .tab {
     padding: 10px 14px;
   }
 
   .navbar-dropdown-trigger {
-    font-size: 0.825rem;
     padding: 10px 14px;
   }
 
@@ -633,7 +652,7 @@
   }
 
   .navbar .nav_tabs .contact_tab_mobile {
-    font-size: 0.825rem; /* TETAP sama */
+    font-size: 0.825rem;
     padding: 10px 14px;
   }
 }

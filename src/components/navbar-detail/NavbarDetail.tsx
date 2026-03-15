@@ -3,7 +3,7 @@ import { useLocation, Link as RouterLink } from "react-router-dom";
 import ScrollLink from "react-scroll/modules/components/Link";
 
 import Logo from "/assets/logo.svg";
-import { navTabs2, navTabs2SMA } from "../../data"; // ← tambah navTabs2SMA
+import { navTabs2, navTabs2SMA } from "../../data";
 import type { NavTab } from "../../data";
 import { FaTimes } from "react-icons/fa";
 import { RiMenu3Fill } from "react-icons/ri";
@@ -24,8 +24,6 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
   const location = useLocation();
   const isHome = location.pathname === "/";
 
-  // ── Pilih navTabs sesuai level ─────────────────────────────
-  // Hanya SMA yang mendapatkan menu "Pengumuman Kelulusan"
   const isSMA = level?.toUpperCase() === "SMA";
   const activeNavTabs = isSMA ? navTabs2SMA : navTabs2;
 
@@ -84,39 +82,24 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
 
   const getFinalPath = (tab: NavTab): string => {
     if (!tab.id) return "/";
-
     const rawId = String(tab.id);
-
     if (rawId === "halaman-utama") return "/";
-
     if (rawId === "/" || rawId === "home") {
       if (level) return `/tingkatan/${level}`;
       return "/";
     }
-
     if (GLOBAL_ROUTES.has(rawId)) return rawId;
-
     const cleaned = rawId.replace(/^\/+/, "");
-
-    if (cleaned.startsWith("tingkatan/")) {
-      return `/${cleaned}`;
-    }
-
+    if (cleaned.startsWith("tingkatan/")) return `/${cleaned}`;
     if (level) return `/tingkatan/${level}/${cleaned}`;
-
     return `/${cleaned}`;
   };
 
   const isTabActive = (tab: NavTab) => {
     const id = String(tab.id);
-
     if (activeSection === id) return true;
-
     if (isHome && tab.type === "scroll") return false;
-
-    const finalPath = getFinalPath(tab);
-
-    return location.pathname === finalPath;
+    return location.pathname === getFinalPath(tab);
   };
 
   const renderNavTabs = (tabs: NavTab[]) =>
@@ -126,14 +109,15 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
       if (tab.children && tab.children.length > 0) {
         return (
           <div key={index} className="navbar-dropdown-container">
-            <p
+            {/* ✅ span — bebas dari global p { font-size: 15px } */}
+            <span
               className={`navbar-dropdown-trigger ${
                 openDropdown === tab.id ? "active" : ""
               }`}
               onClick={(e) => handleDropdownClick(tab.id, e)}
             >
-              {tab.name}
-            </p>
+              <span className="nav-label">{tab.name}</span>
+            </span>
 
             <div
               className={`navbar-dropdown-menu ${
@@ -157,7 +141,8 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
             className={`tab ${isActive ? "active" : ""}`}
             onClick={closeMobileMenu}
           >
-            <p>{tab.name}</p>
+            {/* ✅ span */}
+            <span className="nav-label">{tab.name}</span>
           </ScrollLink>
         );
       }
@@ -173,7 +158,8 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
               closeMobileMenu();
             }}
           >
-            <p>{tab.name}</p>
+            {/* ✅ span */}
+            <span className="nav-label">{tab.name}</span>
           </ScrollLink>
         );
       }
@@ -190,7 +176,8 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
             closeMobileMenu();
           }}
         >
-          <p>{tab.name}</p>
+          {/* ✅ span */}
+          <span className="nav-label">{tab.name}</span>
         </RouterLink>
       );
     });
@@ -200,16 +187,12 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
         });
       },
       { threshold: 0.35 },
     );
-
     sections.forEach((sec) => observer.observe(sec));
-
     return () => observer.disconnect();
   }, []);
 
@@ -224,7 +207,6 @@ const NavbarDetail: React.FC<NavbarDetailProps> = ({ level }) => {
           <FaTimes />
         </div>
 
-        {/* Render navTabs sesuai level (SMA vs lainnya) */}
         {renderNavTabs(activeNavTabs)}
 
         {isMobile && (

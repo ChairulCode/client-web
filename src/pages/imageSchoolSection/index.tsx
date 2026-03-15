@@ -1,72 +1,148 @@
+import { useState, useEffect } from "react";
+
+// ─── Breakpoint helpers ───────────────────────────────────────
+const getBreakpoint = (w: number) => {
+  if (w < 480) return "xs"; // Mobile kecil
+  if (w < 768) return "sm"; // Mobile
+  if (w < 1024) return "md"; // Tablet
+  return "lg"; // Desktop
+};
+
 const ImageschoolSection = () => {
+  const [bp, setBp] = useState(() => getBreakpoint(window.innerWidth));
+
+  useEffect(() => {
+    const onResize = () => setBp(getBreakpoint(window.innerWidth));
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const isMobile = bp === "xs" || bp === "sm";
+  const isTablet = bp === "md";
+  const isDesktop = bp === "lg";
+
+  // ─── Responsive values ───────────────────────────────────────
+  const sectionPadding = isDesktop
+    ? "80px 64px"
+    : isTablet
+      ? "60px 40px"
+      : bp === "sm"
+        ? "48px 24px"
+        : "40px 16px";
+
+  const headingSize = isDesktop ? 44 : isTablet ? 36 : bp === "sm" ? 28 : 24;
+
+  const cardsDirection: React.CSSProperties["flexDirection"] =
+    isMobile || isTablet ? "column" : "row";
+
+  const imgHeight = isDesktop ? 460 : isTablet ? 320 : bp === "sm" ? 240 : 200;
+
+  const headerLayout: React.CSSProperties = isMobile
+    ? { flexDirection: "column", alignItems: "flex-start", gap: 16 }
+    : {
+        flexDirection: "row",
+        alignItems: "flex-end",
+        justifyContent: "space-between",
+      };
+
+  const subtextAlign: React.CSSProperties["textAlign"] = isMobile
+    ? "left"
+    : "right";
+
+  // ─── Hover state per card ─────────────────────────────────────
+  const [hover, setHover] = useState<number | null>(null);
+
+  const cardStyle = (i: number, borderColor: string): React.CSSProperties => ({
+    flex: 1,
+    borderRadius: 20,
+    overflow: "hidden",
+    border: `1px solid ${borderColor}`,
+    boxShadow:
+      hover === i
+        ? i === 0
+          ? "0 32px 64px rgba(221,197,136,0.22)"
+          : "0 32px 64px rgba(159,196,232,0.22)"
+        : "0 24px 60px rgba(0,0,0,0.5)",
+    transform: hover === i ? "translateY(-6px)" : "translateY(0)",
+    transition: "transform 0.4s ease, box-shadow 0.4s ease",
+    cursor: "pointer",
+  });
+
+  const [imgHover, setImgHover] = useState<number | null>(null);
+
+  const imgStyle = (i: number): React.CSSProperties => ({
+    width: "100%",
+    height: imgHeight,
+    objectFit: "cover",
+    display: "block",
+    transform: imgHover === i ? "scale(1.04)" : "scale(1)",
+    transition: "transform 0.7s ease",
+  });
+
   return (
     <section
       style={{
         position: "relative",
-        padding: "80px 64px",
+        padding: sectionPadding,
         overflow: "hidden",
-        // ✅ Background disesuaikan dengan welcome.tsx (navy/indigo gelap)
         background: "#1e2070",
       }}
     >
-      {/* bg-circle-1 — mirip welcome.css */}
+      {/* ── Blob dekoratif ── */}
       <div
         style={{
           position: "absolute",
           top: "-15%",
           left: "-10%",
-          width: 500,
-          height: 500,
+          width: isMobile ? 280 : 500,
+          height: isMobile ? 280 : 500,
           borderRadius: "50%",
           pointerEvents: "none",
-          background: "rgba(100, 100, 160, 0.35)",
+          background: "rgba(100,100,160,0.35)",
           filter: "blur(40px)",
         }}
       />
-
-      {/* bg-circle-2 */}
       <div
         style={{
           position: "absolute",
           bottom: "-20%",
           right: "-10%",
-          width: 420,
-          height: 420,
+          width: isMobile ? 240 : 420,
+          height: isMobile ? 240 : 420,
           borderRadius: "50%",
           pointerEvents: "none",
-          background: "rgba(80, 80, 150, 0.25)",
+          background: "rgba(80,80,150,0.25)",
           filter: "blur(50px)",
         }}
       />
-
-      {/* bg-circle-3 */}
       <div
         style={{
           position: "absolute",
           top: "40%",
           right: "30%",
-          width: 280,
-          height: 280,
+          width: isMobile ? 160 : 280,
+          height: isMobile ? 160 : 280,
           borderRadius: "50%",
           pointerEvents: "none",
-          background: "rgba(120, 120, 180, 0.15)",
+          background: "rgba(120,120,180,0.15)",
           filter: "blur(60px)",
         }}
       />
 
-      {/* Dot pattern */}
+      {/* ── Dot pattern ── */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           pointerEvents: "none",
-          backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)`,
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px)",
           backgroundSize: "32px 32px",
           opacity: 0.25,
         }}
       />
 
-      {/* Top accent bar */}
+      {/* ── Top accent bar ── */}
       <div
         style={{
           position: "absolute",
@@ -79,17 +155,17 @@ const ImageschoolSection = () => {
       />
 
       <div style={{ position: "relative", width: "100%" }}>
-        {/* Header */}
+        {/* ── Header ── */}
         <div
           style={{
             display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            paddingBottom: 40,
-            marginBottom: 48,
+            ...headerLayout,
+            paddingBottom: isMobile ? 28 : 40,
+            marginBottom: isMobile ? 32 : 48,
             borderBottom: "1px solid rgba(221,197,136,0.2)",
           }}
         >
+          {/* Judul kiri */}
           <div>
             <div
               style={{
@@ -109,7 +185,7 @@ const ImageschoolSection = () => {
               />
               <p
                 style={{
-                  fontSize: 11,
+                  fontSize: isMobile ? 10 : 11,
                   fontWeight: 700,
                   letterSpacing: "0.35em",
                   color: "#ddc588",
@@ -123,7 +199,7 @@ const ImageschoolSection = () => {
             <h2
               style={{
                 fontFamily: "Georgia, serif",
-                fontSize: 44,
+                fontSize: headingSize,
                 fontWeight: 900,
                 lineHeight: 1.1,
                 margin: 0,
@@ -144,12 +220,14 @@ const ImageschoolSection = () => {
             </h2>
           </div>
 
+          {/* Subtext kanan */}
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "flex-end",
+              alignItems: isMobile ? "flex-start" : "flex-end",
               gap: 10,
+              marginTop: isMobile ? 4 : 0,
             }}
           >
             <div
@@ -163,7 +241,7 @@ const ImageschoolSection = () => {
             >
               <span
                 style={{
-                  fontSize: 11,
+                  fontSize: isMobile ? 10 : 11,
                   color: "#9fc4e8",
                   letterSpacing: "0.15em",
                   textTransform: "uppercase",
@@ -174,10 +252,10 @@ const ImageschoolSection = () => {
             </div>
             <p
               style={{
-                fontSize: 13,
+                fontSize: isMobile ? 12 : 13,
                 color: "rgba(245,240,232,0.5)",
-                maxWidth: 200,
-                textAlign: "right",
+                maxWidth: isMobile ? "100%" : 200,
+                textAlign: subtextAlign,
                 lineHeight: 1.7,
                 margin: 0,
               }}
@@ -187,91 +265,41 @@ const ImageschoolSection = () => {
           </div>
         </div>
 
-        {/* Cards Row */}
-        <div style={{ display: "flex", flexDirection: "row", gap: 24 }}>
+        {/* ── Cards ── */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: cardsDirection,
+            gap: isMobile ? 16 : isTablet ? 20 : 24,
+          }}
+        >
           {/* Card 1 */}
           <div
-            style={{
-              flex: 1,
-              borderRadius: 20,
-              overflow: "hidden",
-              border: "1px solid rgba(221,197,136,0.2)",
-              boxShadow: "0 24px 60px rgba(0,0,0,0.5)",
-              transition: "transform 0.4s ease, box-shadow 0.4s ease",
-              cursor: "pointer",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLDivElement).style.transform =
-                "translateY(-6px)";
-              (e.currentTarget as HTMLDivElement).style.boxShadow =
-                "0 32px 64px rgba(221,197,136,0.2)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLDivElement).style.transform =
-                "translateY(0)";
-              (e.currentTarget as HTMLDivElement).style.boxShadow =
-                "0 24px 60px rgba(0,0,0,0.5)";
-            }}
+            style={cardStyle(0, "rgba(221,197,136,0.2)")}
+            onMouseEnter={() => setHover(0)}
+            onMouseLeave={() => setHover(null)}
           >
             <img
               src="/assets/img-sekolah-1.jpeg"
               alt="Gedung Utama"
-              style={{
-                width: "100%",
-                height: 460,
-                objectFit: "cover",
-                display: "block",
-                transition: "transform 0.7s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "scale(1.04)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "scale(1)")
-              }
+              style={imgStyle(0)}
+              onMouseEnter={() => setImgHover(0)}
+              onMouseLeave={() => setImgHover(null)}
             />
           </div>
 
           {/* Card 2 */}
           <div
-            style={{
-              flex: 1,
-              borderRadius: 20,
-              overflow: "hidden",
-              border: "1px solid rgba(159,196,232,0.2)",
-              boxShadow: "0 24px 60px rgba(0,0,0,0.5)",
-              transition: "transform 0.4s ease, box-shadow 0.4s ease",
-              cursor: "pointer",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLDivElement).style.transform =
-                "translateY(-6px)";
-              (e.currentTarget as HTMLDivElement).style.boxShadow =
-                "0 32px 64px rgba(159,196,232,0.2)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLDivElement).style.transform =
-                "translateY(0)";
-              (e.currentTarget as HTMLDivElement).style.boxShadow =
-                "0 24px 60px rgba(0,0,0,0.5)";
-            }}
+            style={cardStyle(1, "rgba(159,196,232,0.2)")}
+            onMouseEnter={() => setHover(1)}
+            onMouseLeave={() => setHover(null)}
           >
             <img
               src="/assets/img-sekolah-2.jpeg"
               alt="Area Pendukung"
-              style={{
-                width: "100%",
-                height: 460,
-                objectFit: "cover",
-                display: "block",
-                transition: "transform 0.7s ease",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "scale(1.04)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "scale(1)")
-              }
+              style={imgStyle(1)}
+              onMouseEnter={() => setImgHover(1)}
+              onMouseLeave={() => setImgHover(null)}
             />
           </div>
         </div>

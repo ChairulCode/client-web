@@ -5,6 +5,7 @@ import Footer from "../../components/footer";
 import { useEffect, useState } from "react";
 import { getRequest } from "../../utils/api-call";
 import { formatTime } from "../../utils/time-format";
+import { parseImages } from "../../utils/imageHelper";
 
 export interface Jenjang {
   jenjang_id: string;
@@ -62,8 +63,8 @@ const PrestasiDetail = () => {
   const navigate = useNavigate();
   const [copySuccess, setCopySuccess] = useState(false);
   const [data, setData] = useState<PrestasiDetailResponse["data"] | null>(null);
+  const [activeImageIdx, setActiveImageIdx] = useState(0);
 
-  // Get current page URL
   const currentUrl = window.location.href;
 
   useEffect(() => {
@@ -71,33 +72,23 @@ const PrestasiDetail = () => {
       try {
         const response = await getRequest(`prestasi/${id}`);
         setData(response.data);
-        console.log(response);
+        setActiveImageIdx(0);
       } catch (error) {
         console.log(error);
       }
     };
     getData();
-  }, []);
+  }, [id]);
 
-  // Share handlers
   const handleInstagramShare = () => {
-    // Instagram Story sharing - akan redirect ke Instagram app
-    // Format: instagram://story-camera or direct link
     const instagramUrl = `https://www.instagram.com/create/story`;
-
-    // Untuk mobile, coba buka Instagram app
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
     if (isMobile) {
-      // Try to open Instagram app first
       window.location.href = `instagram://story-camera`;
-
-      // Fallback ke web setelah 1 detik jika app tidak terbuka
       setTimeout(() => {
         window.open(instagramUrl, "_blank");
       }, 1000);
     } else {
-      // Desktop: buka Instagram web
       window.open(instagramUrl, "_blank");
       alert(
         "Untuk share ke Instagram Story, silakan gunakan mobile device atau upload manual dari Instagram app Anda.",
@@ -106,34 +97,27 @@ const PrestasiDetail = () => {
   };
 
   const handleWhatsAppShare = () => {
-    // WhatsApp share dengan text dan link
     const text = encodeURIComponent(
       `🏆 *${data?.judul}*\n\n${data?.konten}\n\nLihat selengkapnya:`,
     );
     const url = encodeURIComponent(currentUrl);
-    const whatsappUrl = `https://wa.me/?text=${text}%20${url}`;
-
-    window.open(whatsappUrl, "_blank");
+    window.open(`https://wa.me/?text=${text}%20${url}`, "_blank");
   };
 
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(currentUrl);
       setCopySuccess(true);
-
-      // Reset success message after 2 seconds
       setTimeout(() => {
         setCopySuccess(false);
       }, 2000);
     } catch {
-      // Fallback untuk browser yang tidak support clipboard API
       const textArea = document.createElement("textarea");
       textArea.value = currentUrl;
       textArea.style.position = "fixed";
       textArea.style.left = "-999999px";
       document.body.appendChild(textArea);
       textArea.select();
-
       try {
         document.execCommand("copy");
         setCopySuccess(true);
@@ -143,7 +127,6 @@ const PrestasiDetail = () => {
       } catch {
         alert("Gagal menyalin link. Silakan copy manual.");
       }
-
       document.body.removeChild(textArea);
     }
   };
@@ -167,26 +150,217 @@ const PrestasiDetail = () => {
     );
   }
 
+  const images = parseImages(data.path_gambar);
+  const isMultiple = images.length > 1;
+
   return (
     <>
       <Navbar />
       <div className="prestasi-detail-wrapper">
         <div className="prestasi-detail-container">
-          {/* Main Content Card */}
           <div className="prestasi-detail-content">
-            {/* Hero Image Section */}
-            <div className="detail-image-wrapper">
-              <div className="image-overlay"></div>
+            {/* ── IMAGE SECTION ── */}
+            <div
+              className="detail-image-wrapper"
+              style={{
+                position: "relative",
+                width: "100%",
+                background: "#f0f0f0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                overflow: "hidden",
+              }}
+            >
+              <div className="image-overlay" />
+
+              {/* Gambar aktif — tampil penuh tanpa crop */}
               <img
-                src={`${BASE_URL}/${data.path_gambar}`}
+                src={`${BASE_URL}/${images[activeImageIdx] || images[0]}`}
                 alt={data.judul}
                 className="detail-image"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  maxHeight: "520px",
+                  objectFit: "contain",
+                  display: "block",
+                }}
               />
+
+              {/* Navigasi prev/next — hanya jika multiple */}
+              {isMultiple && (
+                <>
+                  {/* Tombol Prev */}
+                  <button
+                    onClick={() => setActiveImageIdx((p) => Math.max(0, p - 1))}
+                    disabled={activeImageIdx === 0}
+                    style={{
+                      position: "absolute",
+                      left: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      background: "rgba(0,0,0,0.45)",
+                      border: "none",
+                      borderRadius: "50%",
+                      width: "40px",
+                      height: "40px",
+                      cursor: activeImageIdx === 0 ? "default" : "pointer",
+                      color: "#fff",
+                      fontSize: "22px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      opacity: activeImageIdx === 0 ? 0.3 : 1,
+                      transition: "opacity 0.2s",
+                      zIndex: 10,
+                    }}
+                  >
+                    ‹
+                  </button>
+
+                  {/* Tombol Next */}
+                  <button
+                    onClick={() =>
+                      setActiveImageIdx((p) =>
+                        Math.min(images.length - 1, p + 1),
+                      )
+                    }
+                    disabled={activeImageIdx === images.length - 1}
+                    style={{
+                      position: "absolute",
+                      right: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      background: "rgba(0,0,0,0.45)",
+                      border: "none",
+                      borderRadius: "50%",
+                      width: "40px",
+                      height: "40px",
+                      cursor:
+                        activeImageIdx === images.length - 1
+                          ? "default"
+                          : "pointer",
+                      color: "#fff",
+                      fontSize: "22px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      opacity: activeImageIdx === images.length - 1 ? 0.3 : 1,
+                      transition: "opacity 0.2s",
+                      zIndex: 10,
+                    }}
+                  >
+                    ›
+                  </button>
+
+                  {/* Counter badge */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "12px",
+                      right: "12px",
+                      background: "rgba(0,0,0,0.6)",
+                      color: "#fff",
+                      borderRadius: "20px",
+                      padding: "4px 12px",
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      zIndex: 10,
+                    }}
+                  >
+                    {activeImageIdx + 1} / {images.length}
+                  </div>
+
+                  {/* Dot indicator */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "12px",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      display: "flex",
+                      gap: "6px",
+                      zIndex: 10,
+                    }}
+                  >
+                    {images.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setActiveImageIdx(idx)}
+                        style={{
+                          width: idx === activeImageIdx ? "20px" : "8px",
+                          height: "8px",
+                          borderRadius: "4px",
+                          border: "none",
+                          cursor: "pointer",
+                          background:
+                            idx === activeImageIdx
+                              ? "#fff"
+                              : "rgba(255,255,255,0.5)",
+                          padding: 0,
+                          transition: "all 0.25s ease",
+                        }}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
-            {/* Content Section */}
+            {/* Thumbnail strip — hanya jika multiple */}
+            {isMultiple && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: "8px",
+                  flexWrap: "wrap",
+                  padding: "12px 16px",
+                  background: "#f9f9f9",
+                  borderBottom: "1px solid #eee",
+                }}
+              >
+                {images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImageIdx(idx)}
+                    style={{
+                      width: "72px",
+                      height: "72px",
+                      padding: 0,
+                      border: "none",
+                      borderRadius: "6px",
+                      overflow: "hidden",
+                      cursor: "pointer",
+                      flexShrink: 0,
+                      outline:
+                        idx === activeImageIdx
+                          ? "2px solid #2563eb"
+                          : "2px solid transparent",
+                      transition: "outline 0.2s",
+                      background: "#e5e5e5",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <img
+                      src={`${BASE_URL}/${img}`}
+                      alt={`Gambar ${idx + 1}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain", // thumbnail juga tidak crop
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* ── CONTENT SECTION ── */}
             <div className="detail-info">
-              {/* Date Badge with Icon */}
+              {/* Date */}
               <div className="detail-date">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -202,23 +376,23 @@ const PrestasiDetail = () => {
               {/* Title */}
               <h1 className="detail-title">{data.judul}</h1>
 
-              {/* Decorative Divider */}
+              {/* Divider */}
               <div className="title-divider">
                 <span className="divider-line"></span>
                 <span className="divider-dot"></span>
                 <span className="divider-line"></span>
               </div>
 
-              {/* Content Text */}
+              {/* Konten */}
               <div className="detail-content">
                 <p className="detail-text">{data.konten}</p>
               </div>
 
-              {/* Share Section */}
+              {/* Share */}
               <div className="detail-share">
                 <h3 className="share-title">Bagikan Prestasi Ini</h3>
                 <div className="share-buttons">
-                  {/* Instagram Button */}
+                  {/* Instagram */}
                   <button
                     className="share-btn instagram"
                     title="Share to Instagram Story"
@@ -229,7 +403,7 @@ const PrestasiDetail = () => {
                     </svg>
                   </button>
 
-                  {/* WhatsApp Button */}
+                  {/* WhatsApp */}
                   <button
                     className="share-btn whatsapp"
                     title="Share to WhatsApp"
@@ -240,7 +414,7 @@ const PrestasiDetail = () => {
                     </svg>
                   </button>
 
-                  {/* Copy Link Button */}
+                  {/* Copy Link */}
                   <button
                     className={`share-btn copy ${copySuccess ? "copied" : ""}`}
                     title={copySuccess ? "Link tersalin!" : "Salin Link"}
@@ -284,7 +458,7 @@ const PrestasiDetail = () => {
             </div>
           </div>
 
-          {/* Navigation to Other Prestasi */}
+          {/* Back Button */}
           <div className="other-prestasi-nav">
             <button onClick={() => navigate("/")} className="view-all-btn">
               <span>Kembali</span>

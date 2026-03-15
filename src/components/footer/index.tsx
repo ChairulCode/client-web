@@ -10,6 +10,7 @@ import {
   Users,
   Award,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import mikrologo from "/assets/mikroskil.png";
 import "./footer.css";
 
@@ -99,6 +100,7 @@ const PLATFORM_CONFIG: Record<
 };
 
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
   const [socialData, setSocialData] = useState<SocialMedia[]>([]);
   const schoolLocation = "Jl. Asia No No.143 Medan 20214, Sumatera Utara";
 
@@ -384,7 +386,11 @@ const Footer: React.FC = () => {
                 <BookOpen className="footer-section-icon" size={28} />
                 Informasi Sekolah
               </h3>
-              <div className="footer-info-card">
+              <div
+                className="footer-info-card"
+                onClick={() => navigate("/informasi-sekolah")}
+                style={{ cursor: "pointer" }}
+              >
                 <div className="footer-info-content">
                   <div className="footer-info-item">
                     <h4 className="footer-info-title">Visi</h4>
