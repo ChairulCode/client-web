@@ -133,6 +133,7 @@ const KegiatanTingkatan = () => {
 	};
 
 	return (
+		<>
 		<div className='kt-page'>
 			{/* Breadcrumb */}
 			<div className='kt-breadcrumb' data-aos='fade-down'>
@@ -199,8 +200,9 @@ const KegiatanTingkatan = () => {
 					</div>
 				)}
 			</div>
-			<Footer />
 		</div>
+		<Footer />
+		</>
 	);
 };
 
