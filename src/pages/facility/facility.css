@@ -176,25 +176,43 @@
   font-weight: 600;
 }
 
+/* ─── GAMBAR CONTAINER ───────────────────────────────────────────────────────
+   - height: auto agar tinggi menyesuaikan gambar (tidak fixed)
+   - background gelap sebagai fallback saat gambar loading
+   - overflow: hidden tetap dipertahankan untuk border-radius
+*/
 .facility-image-container {
   width: 100%;
-  height: 400px;
+  height: auto;
   border-radius: 20px;
   overflow: hidden;
   margin-bottom: 30px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
   animation: fadeIn 0.8s ease;
+  background: #f0f0f0;
+  /* Flexbox agar gambar dan tombol slider bisa di-center */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* ─── GAMBAR ─────────────────────────────────────────────────────────────────
+   - width: 100% agar full width container
+   - height: auto agar tinggi mengikuti aspect ratio asli gambar (tidak terpotong)
+   - object-fit: contain agar gambar tampil penuh tanpa crop
+   - display: block untuk menghilangkan gap bawah bawaan inline image
+*/
 .facility-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 600px;
+  object-fit: contain;
+  display: block;
   transition: transform 0.5s ease;
 }
 
 .facility-image:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .facility-description {
@@ -253,6 +271,7 @@
     opacity: 1;
   }
 }
+
 @media (max-width: 1024px) {
   .facilities-grid {
     grid-template-columns: 320px 1fr;
@@ -318,8 +337,9 @@
     font-size: 2rem;
   }
 
-  .facility-image-container {
-    height: 280px;
+  /* Mobile: batasi tinggi maksimal gambar */
+  .facility-image {
+    max-height: 300px;
   }
 
   .facility-description {
@@ -356,8 +376,11 @@
     font-size: 1.6rem;
   }
 
+  .facility-image {
+    max-height: 220px;
+  }
+
   .facility-image-container {
-    height: 220px;
     border-radius: 12px;
   }
 
@@ -365,6 +388,7 @@
     padding: 15px;
   }
 }
+
 @media (max-width: 768px) {
   .facility-list-wrapper {
     display: flex;
@@ -406,11 +430,8 @@
   .facility-detail-title h2 {
     font-size: 2rem;
   }
-
-  .facility-image-container {
-    height: 320px;
-  }
 }
+
 .mobile-dropdown {
   display: none;
 }

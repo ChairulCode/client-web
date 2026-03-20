@@ -574,3 +574,328 @@
     letter-spacing: 1.5px;
   }
 }
+/* ─── TAMBAHKAN INI KE BAGIAN BAWAH information-detail.css ─── */
+
+/* =============================================
+   CARD CLICKABLE (Visi & Misi)
+   ============================================= */
+.id-card--clickable {
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  position: relative;
+}
+
+.id-card--clickable:hover {
+  box-shadow: 0 18px 56px rgba(30, 58, 138, 0.13);
+  transform: translateY(-5px);
+}
+
+.id-card--clickable:active {
+  transform: translateY(-2px);
+}
+
+.id-card-click-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #9a7a2e;
+  background: rgba(221, 197, 136, 0.14);
+  border: 1px solid rgba(221, 197, 136, 0.35);
+  padding: 5px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.id-card--misi .id-card-click-hint {
+  color: #3b82f6;
+  background: rgba(159, 196, 232, 0.14);
+  border-color: rgba(159, 196, 232, 0.35);
+}
+
+.id-card--clickable:hover .id-card-click-hint {
+  background: rgba(221, 197, 136, 0.28);
+}
+
+.id-card--misi:hover .id-card-click-hint {
+  background: rgba(159, 196, 232, 0.28);
+}
+
+/* =============================================
+   MODAL OVERLAY
+   ============================================= */
+.id-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10, 20, 60, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: idOverlayIn 0.25s ease forwards;
+}
+
+@keyframes idOverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* =============================================
+   MODAL CARD
+   ============================================= */
+.id-modal-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 36px;
+  width: 100%;
+  max-width: 520px;
+  position: relative;
+  border-top: 5px solid var(--modal-accent, #ddc588);
+  box-shadow:
+    0 32px 80px rgba(10, 20, 60, 0.22),
+    0 8px 24px rgba(10, 20, 60, 0.1);
+  animation: idModalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes idModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Close button */
+.id-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1.5px solid #e8ecf4;
+  background: #f4f6fb;
+  color: #6b7ba0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+  font-family: inherit;
+}
+
+.id-modal-close:hover {
+  background: #1e3a8a;
+  color: #ffffff;
+  border-color: #1e3a8a;
+  transform: rotate(90deg);
+}
+
+/* Modal header */
+.id-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 6px;
+}
+
+.id-modal-icon-wrap {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.id-modal-icon--gold {
+  background: linear-gradient(135deg, #ddc588, #f1c40f);
+  color: #7a5c10;
+}
+
+.id-modal-icon--blue {
+  background: linear-gradient(135deg, #9fc4e8, #3b82f6);
+  color: #ffffff;
+}
+
+.id-modal-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: #a0aec5;
+  margin: 0 0 4px;
+}
+
+.id-modal-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #1e3a8a;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.id-modal-divider {
+  height: 1px;
+  background: #e8ecf4;
+  margin: 20px 0;
+}
+
+/* Modal body */
+.id-modal-body {
+  margin-bottom: 28px;
+}
+
+.id-modal-lead {
+  font-size: 15px;
+  color: #374764;
+  line-height: 1.8;
+  margin: 0 0 18px;
+  font-style: italic;
+  border-left: 4px solid var(--modal-accent, #ddc588);
+  padding-left: 16px;
+}
+
+.id-modal-highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(221, 197, 136, 0.09);
+  border: 1px solid rgba(221, 197, 136, 0.28);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #7a5c10;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.id-modal-highlight svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #ddc588;
+}
+
+/* Misi list in modal */
+.id-modal-misi-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.id-modal-misi-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 14.5px;
+  color: #374764;
+  line-height: 1.75;
+  background: #f8fafc;
+  border: 1px solid #e8ecf4;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.id-modal-misi-num {
+  font-size: 10px;
+  font-weight: 900;
+  color: #5b9fcb;
+  background: rgba(159, 196, 232, 0.2);
+  border: 1px solid rgba(159, 196, 232, 0.4);
+  border-radius: 7px;
+  padding: 3px 8px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+/* Modal close button (bottom) */
+.id-modal-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #ddc588, #c9a84c);
+  color: #5a3e0a;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.id-modal-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4);
+}
+
+.id-modal-btn:active {
+  transform: translateY(0);
+}
+
+/* =============================================
+   RESPONSIVE MODAL
+   ============================================= */
+@media (max-width: 575px) {
+  .id-modal-card {
+    padding: 24px 20px;
+    border-radius: 20px;
+  }
+
+  .id-modal-title {
+    font-size: 1.35rem;
+  }
+
+  .id-modal-icon-wrap {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+  }
+
+  .id-card-click-hint {
+    display: none;
+  }
+}
+.id-modal-misi-title {
+  font-size: 13.5px;
+  font-weight: 900;
+  color: #1e3a8a;
+  margin: 0 0 5px;
+  letter-spacing: 0.2px;
+}
+
+.id-modal-misi-desc {
+  font-size: 13.5px;
+  color: #4b5e80;
+  line-height: 1.75;
+  margin: 0;
+}

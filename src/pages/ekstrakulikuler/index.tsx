@@ -104,7 +104,7 @@ const Ekstrakurikuler = () => {
         "English Debate Competition",
         "Story Telling Contest",
         "Native Speaker Sessions",
-      ],
+      ],        
     },
     {
       id: 7,
@@ -177,7 +177,7 @@ const Ekstrakurikuler = () => {
         <div className="ekstra-hero-content">
           <h1 className="ekstra-hero-title">
             Ekstrakurikuler
-            <span className="ekstra-hero-accent"> WR Supratman</span>
+            <span className="ekstra-hero-accent"> WR Supratman 1 Medan</span>
           </h1>
           <p className="ekstra-hero-subtitle">
             Temukan passion dan kembangkan bakatmu melalui berbagai kegiatan

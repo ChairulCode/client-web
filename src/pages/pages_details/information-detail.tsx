@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
 import "./css/information-detail.css";
@@ -12,12 +13,46 @@ import {
   Building2,
   ExternalLink,
   Target,
+  X,
+  BookOpen,
+  Layers,
 } from "lucide-react";
 
-// ─── Data persis dari footer ──────────────────────────────────
+// ─── Data card biasa (versi singkat) ──────────────────────────
 const misiItems = [
   "Melaksanakan Pendidikan yang Bermutu...",
-  "Melaksanakan Pendidikan berdasarkan budi pekerti...",
+  "Bahasa (Bahasa Indonesia, Bahasa Mandarin dan Bahasa Inggris)...",
+];
+
+// ─── Data modal misi (versi lengkap) ──────────────────────────
+// Edit bagian ini untuk mengubah isi detail modal misi
+const misiDetailItems = [
+  {
+    num: "01",
+    title: "Pendidikan Bermutu",
+    desc: "Melaksanakan Pendidikan Yang Bermutu, Efektif, dan Dinamis Untuk Menghasilkan Lulusan Yang Berkualitas, Berkompeten, Terdidik, Kreatif, Cakap, dan Terampil dalam dalam bidang ICT dan Penguasaan",
+  },
+  {
+    num: "02",
+    title: "Bahasa",
+    desc: "Bahasa (Bahasa Indonesia, Bahasa Mandarin dan Bahasa Inggris).",
+  },
+  {
+    num: "03",
+    title: "Budi Pekerti Luhur",
+    desc: "Melaksanakan Pendidikan Yang Berdasarkan Budi Pekerti Luhur Untuk Menghasilkan Lulusan Yang Berkepribadian, Berkarakter, Beretika Tinggi, Berakhlak Mulia, Beriman, Bertaqwa, dan Mengabdi Untuk Kesejahteraan Bangsa dan Negara.",
+  },
+  {
+    num: "04",
+    title: "Pendidikan Seutuhnya",
+    desc: "Mendidik Para Siswa Menjadi Manusia Seutuhnya Dengan Mengembangkan Seluruh Potensi Anak Dengan Proses Pendidikan Yang Menyesuaikan Potensi Anak Secara Individual Meliputi Kecerdasan Fisik (PQ), Kecerdasan Intelektual (IQ), Kecerdasan Emosional (EQ) Dan Kecerdasan Spiritual (SQ).",
+  },
+  // ── Tambah poin misi baru di sini ──
+  // {
+  //   num: "03",
+  //   title: "Judul Poin Baru",
+  //   desc: "Deskripsi lengkap poin misi baru...",
+  // },
 ];
 
 const jadwalList = [
@@ -46,6 +81,55 @@ const kontakList = [
   },
 ];
 
+// ─── Modal Data ───────────────────────────────────────────────
+type ModalType = "visi" | "misi" | null;
+
+const modalContent = {
+  visi: {
+    icon: Star,
+    iconClass: "id-modal-icon--gold",
+    badge: "Visi Sekolah",
+    title: "Visi",
+    accent: "#ddc588",
+    body: (
+      <>
+        <p className="id-modal-lead">
+          Menjadikan Sekolah WR Supratman 1 Medan Diakui Keunggulannya dalam
+          Bidang Akademik, Karakter, dan Prestasi di Tingkat Nasional maupun
+          Internasional.
+        </p>
+        <div className="id-modal-highlight">
+          <BookOpen size={16} />
+          <span>
+            Kami berkomitmen untuk terus berkembang demi masa depan yang lebih
+            cerah bagi seluruh peserta didik.
+          </span>
+        </div>
+      </>
+    ),
+  },
+  misi: {
+    icon: Heart,
+    iconClass: "id-modal-icon--blue",
+    badge: "Misi Sekolah",
+    title: "Misi",
+    accent: "#9fc4e8",
+    body: (
+      <ol className="id-modal-misi-list">
+        {misiDetailItems.map((item) => (
+          <li key={item.num} className="id-modal-misi-item">
+            <span className="id-modal-misi-num">{item.num}</span>
+            <div>
+              <p className="id-modal-misi-title">{item.title}</p>
+              <p className="id-modal-misi-desc">{item.desc}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    ),
+  },
+};
+
 // ─── Section Header ───────────────────────────────────────────
 const SectionHeader = ({
   badge,
@@ -68,11 +152,65 @@ const SectionHeader = ({
   </div>
 );
 
+// ─── Visi Misi Modal ──────────────────────────────────────────
+const VisiMisiModal = ({
+  type,
+  onClose,
+}: {
+  type: ModalType;
+  onClose: () => void;
+}) => {
+  if (!type) return null;
+  const content = modalContent[type];
+  const IconComp = content.icon;
+
+  return (
+    <div className="id-modal-overlay" onClick={onClose}>
+      <div
+        className="id-modal-card"
+        onClick={(e) => e.stopPropagation()}
+        style={{ "--modal-accent": content.accent } as React.CSSProperties}
+      >
+        {/* Close */}
+        <button className="id-modal-close" onClick={onClose} aria-label="Tutup">
+          <X size={18} />
+        </button>
+
+        {/* Header */}
+        <div className="id-modal-header">
+          <div className={`id-modal-icon-wrap ${content.iconClass}`}>
+            <IconComp size={24} />
+          </div>
+          <div>
+            <p className="id-modal-badge">{content.badge}</p>
+            <h3 className="id-modal-title">{content.title}</h3>
+          </div>
+        </div>
+
+        <div className="id-modal-divider" />
+
+        {/* Body */}
+        <div className="id-modal-body">{content.body}</div>
+
+        {/* Footer button */}
+        <button className="id-modal-btn" onClick={onClose}>
+          Tutup
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // ─── Main ─────────────────────────────────────────────────────
 const InformationDetail = () => {
+  const [modal, setModal] = useState<ModalType>(null);
+
   return (
     <div className="id-page">
       <Navbar />
+
+      {/* Modal */}
+      <VisiMisiModal type={modal} onClose={() => setModal(null)} />
 
       {/* ══ HERO ══ */}
       <section className="id-hero">
@@ -114,25 +252,41 @@ const InformationDetail = () => {
           />
           <div className="id-visi-misi-grid">
             {/* Visi */}
-            <div className="id-card id-card--visi">
+            <button
+              className="id-card id-card--visi id-card--clickable"
+              onClick={() => setModal("visi")}
+              aria-label="Lihat detail Visi"
+            >
               <div className="id-card-head">
                 <div className="id-card-icon id-card-icon--gold">
                   <Star size={22} />
                 </div>
                 <h3 className="id-card-title">Visi</h3>
+                <span className="id-card-click-hint">
+                  <Layers size={13} />
+                  Lihat Detail
+                </span>
               </div>
               <p className="id-card-lead">
                 Menjadikan Sekolah WR Supratman 1 Medan Diakui Keunggulannya...
               </p>
-            </div>
+            </button>
 
             {/* Misi */}
-            <div className="id-card id-card--misi">
+            <button
+              className="id-card id-card--misi id-card--clickable"
+              onClick={() => setModal("misi")}
+              aria-label="Lihat detail Misi"
+            >
               <div className="id-card-head">
                 <div className="id-card-icon id-card-icon--blue">
                   <Heart size={22} />
                 </div>
                 <h3 className="id-card-title">Misi</h3>
+                <span className="id-card-click-hint">
+                  <Layers size={13} />
+                  Lihat Detail
+                </span>
               </div>
               <ol className="id-misi-list">
                 {misiItems.map((item, i) => (
@@ -144,7 +298,7 @@ const InformationDetail = () => {
                   </li>
                 ))}
               </ol>
-            </div>
+            </button>
           </div>
         </div>
       </section>

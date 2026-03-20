@@ -31,21 +31,23 @@
 
 /* ── LOGO ── */
 .navbar > img.img-logo {
-  width: 80px;
-  height: auto;
+  width: 110px !important;
+  height: auto !important;
+  min-height: unset !important;
+  object-fit: contain !important;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .navbar.visible > img.img-logo {
-  width: 62px;
+  width: 82px !important;
+  height: auto !important;
 }
 
 /* =============================================
-   NAV LABEL — pakai span bukan p
-   Ini yang sekarang mengatur ukuran font tab
+   NAV LABEL
    ============================================= */
 .nav-label {
-  font-size: 20px; /* ← ubah di sini untuk perbesar/perkecil */
+  font-size: 20px;
   font-weight: 700;
   line-height: 1;
   margin: 0;
@@ -54,7 +56,7 @@
 }
 
 .navbar.visible .nav-label {
-  font-size: 17px; /* ← ukuran saat sticky/scroll */
+  font-size: 17px;
 }
 
 /* ── TAB (desktop) ── */
@@ -76,10 +78,23 @@
   padding: 15px 24px;
 }
 
+/* Active tab — gradient text */
 .navbar .nav_tabs .tab.active {
-  color: var(--color-primary);
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
+/* Hover tab — gradient text */
+.navbar .nav_tabs .tab:hover {
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* Underline */
 .navbar .nav_tabs .tab::after {
   content: "";
   position: absolute;
@@ -87,7 +102,7 @@
   bottom: 5px;
   width: 0;
   height: 3px;
-  background: #ddc588;
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
   transition: width 0.3s ease-in-out;
 }
 
@@ -127,14 +142,23 @@
   padding: 15px 24px;
 }
 
+/* Hover trigger — gradient text */
 .navbar-dropdown-trigger:hover {
-  color: var(--color-primary);
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
+/* Active trigger — gradient text */
 .navbar-dropdown-trigger.active {
-  color: var(--color-primary);
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
 }
 
+/* Underline trigger */
 .navbar-dropdown-trigger::after {
   content: "";
   position: absolute;
@@ -142,7 +166,7 @@
   bottom: 5px;
   width: 0;
   height: 3px;
-  background: #ddc588;
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
   transition: width 0.3s ease-in-out;
 }
 
@@ -201,14 +225,14 @@
 }
 
 .navbar-dropdown-item:hover {
-  background: linear-gradient(135deg, var(--color-primary, #3b82f6), #f1c40f);
-  color: white;
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
+  color: white !important;
   transform: translateX(4px);
 }
 
 .navbar-dropdown-item.active {
-  background: linear-gradient(135deg, var(--color-primary, #3b82f6), #f1c40f);
-  color: white;
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
+  color: white !important;
   font-weight: 700;
 }
 
@@ -231,7 +255,7 @@
   z-index: -1;
 }
 
-/* ── CONTACT BUTTON (desktop) — TIDAK DIUBAH ── */
+/* ── CONTACT BUTTON (desktop) ── */
 .navbar .contact_btn,
 .navbar a.contact_btn,
 .navbar .btn.contact_btn,
@@ -317,14 +341,15 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 44px !important;
-    height: 44px !important;
-    object-fit: contain;
+    width: 52px !important;
+    height: 52px !important;
+    object-fit: contain !important;
+    min-height: unset !important;
   }
 
   .navbar.visible > img.img-logo {
-    width: 36px !important;
-    height: 36px !important;
+    width: 42px !important;
+    height: 42px !important;
   }
 
   .navbar .nav_tabs:not(.open) {
@@ -365,7 +390,6 @@
     display: flex;
   }
 
-  /* Mobile: nav-label kecil */
   .nav-label {
     font-size: 0.95rem !important;
     font-weight: 600;
@@ -379,17 +403,25 @@
     font-weight: 600;
   }
 
+  /* Mobile: reset gradient text, pakai warna solid */
   .navbar .nav_tabs .tab.active {
-    background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.15);
-    color: var(--color-primary);
+    background: rgba(55, 48, 163, 0.1) !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: #3730a3 !important;
+    background-clip: unset !important;
+    color: #3730a3 !important;
+  }
+
+  .navbar .nav_tabs .tab:hover {
+    background: rgba(55, 48, 163, 0.07) !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: #3730a3 !important;
+    background-clip: unset !important;
+    color: #3730a3 !important;
   }
 
   .navbar .nav_tabs .tab::after {
     display: none;
-  }
-
-  .navbar .nav_tabs .tab:hover {
-    background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.1);
   }
 
   .navbar .cancel_btn,
@@ -405,7 +437,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.1);
+    background: rgba(55, 48, 163, 0.1);
     border-radius: 50%;
   }
 
@@ -416,7 +448,7 @@
   }
 
   .navbar .menu_btn:hover {
-    background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.2);
+    background: rgba(55, 48, 163, 0.2);
     transform: scale(1.1);
   }
 
@@ -437,19 +469,30 @@
     width: 100%;
     justify-content: space-between;
     padding: 13px 18px;
-    background: transparent;
+    background: transparent !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: var(--color-text) !important;
+    background-clip: unset !important;
+    color: var(--color-text) !important;
     border: none;
     border-radius: var(--radius-3);
     font-weight: 600;
   }
 
   .navbar-dropdown-trigger:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(55, 48, 163, 0.07) !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: #3730a3 !important;
+    background-clip: unset !important;
+    color: #3730a3 !important;
   }
 
   .navbar-dropdown-trigger.active {
-    background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.15);
-    color: var(--color-primary);
+    background: rgba(55, 48, 163, 0.1) !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: #3730a3 !important;
+    background-clip: unset !important;
+    color: #3730a3 !important;
   }
 
   .navbar-dropdown-trigger::after {
@@ -475,7 +518,7 @@
     backdrop-filter: none;
     border: none;
     border-radius: var(--radius-3);
-    border-left: 3px solid var(--color-primary, #3b82f6);
+    border-left: 3px solid #3730a3;
     opacity: 1;
     visibility: visible;
     transform: none;
@@ -518,15 +561,15 @@
   }
 
   .navbar-dropdown-item:hover {
-    background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.1);
-    color: var(--color-primary);
+    background: rgba(55, 48, 163, 0.1) !important;
+    color: #3730a3 !important;
     transform: none;
     padding-left: 32px;
   }
 
   .navbar-dropdown-item.active {
-    background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.2);
-    color: var(--color-primary);
+    background: rgba(55, 48, 163, 0.15) !important;
+    color: #3730a3 !important;
     font-weight: 600;
   }
 
@@ -534,10 +577,10 @@
     opacity: 1;
   }
 
-  /* Button pendaftaran sidebar — TIDAK DIUBAH */
   .navbar .nav_tabs .contact_tab_mobile {
     background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
-    color: var(--color-white);
+    color: var(--color-white) !important;
+    -webkit-text-fill-color: var(--color-white) !important;
     padding: 12px 18px;
     border-radius: var(--radius-3);
     font-weight: 600;
@@ -569,13 +612,14 @@
   }
 
   .navbar > img.img-logo {
-    width: 36px !important;
-    height: 36px !important;
+    width: 42px !important;
+    height: 42px !important;
+    min-height: unset !important;
   }
 
   .navbar.visible > img.img-logo {
-    width: 28px !important;
-    height: 28px !important;
+    width: 34px !important;
+    height: 34px !important;
   }
 
   .navbar .menu_btn {
@@ -624,8 +668,8 @@
    ══════════════════════════════════════════════════ */
 @media (max-width: 360px) {
   .navbar > img.img-logo {
-    width: 30px !important;
-    height: 30px !important;
+    width: 36px !important;
+    height: 36px !important;
   }
 
   .navbar .nav_tabs {
@@ -659,13 +703,13 @@
 
 /* ── Accessibility ── */
 .navbar-dropdown-trigger:focus {
-  outline: 2px solid var(--color-primary, #3b82f6);
+  outline: 2px solid #3730a3;
   outline-offset: 2px;
 }
 
 .navbar-dropdown-item:focus {
-  background: linear-gradient(135deg, var(--color-primary, #3b82f6), #f1c40f);
-  color: white;
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
+  color: white !important;
   outline: none;
 }
 

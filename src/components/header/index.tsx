@@ -104,13 +104,17 @@ const Header = () => {
       <div className="header-carousel-container relative">
         {/* ── Badge Kiri - Akreditasi ── */}
         <div className="akreditasi-badge">
-          <img src={acredityImg} alt="Akreditasi" className="akreditasi-img" />
+          <img
+            src={logoWrSupratman}
+            alt="Akreditasi"
+            className="akreditasi-img"
+          />
         </div>
 
         {/* ── Badge Tengah - Logo WR Supratman ── */}
         <div className="logo-wr-badge">
           <img
-            src={logoWrSupratman}
+            src={acredityImg}
             alt="Logo WR Supratman"
             className="logo-wr-img"
           />

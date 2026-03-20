@@ -165,7 +165,7 @@ const Songs = () => {
           <div className="hero-icon">
             <Music size={48} />
           </div>
-          <h1 className="songs-title">Lagus Mars WR Supratman Medan</h1>
+          <h1 className="songs-title">Lagus Mars WR Supratman 1 Medan</h1>
           <p className="songs-subtitle">
             Dengarkan dan resapi makna dalam setiap lirik lagu sekolah kami
           </p>

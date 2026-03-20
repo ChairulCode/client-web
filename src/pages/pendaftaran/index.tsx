@@ -289,7 +289,7 @@ const Pendaftaran = () => {
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4"></div>
             <h1 className="text-4xl font-bold text-foreground mb-2 title-form ">
-              Form Pendaftaran Online WR Supratman
+              Form Pendaftaran Online WR Supratman 1 Medan
             </h1>
             <p className="text-sm text-center text-muted-foreground mt-4 max-w-2xl mx-auto">
               Khusus mendaftar di Perguruan WR Supratman 1.

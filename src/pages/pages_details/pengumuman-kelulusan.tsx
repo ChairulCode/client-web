@@ -187,7 +187,7 @@ export default function PengumumanKelulusan() {
 
         /* ── HERO ── */
         .pk-hero {
-          background: linear-gradient(135deg, #1a1408 0%, #2d2010 50%, #1a1408 100%);
+          background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed);
           position: relative; overflow: hidden;
         }
         .pk-hero::before {

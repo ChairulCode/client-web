@@ -5,7 +5,7 @@
 
 /* Hero Section */
 .ekstra-hero {
-  background: linear-gradient(135deg, #ddc588 0%, #cba33f 50%, #b4892d 100%);
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed);
   padding: 80px 20px;
   text-align: center;
   color: white;
@@ -39,7 +39,7 @@
 }
 
 .ekstra-hero-accent {
-  color: #1a202c;
+  color: #ddc588;
 }
 
 .ekstra-hero-subtitle {
@@ -121,13 +121,13 @@
 }
 
 .category-filter:hover {
-  border-color: #ddc588;
-  color: #b4892d;
+  border-color: lightblue;
+  color: blue;
 }
 
 .category-filter.active {
-  background: #ddc588;
-  border-color: #ddc588;
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
+  border-color: blueviolet;
   color: white;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .card-icon {
-  background: rgba(221, 197, 136, 0.9);
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
   padding: 0.75rem;
   border-radius: 1rem;
   color: white;

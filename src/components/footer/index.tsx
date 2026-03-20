@@ -262,7 +262,7 @@ const Footer: React.FC = () => {
           <div className="footer-header-icon">
             <GraduationCap size={40} className="text-yellow-300" />
           </div>
-          <h2 className="footer-title">Perguruan WR Supratman Medan</h2>
+          <h2 className="footer-title">Perguruan WR Supratman 1 Medan</h2>
           <p className="footer-subtitle">
             Membangun Generasi Unggul untuk Masa Depan yang Cemerlang
           </p>
@@ -395,14 +395,36 @@ const Footer: React.FC = () => {
                   <div className="footer-info-item">
                     <h4 className="footer-info-title">Visi</h4>
                     <p className="footer-info-text mb-6">
-                      Menjadikan Sekolah WR Supratman 1 Medan Diakui
-                      Keunggulannya...
+                      Menjadikan SMA WR Supratman 1 Medan Diakui Keunggulannya
+                      di Kota Medan, di Tingkat Provinsi dan di Tingkat
+                      Nasional.
                     </p>
                     <h4 className="footer-info-title">Misi</h4>
                     <ol className="footer-mission-list">
-                      <li>Melaksanakan Pendidikan yang Bermutu...</li>
                       <li>
-                        Melaksanakan Pendidikan berdasarkan budi pekerti...
+                        Melaksanakan Pendidikan Yang Bermutu, Efektif, dan
+                        Dinamis Untuk Menghasilkan Lulusan Yang Berkualitas,
+                        Berkompeten, Terdidik, Kreatif, Cakap, dan Terampil
+                        dalam dalam bidang ICT dan Penguasaan
+                      </li>
+                      <li>
+                        Bahasa (Bahasa Indonesia, Bahasa Mandarin dan Bahasa
+                        Inggris).
+                      </li>
+                      <li>
+                        Melaksanakan Pendidikan Yang Berdasarkan Budi Pekerti
+                        Luhur Untuk Menghasilkan Lulusan Yang Berkepribadian,
+                        Berkarakter, Beretika Tinggi, Berakhlak Mulia, Beriman,
+                        Bertaqwa, dan Mengabdi Untuk Kesejahteraan Bangsa dan
+                        Negara.
+                      </li>
+                      <li>
+                        Mendidik Para Siswa Menjadi Manusia Seutuhnya Dengan
+                        Mengembangkan Seluruh Potensi Anak Dengan Proses
+                        Pendidikan Yang Menyesuaikan Potensi Anak Secara
+                        Individual Meliputi Kecerdasan Fisik (PQ), Kecerdasan
+                        Intelektual (IQ), Kecerdasan Emosional (EQ) Dan
+                        Kecerdasan Spiritual (SQ).
                       </li>
                     </ol>
                   </div>
@@ -455,7 +477,7 @@ const Footer: React.FC = () => {
             </div>
             <div className="footer-copyright">
               <p className="footer-copyright-main">
-                © 2025 Perguruan WR Supratman Medan. All rights reserved.
+                © 2025 Perguruan WR Supratman 1 Medan. All rights reserved.
               </p>
             </div>
           </div>
