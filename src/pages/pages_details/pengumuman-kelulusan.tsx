@@ -43,7 +43,7 @@ interface HasilKelulusan {
 type StatusCek = "idle" | "loading" | "found" | "not_found" | "locked";
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000/api/v1";
-const TAHUN_AJARAN = "2024/2025";
+
 const KELAS_OPTIONS = [
   { value: "XII_MIPA", label: "XII MIPA" },
   { value: "XII_IPS", label: "XII IPS" },
@@ -55,6 +55,7 @@ const formatTglDisplay = (raw: string) => {
   if (d.length <= 6) return `${d.slice(0, 4)}-${d.slice(4)}`;
   return `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}`;
 };
+
 const formatTanggalAkses = (iso: string | null) => {
   if (!iso) return "-";
   return new Date(iso).toLocaleString("id-ID", {
@@ -66,6 +67,7 @@ const formatTanggalAkses = (iso: string | null) => {
     timeZoneName: "short",
   });
 };
+
 const labelKelas = (k: string) =>
   k === "XII_MIPA" ? "XII MIPA" : k === "XII_IPS" ? "XII IPS" : k;
 
@@ -73,6 +75,11 @@ export default function PengumumanKelulusan() {
   const navigate = useNavigate();
   const printRef = useRef<HTMLDivElement>(null);
 
+  // ── State tahun ajaran dinamis ──────────────────────────────
+  const [, setTahunAjaranList] = useState<string[]>([]);
+  const [tahunAjaranAktif, setTahunAjaranAktif] = useState<string>("");
+
+  // ── State form ──────────────────────────────────────────────
   const [kelas, setKelas] = useState("");
   const [nomorInduk, setNomorInduk] = useState("");
   const [tanggalLahir, setTanggalLahir] = useState("");
@@ -83,6 +90,23 @@ export default function PengumumanKelulusan() {
   const [errorMsg, setErrorMsg] = useState("");
   const [isPrinting, setIsPrinting] = useState(false);
 
+  // ── Fetch daftar tahun ajaran dari server saat mount ────────
+  useEffect(() => {
+    axios
+      .get(`${API_BASE}/graduation/tahun-ajaran`)
+      .then((res) => {
+        const list: string[] = res.data.data ?? [];
+        setTahunAjaranList(list);
+        // Pakai tahun ajaran pertama (paling baru, karena server sort desc)
+        if (list.length > 0) setTahunAjaranAktif(list[0]);
+      })
+      .catch(() => {
+        // Fallback jika endpoint belum deploy / error jaringan
+        setTahunAjaranAktif("");
+      });
+  }, []);
+
+  // Reset hasil saat input berubah
   useEffect(() => {
     if (status !== "idle" && status !== "loading") {
       setStatus("idle");
@@ -93,6 +117,7 @@ export default function PengumumanKelulusan() {
 
   const handleNomorInduk = (v: string) =>
     setNomorInduk(v.replace(/\D/g, "").slice(0, 10));
+
   const handleTanggalLahir = (v: string) => {
     const raw = v.replace(/\D/g, "").slice(0, 8);
     setTanggalLahir(raw);
@@ -109,10 +134,12 @@ export default function PengumumanKelulusan() {
     setHasil(null);
     setErrorMsg("");
     try {
+      // Kirim tanpa tahun_ajaran — server otomatis cari data terbaru siswa.
+      // Ini memastikan tidak error meski admin sudah ubah tahun_ajaran di dashboard.
       const res = await axios.post(`${API_BASE}/graduation/cek-siswa`, {
         nomor_siswa: nomorInduk,
         tanggal_lahir: tanggalLahir,
-        tahun_ajaran: TAHUN_AJARAN,
+        // tahun_ajaran sengaja tidak dikirim (opsional di server)
       });
       setHasil(res.data.data as HasilKelulusan);
       setStatus("found");
@@ -196,7 +223,6 @@ export default function PengumumanKelulusan() {
             radial-gradient(ellipse 70% 80% at 90% 5%, rgba(221,197,136,0.12) 0%, transparent 60%),
             radial-gradient(ellipse 40% 50% at 10% 100%, rgba(221,197,136,0.08) 0%, transparent 55%);
         }
-        /* diagonal lines texture */
         .pk-hero::after {
           content: ""; position: absolute; inset: 0; pointer-events: none;
           background: repeating-linear-gradient(
@@ -209,7 +235,6 @@ export default function PengumumanKelulusan() {
           max-width: 660px; margin: 0 auto; padding: 56px 24px 48px;
         }
 
-        /* ── BREADCRUMB ── */
         .pk-bc { display: flex; align-items: center; gap: 8px; margin-bottom: 36px; }
         .pk-bc-btn {
           background: none; border: none; cursor: pointer; padding: 0;
@@ -220,7 +245,6 @@ export default function PengumumanKelulusan() {
         .pk-bc-sep { width: 12px; height: 12px; color: rgba(221,197,136,0.3); }
         .pk-bc-cur { font-size: 12px; font-weight: 700; color: var(--gold); }
 
-        /* ── HERO BODY ── */
         .pk-hero-body { display: flex; align-items: flex-start; gap: 20px; }
         .pk-iconbox {
           display: none; flex-shrink: 0; width: 64px; height: 64px;
@@ -245,10 +269,7 @@ export default function PengumumanKelulusan() {
           line-height: 1.12; letter-spacing: -.02em;
           color: rgba(255,255,255,0.92); margin: 0 0 14px;
         }
-        .pk-title .g {
-          color: var(--gold);
-          text-shadow: 0 0 40px rgba(221,197,136,0.4);
-        }
+        .pk-title .g { color: var(--gold); text-shadow: 0 0 40px rgba(221,197,136,0.4); }
         .pk-desc { font-size: 14px; line-height: 1.75; color: rgba(255,255,255,0.5); max-width: 430px; margin: 0; }
         .pk-desc strong { color: rgba(221,197,136,0.8); font-weight: 600; }
         .pk-strip {
@@ -259,10 +280,8 @@ export default function PengumumanKelulusan() {
         .pk-strip-item { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 500; color: rgba(221,197,136,0.45); }
         .pk-strip-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gold-d); opacity: .5; flex-shrink: 0; }
 
-        /* ── CONTENT ── */
         .pk-content { flex: 1; max-width: 660px; margin: 0 auto; width: 100%; padding: 32px 24px 52px; }
 
-        /* ── NOTICE ── */
         .pk-notice {
           display: flex; align-items: flex-start; gap: 12px;
           background: #fffcf0; border: 1px solid #f5e6b0;
@@ -271,7 +290,6 @@ export default function PengumumanKelulusan() {
         .pk-notice h4 { margin: 0 0 2px; font-size: 13px; font-weight: 700; color: #78350f; }
         .pk-notice p  { margin: 0; font-size: 12px; color: #92400e; line-height: 1.6; }
 
-        /* ── FORM CARD ── */
         .pk-card {
           background: var(--white); border-radius: var(--radius-card);
           border: 1px solid #ece9e0;
@@ -307,7 +325,6 @@ export default function PengumumanKelulusan() {
           font-weight: 700; padding: 1px 8px; border-radius: 5px; font-size: 11px;
         }
 
-        /* Submit button */
         .pk-btn {
           width: 100%; height: 52px; border: none; border-radius: 13px;
           display: flex; align-items: center; justify-content: center; gap: 9px;
@@ -327,94 +344,43 @@ export default function PengumumanKelulusan() {
         .pk-btn:active:not(:disabled) { transform: scale(0.99); }
         .pk-btn:disabled { background: #f3f3f1; color: #ccc; border-color: #ebebeb; box-shadow: none; cursor: not-allowed; }
 
-        /* ── RESULT ── */
         .pk-res { margin-top: 28px; animation: pkUp .35s cubic-bezier(.2,.8,.3,1); }
         .pk-sep { height: 1px; background: linear-gradient(90deg, transparent, #e8e3d5, transparent); margin-bottom: 28px; }
 
-        /* Certificate card */
-        .pk-cert {
-          border-radius: 18px; overflow: hidden;
-          border: 1px solid;
-          position: relative;
-        }
+        .pk-cert { border-radius: 18px; overflow: hidden; border: 1px solid; position: relative; }
         .pk-cert.ok { border-color: #d4b97a; background: #fff; }
         .pk-cert.no { border-color: #fca5a5; background: #fff; }
 
-        /* top accent bar */
         .pk-cert-bar { height: 6px; }
         .pk-cert-bar.ok { background: linear-gradient(90deg, var(--gold-deep), var(--gold-d) 30%, var(--gold) 60%, var(--gold-l)); }
         .pk-cert-bar.no { background: linear-gradient(90deg, #dc2626, #ef4444 40%, #f87171); }
 
-        /* watermark ornament */
-        .pk-cert-ornament {
-          position: absolute; top: 0; right: 0; width: 220px; height: 220px;
-          pointer-events: none; overflow: hidden; border-radius: 0 18px 0 0;
-        }
-        .pk-cert-ornament-inner {
-          position: absolute; top: -60px; right: -60px;
-          width: 200px; height: 200px; border-radius: 50%;
-          border: 40px solid;
-          opacity: 0.045;
-        }
+        .pk-cert-ornament { position: absolute; top: 0; right: 0; width: 220px; height: 220px; pointer-events: none; overflow: hidden; border-radius: 0 18px 0 0; }
+        .pk-cert-ornament-inner { position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; border-radius: 50%; border: 40px solid; opacity: 0.045; }
         .pk-cert-ornament-inner.ok { border-color: var(--gold-d); }
         .pk-cert-ornament-inner.no { border-color: #dc2626; }
 
         .pk-cert-body { padding: 30px 28px 24px; position: relative; z-index: 1; }
 
-        /* status row */
         .pk-status-row { display: flex; align-items: center; gap: 16px; margin-bottom: 26px; }
-        .pk-status-icon {
-          width: 64px; height: 64px; border-radius: 18px; flex-shrink: 0;
-          display: flex; align-items: center; justify-content: center;
-        }
-        .pk-status-icon.ok {
-          background: linear-gradient(135deg, var(--gold-pale), #fdf3d0);
-          border: 1px solid #e8d89a;
-          box-shadow: 0 2px 8px rgba(196,165,94,0.2);
-        }
-        .pk-status-icon.no {
-          background: linear-gradient(135deg, #fff5f5, #fee2e2);
-          border: 1px solid #fca5a5;
-        }
-        .pk-badge {
-          display: inline-block; font-size: 12px; font-weight: 800;
-          letter-spacing: .12em; text-transform: uppercase;
-          padding: 7px 20px; border-radius: 999px;
-        }
-        .pk-badge.ok {
-          background: linear-gradient(135deg, var(--gold-deep), var(--gold-dark));
-          color: var(--gold-l);
-          box-shadow: 0 2px 10px rgba(90,62,16,0.3);
-        }
-        .pk-badge.no {
-          background: linear-gradient(135deg, #b91c1c, #dc2626);
-          color: #fff;
-          box-shadow: 0 2px 10px rgba(185,28,28,0.25);
-        }
+        .pk-status-icon { width: 64px; height: 64px; border-radius: 18px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .pk-status-icon.ok { background: linear-gradient(135deg, var(--gold-pale), #fdf3d0); border: 1px solid #e8d89a; box-shadow: 0 2px 8px rgba(196,165,94,0.2); }
+        .pk-status-icon.no { background: linear-gradient(135deg, #fff5f5, #fee2e2); border: 1px solid #fca5a5; }
+        .pk-badge { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; padding: 7px 20px; border-radius: 999px; }
+        .pk-badge.ok { background: linear-gradient(135deg, var(--gold-deep), var(--gold-dark)); color: var(--gold-l); box-shadow: 0 2px 10px rgba(90,62,16,0.3); }
+        .pk-badge.no { background: linear-gradient(135deg, #b91c1c, #dc2626); color: #fff; box-shadow: 0 2px 10px rgba(185,28,28,0.25); }
         .pk-year { font-size: 13px; color: #aaa; font-weight: 500; margin-top: 6px; }
 
-        /* name block */
         .pk-name-block { border-radius: 16px; padding: 24px 26px; margin-bottom: 16px; }
-        .pk-name-block.ok {
-          background: linear-gradient(135deg, var(--ink) 0%, #2d2010 100%);
-          border: 1px solid rgba(221,197,136,0.15);
-          box-shadow: 0 4px 20px rgba(26,20,8,0.2);
-        }
-        .pk-name-block.no {
-          background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
-          box-shadow: 0 4px 20px rgba(185,28,28,0.2);
-        }
+        .pk-name-block.ok { background: linear-gradient(135deg, var(--ink) 0%, #2d2010 100%); border: 1px solid rgba(221,197,136,0.15); box-shadow: 0 4px 20px rgba(26,20,8,0.2); }
+        .pk-name-block.no { background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%); box-shadow: 0 4px 20px rgba(185,28,28,0.2); }
         .pk-name-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 8px; }
         .pk-name-eyebrow.ok { color: rgba(221,197,136,0.4); }
         .pk-name-eyebrow.no { color: rgba(255,255,255,0.45); }
-        .pk-name-value {
-          font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(26px, 5vw, 34px); font-weight: 700; line-height: 1.2;
-        }
+        .pk-name-value { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(26px, 5vw, 34px); font-weight: 700; line-height: 1.2; }
         .pk-name-value.ok { color: var(--gold); }
         .pk-name-value.no { color: #fff; }
 
-        /* detail grid */
         .pk-dgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .pk-ditem { display: flex; align-items: flex-start; gap: 12px; border-radius: 13px; padding: 14px 16px; }
         .pk-ditem.ok { background: #faf8f2; border: 1px solid #f0eadb; }
@@ -425,19 +391,13 @@ export default function PengumumanKelulusan() {
         .pk-dlbl { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #bbb; margin-bottom: 5px; }
         .pk-dval { font-size: 15px; font-weight: 600; color: #222; line-height: 1.3; }
 
-        /* keterangan */
         .pk-ket { border-radius: 13px; padding: 16px 20px; }
         .pk-ket.ok { background: #faf8f2; border: 1px solid #e8dfc8; }
         .pk-ket.no { background: #fff9f9; border: 1px solid #fde8e8; }
         .pk-klbl { font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #bbb; margin-bottom: 7px; }
         .pk-kval { font-size: 14px; color: #666; line-height: 1.75; font-style: italic; }
 
-        /* cert footer */
-        .pk-cert-footer {
-          padding: 14px 28px 16px;
-          display: flex; align-items: center; justify-content: space-between;
-          border-top: 1px solid;
-        }
+        .pk-cert-footer { padding: 14px 28px 16px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid; }
         .pk-cert-footer.ok { background: #faf7ef; border-color: #ede7d5; }
         .pk-cert-footer.no { background: #fff8f8; border-color: #fde8e8; }
         .pk-cert-foot-txt { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
@@ -445,7 +405,6 @@ export default function PengumumanKelulusan() {
         .pk-cert-foot-txt.no { color: #dc2626; }
         .pk-cert-foot-brand { font-size: 11px; font-weight: 500; color: #ccc; }
 
-        /* action buttons */
         .pk-actions { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
         .pk-btn-pdf {
           width: 100%; height: 50px;
@@ -458,11 +417,7 @@ export default function PengumumanKelulusan() {
           box-shadow: 0 4px 14px rgba(26,20,8,0.2);
           font-family: 'DM Sans', sans-serif;
         }
-        .pk-btn-pdf:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(26,20,8,0.28);
-          border-color: rgba(221,197,136,0.45);
-        }
+        .pk-btn-pdf:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,20,8,0.28); border-color: rgba(221,197,136,0.45); }
         .pk-btn-pdf:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
 
         .pk-reset {
@@ -475,7 +430,6 @@ export default function PengumumanKelulusan() {
         }
         .pk-reset:hover { border-color: var(--gold-d); color: var(--gold-dark); background: var(--gold-pale); }
 
-        /* alerts */
         .pk-alert { margin-top: 20px; border-radius: 13px; overflow: hidden; animation: pkUp .25s ease; }
         .pk-abar { height: 3px; }
         .pk-abar.danger  { background: linear-gradient(90deg,#ef4444,#f43f5e); }
@@ -530,8 +484,10 @@ export default function PengumumanKelulusan() {
                       color: "rgba(221,197,136,0.6)",
                     }}
                   />
+                  {/* Tahun ajaran ditampilkan dinamis dari API */}
                   <span className="pk-pill-txt">
-                    Pengumuman Resmi · T.P. {TAHUN_AJARAN}
+                    Pengumuman Resmi
+                    {tahunAjaranAktif ? ` · T.P. ${tahunAjaranAktif}` : ""}
                   </span>
                 </div>
                 <h1 className="pk-title">
@@ -707,24 +663,22 @@ export default function PengumumanKelulusan() {
                       <Loader2
                         className="pk-spin"
                         style={{ width: 16, height: 16 }}
-                      />{" "}
+                      />
                       Memeriksa Data...
                     </>
                   ) : (
                     <>
-                      <Search style={{ width: 16, height: 16 }} /> Tampilkan
-                      Hasil Kelulusan
+                      <Search style={{ width: 16, height: 16 }} />
+                      Tampilkan Hasil Kelulusan
                     </>
                   )}
                 </button>
               </form>
 
-              {/* ── RESULT CARD ── */}
+              {/* ── RESULT ── */}
               {status === "found" && hasil && (
                 <div className="pk-res">
                   <div className="pk-sep" />
-
-                  {/* wrapper for PDF capture */}
                   <div
                     ref={printRef}
                     style={{ background: "#fff", borderRadius: 20, padding: 4 }}
@@ -732,20 +686,15 @@ export default function PengumumanKelulusan() {
                     <div
                       className={`pk-cert ${hasil.status_lulus ? "ok" : "no"}`}
                     >
-                      {/* top color bar */}
                       <div
                         className={`pk-cert-bar ${hasil.status_lulus ? "ok" : "no"}`}
                       />
-
-                      {/* decorative watermark circle */}
                       <div className="pk-cert-ornament">
                         <div
                           className={`pk-cert-ornament-inner ${hasil.status_lulus ? "ok" : "no"}`}
                         />
                       </div>
-
                       <div className="pk-cert-body">
-                        {/* status row */}
                         <div className="pk-status-row">
                           <div
                             className={`pk-status-icon ${hasil.status_lulus ? "ok" : "no"}`}
@@ -782,7 +731,6 @@ export default function PengumumanKelulusan() {
                           </div>
                         </div>
 
-                        {/* name block */}
                         <div
                           className={`pk-name-block ${hasil.status_lulus ? "ok" : "no"}`}
                         >
@@ -798,7 +746,6 @@ export default function PengumumanKelulusan() {
                           </p>
                         </div>
 
-                        {/* detail grid */}
                         <div className="pk-dgrid">
                           {[
                             {
@@ -858,7 +805,6 @@ export default function PengumumanKelulusan() {
                         )}
                       </div>
 
-                      {/* certificate footer */}
                       <div
                         className={`pk-cert-footer ${hasil.status_lulus ? "ok" : "no"}`}
                       >
@@ -876,7 +822,6 @@ export default function PengumumanKelulusan() {
                     </div>
                   </div>
 
-                  {/* action buttons — tidak masuk PDF */}
                   <div className="pk-actions">
                     <button
                       className="pk-btn-pdf"
@@ -888,13 +833,13 @@ export default function PengumumanKelulusan() {
                           <Loader2
                             className="pk-spin"
                             style={{ width: 16, height: 16 }}
-                          />{" "}
+                          />
                           Mengolah Dokumen...
                         </>
                       ) : (
                         <>
-                          <Download style={{ width: 16, height: 16 }} /> Simpan
-                          sebagai PDF
+                          <Download style={{ width: 16, height: 16 }} />
+                          Simpan sebagai PDF
                         </>
                       )}
                     </button>
@@ -906,7 +851,7 @@ export default function PengumumanKelulusan() {
                 </div>
               )}
 
-              {/* not found */}
+              {/* Not found */}
               {status === "not_found" && (
                 <div className="pk-alert danger">
                   <div className="pk-abar danger" />
@@ -924,7 +869,7 @@ export default function PengumumanKelulusan() {
                 </div>
               )}
 
-              {/* locked */}
+              {/* Locked */}
               {status === "locked" && (
                 <div className="pk-alert warning">
                   <div className="pk-abar warning" />

@@ -416,9 +416,9 @@ const Pendaftaran = () => {
               <div className="text-center space-y-3 pb-6 border-b-2 border-primary/20">
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-primary-accent/10 px-4 py-2 rounded-full">
                   <span className="text-2xl">🎓</span>
-                  <span className="text-sm font-semibold text-primary tracking-wide uppercase">
+                  {/* <span className="text-sm font-semibold text-primary tracking-wide uppercase">
                     TP 2026-2027
-                  </span>
+                  </span> */}
                 </div>
                 <h3 className="text-3xl md:text-4xl font-bold text-accent-foreground tracking-tight">
                   Pendaftaran Siswa Baru Resmi Dibuka!
