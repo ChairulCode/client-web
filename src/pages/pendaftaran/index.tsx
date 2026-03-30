@@ -108,8 +108,86 @@ const Pendaftaran = () => {
     setFormData({ ...formData, [field]: value });
   };
 
-  const handleFileChange = (field: string, file: File | null) => {
+  // Fungsi untuk mengompres gambar menggunakan Canvas API
+  const compressImage = (file: File, maxSizeBytes: number): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+
+        const canvas = document.createElement("canvas");
+        let { width, height } = img;
+
+        // Mulai dengan kualitas tinggi, turunkan bertahap sampai di bawah maxSize
+        let quality = 0.92;
+        let result: Blob | null = null;
+
+        const tryCompress = () => {
+          // Jika kualitas sudah sangat rendah, coba perkecil dimensi juga
+          if (quality < 0.5) {
+            const scale = Math.sqrt(maxSizeBytes / (width * height * 3));
+            width = Math.floor(width * scale);
+            height = Math.floor(height * scale);
+            quality = 0.7;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            reject(new Error("Canvas context tidak tersedia"));
+            return;
+          }
+
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) {
+                reject(new Error("Gagal mengompres gambar"));
+                return;
+              }
+
+              if (blob.size <= maxSizeBytes || quality <= 0.3) {
+                result = blob;
+                const compressedFile = new File([result], file.name, {
+                  type: file.type,
+                  lastModified: Date.now(),
+                });
+                resolve(compressedFile);
+              } else {
+                quality -= 0.08;
+                tryCompress();
+              }
+            },
+            file.type === "image/png" ? "image/jpeg" : file.type,
+            quality,
+          );
+        };
+
+        tryCompress();
+      };
+
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("Gagal memuat gambar"));
+      };
+
+      img.src = url;
+    });
+  };
+
+  const handleFileChange = async (field: string, file: File | null) => {
     if (file) {
+      const fieldNames: { [key: string]: string } = {
+        akteLahir: "Akte Lahir",
+        kartuKeluarga: "Kartu Keluarga",
+        buktiTransfer: "Bukti Transfer",
+      };
+
       // Validasi format file
       const allowedTypes = [
         "application/pdf",
@@ -118,12 +196,6 @@ const Pendaftaran = () => {
         "image/jpg",
       ];
       if (!allowedTypes.includes(file.type)) {
-        const fieldNames: { [key: string]: string } = {
-          akteLahir: "Akte Lahir",
-          kartuKeluarga: "Kartu Keluarga",
-          buktiTransfer: "Bukti Transfer",
-        };
-
         setToast({
           type: "error",
           message: `Gagal: Format file ${fieldNames[field]} tidak valid. Gunakan PDF, JPG, atau PNG.`,
@@ -135,24 +207,43 @@ const Pendaftaran = () => {
         return;
       }
 
-      // Validasi ukuran file
-      const maxSize = 2 * 1024 * 1024; // 2MB dalam bytes
+      const maxSize = 1 * 1024 * 1024; // 1MB dalam bytes
+      const isImage = file.type.startsWith("image/");
+
       if (file.size > maxSize) {
-        const fieldNames: { [key: string]: string } = {
-          akteLahir: "Akte Lahir",
-          kartuKeluarga: "Kartu Keluarga",
-          buktiTransfer: "Bukti Transfer",
-        };
+        if (isImage) {
+          // Gambar: otomatis kompres tanpa tolak
+          try {
+            const compressedFile = await compressImage(file, maxSize);
+            setToast({
+              type: "success",
+              message: `Gambar ${fieldNames[field]} berhasil dikompres dari ${(file.size / 1024 / 1024).toFixed(2)} MB menjadi ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB.`,
+            });
+            setFiles((prev) => ({ ...prev, [field]: compressedFile }));
+          } catch {
+            setToast({
+              type: "error",
+              message: `Gagal: Tidak dapat mengompres gambar ${fieldNames[field]}. Silakan kompres manual dan coba lagi.`,
+            });
+            const fileInput = document.getElementById(
+              field,
+            ) as HTMLInputElement;
+            if (fileInput) fileInput.value = "";
+            setFiles((prev) => ({ ...prev, [field]: null }));
+          }
+          return;
+        } else {
+          // PDF: tidak bisa dikompres, tolak
+          setToast({
+            type: "error",
+            message: `Gagal: Ukuran file PDF ${fieldNames[field]} melebihi 1MB (${(file.size / 1024 / 1024).toFixed(2)} MB). Silakan kompres file PDF Anda terlebih dahulu.`,
+          });
 
-        setToast({
-          type: "error",
-          message: `Gagal: Ukuran file ${fieldNames[field]} melebihi 2MB (${(file.size / 1024 / 1024).toFixed(2)} MB). Silakan kompres file Anda.`,
-        });
-
-        const fileInput = document.getElementById(field) as HTMLInputElement;
-        if (fileInput) fileInput.value = "";
-        setFiles((prev) => ({ ...prev, [field]: null }));
-        return;
+          const fileInput = document.getElementById(field) as HTMLInputElement;
+          if (fileInput) fileInput.value = "";
+          setFiles((prev) => ({ ...prev, [field]: null }));
+          return;
+        }
       }
     }
 
@@ -192,7 +283,7 @@ const Pendaftaran = () => {
       File | null,
     ][];
     for (const [key, file] of fileEntries) {
-      if (file && file.size > 2 * 1024 * 1024) {
+      if (file && file.size > 1 * 1024 * 1024) {
         const fieldNames = {
           akteLahir: "Akte Lahir",
           kartuKeluarga: "Kartu Keluarga",
@@ -200,7 +291,7 @@ const Pendaftaran = () => {
         };
         setToast({
           type: "error",
-          message: `Gagal: File ${fieldNames[key]} melebihi batas 2MB.`,
+          message: `Gagal: File ${fieldNames[key]} melebihi batas 1MB.`,
         });
         return;
       }
@@ -1526,7 +1617,7 @@ const Pendaftaran = () => {
                   <p
                     className={`text-xs mt-1 ${files.akteLahir ? "text-green-600" : "text-muted-foreground"}`}
                   >
-                    Format: PDF, JPG, PNG (Max 2MB)
+                    Format: PDF, JPG, PNG (Max 1MB)
                   </p>
                 </div>
 
@@ -1557,7 +1648,7 @@ const Pendaftaran = () => {
                   <p
                     className={`text-xs mt-1 ${files.kartuKeluarga ? "text-green-600" : "text-muted-foreground"}`}
                   >
-                    Format: PDF, JPG, PNG (Max 2MB)
+                    Format: PDF, JPG, PNG (Max 1MB)
                   </p>
                 </div>
 
@@ -1588,7 +1679,7 @@ const Pendaftaran = () => {
                   <p
                     className={`text-xs mt-1 ${files.buktiTransfer ? "text-green-600" : "text-muted-foreground"}`}
                   >
-                    Format: PDF, JPG, PNG (Max 2MB)
+                    Format: PDF, JPG, PNG (Max 1MB)
                   </p>
                 </div>
               </CardContent>
