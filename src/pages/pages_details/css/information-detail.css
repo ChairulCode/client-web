@@ -1,0 +1,1074 @@
+/* =============================================
+   INFORMATION DETAIL
+   Hanya: Hero + Visi Misi + Kontak & Jadwal
+   ============================================= */
+
+.id-page {
+  min-height: 100vh;
+  background: #f4f6fb;
+  font-family: "Sora", sans-serif;
+}
+
+.id-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* =============================================
+   HERO
+   ============================================= */
+.id-hero {
+  position: relative;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 130px 24px 90px;
+  overflow: hidden;
+}
+
+.id-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 55%, #7c3aed 100%);
+  z-index: 0;
+}
+
+.id-hero-dots {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: radial-gradient(
+    circle,
+    rgba(221, 197, 136, 0.18) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+}
+
+.id-hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+  filter: blur(60px);
+}
+
+.id-hero-blob--1 {
+  width: 300px;
+  height: 300px;
+  background: rgba(159, 196, 232, 0.15);
+  top: 5%;
+  right: 10%;
+}
+
+.id-hero-blob--2 {
+  width: 240px;
+  height: 240px;
+  background: rgba(221, 197, 136, 0.12);
+  bottom: 5%;
+  left: 8%;
+}
+
+.id-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 660px;
+}
+
+.id-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(221, 197, 136, 0.15);
+  border: 1px solid rgba(221, 197, 136, 0.4);
+  color: #ddc588;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 999px;
+  margin-bottom: 28px;
+  backdrop-filter: blur(10px);
+}
+
+.id-hero-title {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.12;
+  margin: 0 0 20px;
+  letter-spacing: -1px;
+}
+
+.id-hero-title-gold {
+  background: linear-gradient(135deg, #ddc588 0%, #f1c40f 60%, #ddc588 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.id-hero-sub {
+  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.75;
+  margin: 0;
+  max-width: 460px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.id-hero-scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.35);
+  animation: idBounce 2s ease-in-out infinite;
+}
+
+@keyframes idBounce {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+
+/* =============================================
+   SECTION BASE
+   ============================================= */
+.id-section {
+  padding: 88px 24px;
+}
+
+.id-section--alt {
+  background: #eef1f9;
+}
+
+.id-section-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.id-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(221, 197, 136, 0.12);
+  border: 1px solid rgba(221, 197, 136, 0.38);
+  color: #9a7a2e;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.id-section-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.7rem);
+  font-weight: 900;
+  color: #1e3a8a;
+  margin: 0 0 14px;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+
+.id-section-desc {
+  font-size: 15px;
+  color: #6b7ba0;
+  line-height: 1.75;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* =============================================
+   CARD BASE
+   ============================================= */
+.id-card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 36px;
+  border: 1.5px solid #e8ecf4;
+  border-top-width: 4px;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.id-card:hover {
+  box-shadow: 0 14px 48px rgba(30, 58, 138, 0.09);
+  transform: translateY(-3px);
+}
+
+.id-card--visi {
+  border-top-color: #ddc588;
+}
+.id-card--misi {
+  border-top-color: #9fc4e8;
+}
+.id-card--kontak {
+  border-top-color: #1e3a8a;
+}
+.id-card--jadwal {
+  border-top-color: #ddc588;
+  text-align: center;
+}
+
+.id-card-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.id-card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.id-card-icon--gold {
+  background: linear-gradient(135deg, #ddc588, #f1c40f);
+  color: #7a5c10;
+}
+
+.id-card-icon--blue {
+  background: linear-gradient(135deg, #9fc4e8, #3b82f6);
+  color: #ffffff;
+}
+
+.id-card-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #1e3a8a;
+  margin: 0;
+}
+
+.id-card-lead {
+  font-size: 15px;
+  color: #4b5e80;
+  line-height: 1.8;
+  margin: 0;
+  font-style: italic;
+  border-left: 4px solid #ddc588;
+  padding-left: 16px;
+}
+
+.id-divider {
+  height: 1px;
+  background: #e8ecf4;
+  margin: 20px 0;
+}
+
+/* =============================================
+   VISI & MISI GRID
+   ============================================= */
+.id-visi-misi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.id-misi-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.id-misi-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 14.5px;
+  color: #374764;
+  line-height: 1.7;
+}
+
+.id-misi-num {
+  font-size: 10px;
+  font-weight: 900;
+  color: #5b9fcb;
+  background: rgba(159, 196, 232, 0.15);
+  border: 1px solid rgba(159, 196, 232, 0.35);
+  border-radius: 7px;
+  padding: 3px 8px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
+/* =============================================
+   KONTAK & JADWAL
+   ============================================= */
+.id-kontak-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.id-kontak-sub {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #1e3a8a;
+  margin: 0 0 4px;
+}
+
+.id-kontak-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.id-kontak-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.id-kontak-icon {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 12px;
+  background: rgba(30, 58, 138, 0.07);
+  color: #1e3a8a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.id-kontak-label {
+  font-size: 10px;
+  font-weight: 900;
+  color: #a0aec5;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 5px;
+}
+
+.id-kontak-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a2a4a;
+  margin: 0;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.id-kontak-link {
+  color: #1e3a8a;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.id-kontak-link:hover {
+  color: #ddc588;
+}
+
+.id-jadwal-clock {
+  display: flex;
+  justify-content: center;
+  color: #ddc588;
+  margin: 8px auto 26px;
+}
+
+.id-jadwal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.id-jadwal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 18px;
+  border-radius: 12px;
+  background: #f4f6fb;
+  border: 1px solid #e8ecf4;
+  gap: 12px;
+}
+
+.id-jadwal-row--closed {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.18);
+}
+
+.id-jadwal-hari {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374764;
+  text-align: left;
+}
+
+.id-jadwal-waktu {
+  font-size: 13px;
+  font-weight: 900;
+  color: #1e3a8a;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.id-jadwal-row--closed .id-jadwal-waktu {
+  color: #ef4444;
+}
+
+.id-jadwal-note {
+  font-size: 11.5px;
+  color: #a0aec5;
+  font-style: italic;
+  margin: 0;
+}
+
+/* =============================================
+   CARD CLICKABLE (Visi & Misi)
+   ============================================= */
+.id-card--clickable {
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-family: inherit;
+  position: relative;
+}
+
+.id-card--clickable:hover {
+  box-shadow: 0 18px 56px rgba(30, 58, 138, 0.13);
+  transform: translateY(-5px);
+}
+
+.id-card--clickable:active {
+  transform: translateY(-2px);
+}
+
+.id-card-click-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #9a7a2e;
+  background: rgba(221, 197, 136, 0.14);
+  border: 1px solid rgba(221, 197, 136, 0.35);
+  padding: 5px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.id-card--misi .id-card-click-hint {
+  color: #3b82f6;
+  background: rgba(159, 196, 232, 0.14);
+  border-color: rgba(159, 196, 232, 0.35);
+}
+
+.id-card--clickable:hover .id-card-click-hint {
+  background: rgba(221, 197, 136, 0.28);
+}
+
+.id-card--misi:hover .id-card-click-hint {
+  background: rgba(159, 196, 232, 0.28);
+}
+
+/* =============================================
+   MODAL OVERLAY
+   ============================================= */
+.id-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(10, 20, 60, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: idOverlayIn 0.25s ease forwards;
+  overflow-y: auto;
+}
+
+@keyframes idOverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* =============================================
+   MODAL CARD
+   ============================================= */
+.id-modal-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 36px;
+  width: 100%;
+  max-width: 560px;
+  position: relative;
+  border-top: 5px solid var(--modal-accent, #ddc588);
+  box-shadow:
+    0 32px 80px rgba(10, 20, 60, 0.22),
+    0 8px 24px rgba(10, 20, 60, 0.1);
+  animation: idModalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  margin: auto;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+@keyframes idModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Close button */
+.id-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1.5px solid #e8ecf4;
+  background: #f4f6fb;
+  color: #6b7ba0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+  font-family: inherit;
+  z-index: 10;
+}
+
+.id-modal-close:hover {
+  background: #1e3a8a;
+  color: #ffffff;
+  border-color: #1e3a8a;
+  transform: rotate(90deg);
+}
+
+/* Modal header */
+.id-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 6px;
+  padding-right: 30px;
+}
+
+.id-modal-icon-wrap {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.id-modal-icon--gold {
+  background: linear-gradient(135deg, #ddc588, #f1c40f);
+  color: #7a5c10;
+}
+
+.id-modal-icon--blue {
+  background: linear-gradient(135deg, #9fc4e8, #3b82f6);
+  color: #ffffff;
+}
+
+.id-modal-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: #a0aec5;
+  margin: 0 0 4px;
+}
+
+.id-modal-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #1e3a8a;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.id-modal-divider {
+  height: 1px;
+  background: #e8ecf4;
+  margin: 20px 0;
+}
+
+/* Modal body */
+.id-modal-body {
+  margin-bottom: 28px;
+}
+
+.id-modal-lead {
+  font-size: 15px;
+  color: #374764;
+  line-height: 1.8;
+  margin: 0 0 18px;
+  font-style: italic;
+  border-left: 4px solid var(--modal-accent, #ddc588);
+  padding-left: 16px;
+}
+
+.id-modal-highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(221, 197, 136, 0.09);
+  border: 1px solid rgba(221, 197, 136, 0.28);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #7a5c10;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+
+.id-modal-highlight svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #ddc588;
+}
+
+/* Misi list in modal */
+.id-modal-misi-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.id-modal-misi-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 14.5px;
+  color: #374764;
+  line-height: 1.75;
+  background: #f8fafc;
+  border: 1px solid #e8ecf4;
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: all 0.2s ease;
+}
+
+.id-modal-misi-item:hover {
+  background: #ffffff;
+  border-color: #d1d9e6;
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.05);
+}
+
+.id-modal-misi-num {
+  font-size: 11px;
+  font-weight: 900;
+  color: #5b9fcb;
+  background: rgba(159, 196, 232, 0.2);
+  border: 1px solid rgba(159, 196, 232, 0.4);
+  border-radius: 8px;
+  padding: 4px 9px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+  min-width: 32px;
+  text-align: center;
+}
+
+.id-modal-misi-title {
+  font-size: 14px;
+  font-weight: 900;
+  color: #1e3a8a;
+  margin: 0 0 6px;
+  letter-spacing: 0.2px;
+  line-height: 1.4;
+}
+
+.id-modal-misi-desc {
+  font-size: 13.5px;
+  color: #4b5e80;
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* Modal close button (bottom) */
+.id-modal-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #ddc588, #c9a84c);
+  color: #5a3e0a;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.id-modal-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4);
+}
+
+.id-modal-btn:active {
+  transform: translateY(0);
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+/* Large Desktop ≥ 1400px */
+@media (min-width: 1400px) {
+  .id-container {
+    max-width: 1200px;
+  }
+  .id-hero {
+    min-height: 520px;
+  }
+}
+
+/* Tablet Landscape: 1024px – 1199px */
+@media (max-width: 1199px) {
+  .id-visi-misi-grid {
+    gap: 20px;
+  }
+  .id-kontak-grid {
+    gap: 20px;
+  }
+}
+
+/* Tablet Portrait: 768px – 1023px */
+@media (max-width: 1023px) {
+  .id-hero {
+    padding: 110px 20px 76px;
+    min-height: 420px;
+  }
+  .id-section {
+    padding: 64px 20px;
+  }
+  .id-visi-misi-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .id-kontak-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .id-card--jadwal {
+    text-align: left;
+  }
+  .id-jadwal-clock {
+    justify-content: flex-start;
+  }
+
+  /* Modal adjustments */
+  .id-modal-card {
+    max-width: 520px;
+    padding: 32px;
+  }
+}
+
+/* Large Phone: 576px – 767px */
+@media (max-width: 767px) {
+  .id-hero {
+    padding: 100px 18px 68px;
+    min-height: 380px;
+  }
+  .id-section {
+    padding: 52px 18px;
+  }
+  .id-card {
+    padding: 26px 20px;
+  }
+  .id-section-header {
+    margin-bottom: 40px;
+  }
+
+  /* Modal responsive */
+  .id-modal-card {
+    padding: 28px 20px;
+    max-width: calc(100% - 32px);
+  }
+
+  .id-modal-header {
+    gap: 12px;
+    padding-right: 26px;
+  }
+
+  .id-modal-icon-wrap {
+    width: 48px;
+    height: 48px;
+  }
+
+  .id-modal-title {
+    font-size: 1.4rem;
+  }
+
+  .id-modal-misi-item {
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .id-modal-misi-title {
+    font-size: 13.5px;
+    margin-bottom: 5px;
+  }
+
+  .id-modal-misi-desc {
+    font-size: 13px;
+  }
+}
+
+/* Mobile Portrait: ≤ 575px */
+@media (max-width: 575px) {
+  .id-hero {
+    padding: 88px 16px 56px;
+    min-height: 340px;
+  }
+  .id-hero-badge {
+    font-size: 10px;
+    padding: 6px 14px;
+    margin-bottom: 20px;
+  }
+  .id-hero-sub {
+    font-size: 0.88rem;
+  }
+  .id-section {
+    padding: 44px 16px;
+  }
+  .id-section-title {
+    font-size: 1.65rem;
+  }
+  .id-section-header {
+    margin-bottom: 32px;
+  }
+  .id-card {
+    padding: 22px 16px;
+  }
+  .id-card-icon {
+    width: 42px;
+    height: 42px;
+  }
+  .id-card-title {
+    font-size: 1.2rem;
+  }
+  .id-card-lead {
+    font-size: 14px;
+  }
+  .id-misi-item {
+    font-size: 13.5px;
+    gap: 12px;
+  }
+
+  .id-misi-num {
+    font-size: 9px;
+    padding: 3px 7px;
+  }
+
+  .id-kontak-item {
+    gap: 12px;
+  }
+  .id-kontak-icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+  }
+  .id-jadwal-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 12px 14px;
+  }
+
+  /* Modal Mobile */
+  .id-modal-overlay {
+    padding: 16px;
+    align-items: flex-start;
+  }
+
+  .id-modal-card {
+    padding: 24px 18px;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: calc(100vh - 40px);
+  }
+
+  .id-modal-close {
+    width: 32px;
+    height: 32px;
+    top: 14px;
+    right: 14px;
+  }
+
+  .id-modal-header {
+    gap: 12px;
+    padding-right: 36px;
+    margin-bottom: 8px;
+  }
+
+  .id-modal-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+  }
+
+  .id-modal-title {
+    font-size: 1.3rem;
+  }
+
+  .id-modal-badge {
+    font-size: 9px;
+  }
+
+  .id-modal-divider {
+    margin: 16px 0;
+  }
+
+  .id-modal-lead {
+    font-size: 14px;
+    padding-left: 14px;
+  }
+
+  .id-modal-body {
+    margin-bottom: 24px;
+  }
+
+  /* Misi List Mobile - KEY IMPROVEMENTS */
+  .id-modal-misi-list {
+    gap: 12px;
+  }
+
+  .id-modal-misi-item {
+    gap: 10px;
+    padding: 12px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .id-modal-misi-num {
+    font-size: 10px;
+    padding: 4px 8px;
+    min-width: 30px;
+    border-radius: 7px;
+  }
+
+  .id-modal-misi-title {
+    font-size: 13px;
+    margin-bottom: 5px;
+    line-height: 1.35;
+  }
+
+  .id-modal-misi-desc {
+    font-size: 12.5px;
+    line-height: 1.65;
+  }
+
+  .id-modal-btn {
+    padding: 13px;
+    font-size: 13px;
+    border-radius: 12px;
+  }
+
+  .id-modal-highlight {
+    font-size: 12.5px;
+    padding: 12px 14px;
+    gap: 8px;
+  }
+
+  .id-card-click-hint {
+    display: none;
+  }
+}
+
+/* Very Small: ≤ 360px */
+@media (max-width: 360px) {
+  .id-section-title {
+    font-size: 1.45rem;
+  }
+  .id-card {
+    padding: 18px 14px;
+  }
+  .id-hero-badge {
+    letter-spacing: 1.5px;
+  }
+
+  /* Modal Extra Small */
+  .id-modal-card {
+    padding: 20px 16px;
+  }
+
+  .id-modal-title {
+    font-size: 1.2rem;
+  }
+
+  .id-modal-icon-wrap {
+    width: 40px;
+    height: 40px;
+  }
+
+  .id-modal-misi-item {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .id-modal-misi-num {
+    font-size: 9px;
+    padding: 3px 7px;
+    min-width: 28px;
+  }
+
+  .id-modal-misi-title {
+    font-size: 12.5px;
+  }
+
+  .id-modal-misi-desc {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+}

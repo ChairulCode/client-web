@@ -1,0 +1,118 @@
+/* WRAPPER */
+.nt-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+/* TITLE */
+.nt-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: var(--color-dark);
+}
+
+/* ===========================
+   BREADCRUMB (SAMA PERSIS)
+   =========================== */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.breadcrumb p {
+  margin: 0;
+  color: var(--color-dark);
+  font-weight: 600;
+}
+
+.breadcrumb span {
+  color: #777;
+}
+
+/* ===========================
+   TABLE CONTAINER
+   =========================== */
+.nt-table-container {
+  overflow-x: auto;
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* TABLE */
+.nt-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.nt-table thead tr {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.nt-table th,
+.nt-table td {
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 15px;
+}
+
+.nt-table tbody tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.nt-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* ===========================
+   BADGE PREDIKAT
+   =========================== */
+
+.nt-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.nt-A {
+  background: #d4f7d4;
+  color: #1f7a1f;
+}
+
+.nt-B {
+  background: #d9e8ff;
+  color: #1d4fa8;
+}
+
+.nt-C {
+  background: #fff5cc;
+  color: #a88500;
+}
+
+.nt-D {
+  background: #ffd3d3;
+  color: #ae1f1f;
+}
+
+/* ===========================
+   EMPTY STATE
+   =========================== */
+.nt-empty {
+  text-align: center;
+  font-size: 16px;
+  color: #777;
+  margin-top: 20px;
+}

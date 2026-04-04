@@ -1,0 +1,463 @@
+:root {
+  --color-primary: #ddc588;
+  --color-dark: #2c3e50;
+  --color-text: #333;
+  --color-text-light: #666;
+  --color-white: #ffffff;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+}
+
+/* -----------------------------------
+   PAGE WRAPPER
+----------------------------------- */
+.kt-page {
+  min-height: 100vh;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+}
+
+/* -----------------------------------
+   BREADCRUMB
+----------------------------------- */
+.kt-breadcrumb {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  animation: fadeDown 0.5s ease;
+}
+
+.kt-breadcrumb-link {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.kt-breadcrumb-link:hover {
+  background: rgba(221, 197, 136, 0.15);
+  transform: translateX(-2px);
+}
+
+.kt-breadcrumb-separator {
+  color: var(--color-text-light);
+  opacity: 0.5;
+}
+
+.kt-breadcrumb-current {
+  color: var(--color-text);
+  font-weight: 600;
+  padding: 8px 16px;
+  background: var(--color-white);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* -----------------------------------
+   WRAPPER
+----------------------------------- */
+.kt-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 50px;
+  border-radius: 24px;
+  animation: fadeUp 0.6s ease;
+}
+
+/* -----------------------------------
+   HEADER
+----------------------------------- */
+.kt-header {
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.kt-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  animation: bounceIn 0.8s ease;
+}
+
+.kt-title {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+  background: linear-gradient(
+    135deg,
+    var(--color-dark),
+    var(--color-primary-accent)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.kt-desc {
+  font-size: 16px;
+  color: var(--color-text-light);
+  line-height: 1.6;
+}
+
+/* -----------------------------------
+   ACTIVITY LIST
+----------------------------------- */
+.kt-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 32px;
+  margin-top: 50px;
+}
+
+/* -----------------------------------
+   ACTIVITY CARD
+----------------------------------- */
+.kt-card {
+  background: var(--color-white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+.kt-card:hover {
+  transform: translateY(-12px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-primary);
+}
+
+/* -----------------------------------
+   CARD IMAGE
+----------------------------------- */
+.kt-card-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 240px;
+}
+
+.kt-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.kt-card:hover .kt-img {
+  transform: scale(1.1);
+}
+
+.kt-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent);
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.kt-level-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* -----------------------------------
+   CARD CONTENT
+----------------------------------- */
+.kt-content {
+  padding: 24px;
+}
+
+.kt-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-light);
+  background: rgba(221, 197, 136, 0.1);
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.kt-content h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 12px;
+  line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.kt-card:hover .kt-content h2 {
+  color: var(--color-primary);
+}
+
+.kt-content p {
+  font-size: 15px;
+  color: var(--color-text-light);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-clamp: 3; /* Add this line */
+}
+
+/* -----------------------------------
+   BUTTON
+----------------------------------- */
+.kt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(221, 197, 136, 0.3);
+  width: 100%;
+  justify-content: center;
+}
+
+.kt-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(221, 197, 136, 0.4);
+}
+
+.kt-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.kt-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* -----------------------------------
+   EMPTY STATE
+----------------------------------- */
+.kt-empty {
+  margin-top: 40px;
+  padding: 80px 40px;
+  background: linear-gradient(
+    135deg,
+    rgba(221, 197, 136, 0.05),
+    rgba(159, 196, 232, 0.05)
+  );
+  border-radius: 20px;
+  border: 2px dashed rgba(221, 197, 136, 0.3);
+  text-align: center;
+}
+
+.kt-empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.kt-empty h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 12px;
+}
+
+.kt-empty p {
+  font-size: 16px;
+  color: var(--color-text-light);
+  margin-bottom: 32px;
+}
+
+.kt-btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-dark);
+  color: var(--color-white);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
+}
+
+.kt-btn-back:hover {
+  background: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.kt-btn-back svg {
+  transition: transform 0.3s ease;
+}
+
+.kt-btn-back:hover svg {
+  transform: translateX(-4px);
+}
+
+/* -----------------------------------
+   ANIMATIONS
+----------------------------------- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* -----------------------------------
+   RESPONSIVE DESIGN
+----------------------------------- */
+@media (max-width: 1024px) {
+  .kt-list {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .kt-page {
+    padding: 20px 16px;
+  }
+
+  .kt-wrapper {
+    padding: 40px 24px;
+  }
+
+  .kt-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 32px;
+  }
+
+  .kt-title {
+    font-size: 32px;
+  }
+
+  .kt-desc {
+    font-size: 14px;
+  }
+
+  .kt-list {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .kt-card-image-wrapper {
+    height: 200px;
+  }
+
+  .kt-content {
+    padding: 20px;
+  }
+
+  .kt-content h2 {
+    font-size: 20px;
+  }
+
+  .kt-content p {
+    font-size: 14px;
+  }
+
+  .kt-empty {
+    padding: 60px 24px;
+  }
+
+  .kt-empty-icon {
+    font-size: 48px;
+  }
+
+  .kt-breadcrumb {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kt-title {
+    font-size: 28px;
+  }
+
+  .kt-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
+  }
+}
