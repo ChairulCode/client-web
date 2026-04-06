@@ -17,13 +17,16 @@ import PengumumanTingkatan from "./pages/pages_details/pengumuman-tingkatan";
 import PengumumanKelulusan from "./pages/pages_details/pengumuman-kelulusan";
 import NilaiTingkatan from "./pages/pages_details/nilai-tingkatan";
 import InformationDetail from "./pages/pages_details/information-detail";
+
 function App() {
   return (
     <Router>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<HomeScreen />}></Route>
-        {/* route handle tingkatan */}
+        <Route path="/" element={<HomeScreen />} />
+
+        {/* ✅ Nested routes untuk semua halaman per tingkatan */}
+        {/* Param :level dipakai oleh TingkatanLayout dan semua child route */}
         <Route path="/tingkatan/:level" element={<TingkatanLayout />}>
           <Route index element={<TingkatanDetail />} />
           <Route path="about" element={<AboutDetail />} />
@@ -34,28 +37,22 @@ function App() {
             path="pengumuman-kelulusan"
             element={<PengumumanKelulusan />}
           />
-          <Route
-            path="pengumuman-kelulusan"
-            element={<PengumumanKelulusan />}
-          />
           <Route path="nilai" element={<NilaiTingkatan />} />
         </Route>
 
-        <Route path="/Fasilitas" element={<Facility />}></Route>
-        <Route path="/Lagu-Mars" element={<Songs />}></Route>
-        <Route path="/ekstrakurikuler" element={<Ekstrakurikuler />}></Route>
-        <Route path="/pendaftaran-siswa" element={<Pendaftaran />}></Route>
-        <Route
-          path="/carousel-detail/:id"
-          element={<Carousel_detail_home />}
-        ></Route>
+        {/* ✅ Route lainnya */}
+        <Route path="/Fasilitas" element={<Facility />} />
+        <Route path="/Lagu-Mars" element={<Songs />} />
+        <Route path="/ekstrakurikuler" element={<Ekstrakurikuler />} />
+        <Route path="/pendaftaran-siswa" element={<Pendaftaran />} />
+        <Route path="/carousel-detail/:id" element={<Carousel_detail_home />} />
         <Route path="/prestasi/:id" element={<PrestasiDetail />} />
-        <Route path="/kegiatan/:id" element={<ActivityDetail />}></Route>
-        <Route
-          path="/informasi-sekolah"
-          element={<InformationDetail />}
-        ></Route>
-        <Route path="/tingkatan/:jenjang" element={<TingkatanDetail />}></Route>
+        <Route path="/kegiatan/:id" element={<ActivityDetail />} />
+        <Route path="/informasi-sekolah" element={<InformationDetail />} />
+
+        {/* ❌ DIHAPUS — duplikat yang konflik dengan nested route di atas:
+            <Route path="/tingkatan/:jenjang" element={<TingkatanDetail />} />
+        */}
       </Routes>
     </Router>
   );

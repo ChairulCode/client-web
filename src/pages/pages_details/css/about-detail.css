@@ -1,68 +1,428 @@
-.about-container {
-  width: 100%;
-  max-width: 1150px;
-  margin: 0 auto;
-  padding: 110px 20px 50px;
-  animation: fadeIn 0.6s ease;
+/* ============================================================
+   ABOUT DETAIL — CSS
+   Aesthetic: Editorial / Magazine — warm, structured, bold
+   Font: Playfair Display (display) + Plus Jakarta Sans (body)
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap");
+
+/* ---------- ROOT VARS ---------- */
+.about-page {
+  --accent: #f59e0b;
+  --accent-light: #fef3c7;
+  --accent-dark: #92400e;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --bg-page: #fafaf9;
+  --bg-card: #ffffff;
+  --border: #e5e7eb;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
 }
 
-.about-wrapper {
+/* ---------- NOT FOUND ---------- */
+.about-notfound {
+  min-height: 80vh;
   display: flex;
   align-items: center;
-  gap: 40px;
-  flex-wrap: wrap;
+  justify-content: center;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+.about-notfound-inner {
+  text-align: center;
+}
+.about-notfound-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 16px;
+}
+.about-notfound-inner h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  color: #111827;
+  margin: 0 0 8px;
+}
+.about-notfound-inner p {
+  color: #6b7280;
 }
 
-.about-image img {
-  width: 420px;
-  border-radius: 20px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-}
-
-.about-content {
-  flex: 1;
-}
-
-.about-title {
-  font-size: 42px;
-  font-weight: 800;
-  margin-bottom: 10px;
-  color: #222;
-}
-
-.about-desc {
-  font-size: 18px;
-  line-height: 1.6;
-  color: #555;
-  margin-bottom: 24px;
-}
-
-.about-list {
-  list-style: none;
-  padding: 0;
-}
-
-.about-list li {
+/* ---------- HERO ---------- */
+.about-hero {
+  position: relative;
+  height: min(580px, 72vw);
+  min-height: 320px;
+  overflow: hidden;
   display: flex;
+  align-items: flex-end;
+}
+
+.about-hero-image-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+.about-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+
+.about-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.45) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+}
+
+.about-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 40px 48px;
+  max-width: 780px;
+  animation: aboutFadeUp 0.7s ease both;
+}
+
+.about-hero-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.about-hero-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 10px;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+}
+
+.about-hero-subtitle {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 20px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.about-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.about-meta-pill {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+
+/* ---------- SECTIONS SHARED ---------- */
+.about-section {
+  padding: 72px 0;
+}
+
+.about-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.about-section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.about-section-header {
+  margin-bottom: 40px;
+}
+
+.about-section-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.25;
+}
+
+/* ---------- DESKRIPSI + VISI ---------- */
+.about-desc-section {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-desc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.about-desc-text {
+  font-size: 1.02rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.about-visi-block {
+  background: var(--accent-light);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 32px 28px;
+}
+
+.about-visi-quote {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--accent-dark);
+  margin: 0;
+  position: relative;
+}
+
+.about-visi-mark {
+  font-size: 2rem;
+  line-height: 0;
+  vertical-align: -0.35em;
+  color: var(--accent);
+  font-style: normal;
+  margin: 0 2px;
+}
+
+/* ---------- KEUNGGULAN ---------- */
+.about-highlights-section {
+  background: var(--bg-page);
+}
+
+.about-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.about-highlight-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow 0.22s ease,
+    transform 0.22s ease,
+    border-color 0.22s ease;
+  animation: aboutFadeUp 0.5s ease both;
+}
+
+.about-highlight-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.about-highlight-card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.about-highlight-card:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.about-highlight-card:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.about-highlight-card:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.about-highlight-card:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+.about-highlight-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+.about-highlight-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.about-highlight-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+/* ---------- FASILITAS ---------- */
+.about-fasilitas-section {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-fasilitas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.about-fasilitas-card {
+  background: var(--accent-light);
+  border-radius: var(--radius-sm);
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 12px;
-  margin-bottom: 12px;
-  font-size: 17px;
-  color: #333;
-  font-weight: 500;
+  text-align: center;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.about-list li::before {
-  content: "•";
-  font-size: 28px;
-  color: #3b82f6;
-  line-height: 0;
+.about-fasilitas-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
 }
 
-@keyframes fadeIn {
+.about-fasilitas-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.about-fasilitas-nama {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+  line-height: 1.4;
+}
+
+/* ---------- CTA ---------- */
+.about-cta-section {
+  padding: 72px 0;
+  background: var(--bg-page);
+}
+
+.about-cta-box {
+  background: linear-gradient(
+    135deg,
+    var(--accent-dark) 0%,
+    color-mix(in srgb, var(--accent-dark) 70%, #000) 100%
+  );
+  border-radius: var(--radius);
+  padding: 56px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-cta-box::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  background: var(--accent);
+  opacity: 0.12;
+  border-radius: 50%;
+}
+
+.about-cta-box::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: -40px;
+  width: 280px;
+  height: 280px;
+  background: var(--accent);
+  opacity: 0.08;
+  border-radius: 50%;
+}
+
+.about-cta-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.about-cta-desc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0 0 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.about-cta-btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 14px 36px;
+  border-radius: 999px;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.about-cta-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* ---------- ANIMATION ---------- */
+@keyframes aboutFadeUp {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -70,18 +430,52 @@
   }
 }
 
-@media (max-width: 768px) {
-  .about-wrapper {
-    flex-direction: column;
-    text-align: center;
+.about-hero-content {
+  animation: aboutFadeUp 0.65s ease both;
+}
+.about-desc-grid {
+  animation: aboutFadeUp 0.6s ease 0.1s both;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .about-desc-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 
-  .about-image img {
-    width: 100%;
-    max-width: 340px;
+  .about-highlights-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .about-list li {
-    justify-content: center;
+  .about-fasilitas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-hero-content {
+    padding: 28px 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .about-hero {
+    height: min(480px, 90vw);
+    align-items: flex-end;
+  }
+
+  .about-highlights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-fasilitas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-section {
+    padding: 48px 0;
+  }
+
+  .about-cta-box {
+    padding: 40px 24px;
   }
 }
