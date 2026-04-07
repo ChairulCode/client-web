@@ -56,26 +56,40 @@
 }
 
 /* ---------- HERO ---------- */
+/*
+  Kunci fix:
+  - .about-hero → position: relative; display: block (tidak pakai fixed height)
+  - .about-hero-image-wrap → position: relative, bukan absolute,
+    sehingga tingginya mengikuti tinggi natural gambar
+  - .about-hero-image → width: 100%; height: auto → tidak pernah terpotong
+  - .about-hero-overlay → position: absolute; inset: 0 → menutupi seluruh image-wrap
+  - .about-hero-content → position: absolute; bottom: 0 → teks tetap di bawah gambar
+*/
+
 .about-hero {
   position: relative;
-  height: min(580px, 72vw);
-  min-height: 320px;
+  width: 100%;
   overflow: hidden;
-  display: flex;
-  align-items: flex-end;
+  display: block;
 }
 
 .about-hero-image-wrap {
-  position: absolute;
-  inset: 0;
+  position: relative; /* ← ini yang menentukan tinggi section */
+  width: 100%;
+  line-height: 0; /* ← hilangkan whitespace bawah img */
 }
 
 .about-hero-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
+  height: auto; /* ← ikuti aspect ratio asli, tidak terpotong */
   display: block;
+  object-fit: unset; /* ← tidak perlu object-fit */
+}
+
+.about-hero-image-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 6; /* fallback saat tidak ada gambar */
+  background: #d1d5db;
 }
 
 .about-hero-overlay {
@@ -90,7 +104,10 @@
 }
 
 .about-hero-content {
-  position: relative;
+  position: absolute; /* ← teks overlay di atas gambar */
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 2;
   padding: 40px 48px;
   max-width: 780px;
@@ -458,10 +475,7 @@
 }
 
 @media (max-width: 560px) {
-  .about-hero {
-    height: min(480px, 90vw);
-    align-items: flex-end;
-  }
+  /* ← tidak ada fixed height di hero, sudah auto mengikuti gambar */
 
   .about-highlights-grid {
     grid-template-columns: 1fr;
