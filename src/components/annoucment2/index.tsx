@@ -47,7 +47,7 @@ export interface ActivityResponse {
 
 const getJenjangColor = (kode: string) => {
   switch (kode) {
-    case "PGTK":
+    case "PG-TK":
       return { bg: "#bbf7d0", text: "#166534" };
     case "SD":
       return { bg: "#fef08a", text: "#854d0e" };

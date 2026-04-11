@@ -17,7 +17,7 @@ export const navTabs: NavTab[] = [
     id: "/Tingkatan",
     type: "route",
     children: [
-      { name: "PGTK", id: "/tingkatan/PGTK", type: "route" },
+      { name: "PG-TK", id: "/tingkatan/PG-TK", type: "route" },
       { name: "SD", id: "/tingkatan/SD", type: "route" },
       { name: "SMP", id: "/tingkatan/SMP", type: "route" },
       { name: "SMA", id: "/tingkatan/SMA", type: "route" },
@@ -28,7 +28,7 @@ export const navTabs: NavTab[] = [
   { name: "Ekstrakurikuler", id: "/ekstrakurikuler", type: "route" },
 ];
 
-// ─── navTabs2: untuk PGTK, SD, SMP (TANPA Pengumuman Kelulusan) ─
+// ─── navTabs2: untuk PG-TK, SD, SMP (TANPA Pengumuman Kelulusan) ─
 export const navTabs2: NavTab[] = [
   {
     name: "Halaman Utama",
@@ -202,7 +202,7 @@ export interface Announcement {
   date: string;
   content: string;
   image: string;
-  level: "SD" | "SMP" | "SMA" | "PGTK";
+  level: "SD" | "SMP" | "SMA" | "PG-TK";
 }
 
 export const announcements1: Announcement[] = [
@@ -264,7 +264,7 @@ export const announcements1: Announcement[] = [
       "Selamat kepada Angel Vallerie Tania, siswi SMA WR Supratman 1 berhasil meraih Juara 2 Lomba Pidato Cinta Indonesia dalam Bahasa Mandarin yang diselenggarakan oleh PT Vibe Akademik Bahasa tgl 17 Agustus 2025 dalam rangka menyambut HUT ke 80 Republik Indonesia. Hadiah yang didapat berupa Sertifikat dan E-Wallet.",
     image:
       "https://www.wrsupratman.sch.id/images/stories/prestasi/medali%20perak%20fisika%20kspi%2029%20juli%202025%20-%201k%20jpeg.jpg",
-    level: "PGTK",
+    level: "PG-TK",
   },
 ];
 
@@ -275,13 +275,13 @@ export interface Activity {
   title: string;
   content: string;
   image: string;
-  level: "SD" | "SMP" | "SMA" | "PGTK";
+  level: "SD" | "SMP" | "SMA" | "PG-TK";
 }
 
 export const activities: Activity[] = [
   {
     id: 1,
-    level: "PGTK",
+    level: "PG-TK",
     date: "20 September 2025",
     title: "Upacara Hari Kemerdekaan",
     content:
@@ -397,7 +397,7 @@ export interface Announcement2Item {
   type: string;
   date: string;
   description: string;
-  level: "SD" | "SMP" | "SMA" | "PGTK";
+  level: "SD" | "SMP" | "SMA" | "PG-TK";
 }
 
 export const announcements2: Announcement2Item[] = [
@@ -444,7 +444,7 @@ export const announcements2: Announcement2Item[] = [
     date: "30 Oktober 2025",
     description:
       "Terdapat perubahan pada kebijakan layanan kami. Harap baca dengan seksama dan hubungi support jika ada pertanyaan.",
-    level: "PGTK",
+    level: "PG-TK",
   },
   {
     id: 6,
@@ -603,7 +603,7 @@ export interface KelulusanItem {
   nis: string;
   status: "LULUS" | "TIDAK LULUS";
   keterangan: string;
-  level: "SD" | "SMP" | "SMA" | "PGTK";
+  level: "SD" | "SMP" | "SMA" | "PG-TK";
 }
 
 export const kelulusanList: KelulusanItem[] = [
@@ -647,7 +647,7 @@ export interface NilaiMapelItem {
   mapel: string;
   nilai: number;
   keterangan: string;
-  level: "SD" | "SMP" | "SMA" | "PGTK";
+  level: "SD" | "SMP" | "SMA" | "PG-TK";
 }
 
 export const nilaiMapelList: NilaiMapelItem[] = [

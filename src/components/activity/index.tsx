@@ -74,7 +74,7 @@ const Activity = ({}: { jenjang?: string }) => {
 
   const getGradeColors = (grade: string) => {
     switch (grade) {
-      case "PGTK":
+      case "PG-TK":
         return "#86efac"; // bg-green-300
       case "SD":
         return "#fde047"; // bg-yellow-300

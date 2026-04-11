@@ -13,10 +13,10 @@ import { getRequest } from "../../utils/api-call";
 
 // 1. Definisikan Props untuk komponen Header
 export interface validJenjang {
-  jenjang?: "SMA" | "SMP" | "SD" | "PGTK";
+  jenjang?: "SMA" | "SMP" | "SD" | "PG-TK";
 }
 interface HeaderProps {
-  jenjang?: "SMA" | "SMP" | "SD" | "PGTK";
+  jenjang?: "SMA" | "SMP" | "SD" | "PG-TK";
 }
 export interface Metadata {
   totalItems: number;

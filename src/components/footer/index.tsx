@@ -19,7 +19,7 @@ interface SocialMedia {
   platform: string;
   username: string;
   url: string;
-  level: "SMA" | "SMP" | "SD" | "PGTK" | string;
+  level: "SMA" | "SMP" | "SD" | "PG-TK" | string;
 }
 
 const API_URL = "http://localhost:3000/api/v1/sosial";
@@ -445,7 +445,7 @@ const Footer: React.FC = () => {
                 { level: "SMA", label: "Media Sosial SMA" },
                 { level: "SMP", label: "Media Sosial SMP" },
                 { level: "SD", label: "Media Sosial SD" },
-                { level: "PGTK", label: "Media Sosial PG/TK" },
+                { level: "PG-TK", label: "Media Sosial PG/TK" },
               ].map(({ level, label }) => (
                 <div key={level} className="footer-social-item">
                   <h3 className="footer-section-title">
