@@ -42,7 +42,7 @@ interface HasilKelulusan {
 }
 type StatusCek = "idle" | "loading" | "found" | "not_found" | "locked";
 
-const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000/api/v1";
+const API_BASE = `${(import.meta.env.VITE_BASE_URL || "http://localhost:3000").replace(/\/$/, "")}/api/v1`;
 
 const KELAS_OPTIONS = [
   { value: "XII_MIPA", label: "XII MIPA" },

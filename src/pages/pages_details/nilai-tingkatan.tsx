@@ -3,6 +3,10 @@ import { useParams, Link } from "react-router-dom";
 import Footer from "../../components/footer";
 import "./css/nilai-tingkatan.css";
 
+const BASE_URL = (
+  import.meta.env.VITE_BASE_URL || "http://localhost:3000"
+).replace(/\/$/, "");
+
 interface NilaiSiswa {
   id: string;
   mataPelajaran: string;
@@ -87,7 +91,7 @@ const NilaiTingkatan = () => {
       setIsLoading(true);
 
       const response = await fetch(
-        "http://localhost:3000/api/v1/subject-grades/cek-publik",
+        `${BASE_URL}/api/v1/subject-grades/cek-publik`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
