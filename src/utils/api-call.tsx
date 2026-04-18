@@ -1,9 +1,10 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:3000";
+
 const apiInstance = axios.create({
-  // baseURL: "https://wr-supratman-server.vercel.app/api/v1",
-  baseURL: "http://localhost:3000/api/v1",
+  baseURL: `${BASE_URL}/api/v1`,
   withCredentials: true,
 });
 
@@ -24,7 +25,7 @@ export const handleApiError = (error: unknown, toastId?: any) => {
       { status: 401, message: "Token expired" },
     ];
     const isIgnored = ignoredErrors.some(
-      (e) => e.status === status && message.includes(e.message)
+      (e) => e.status === status && message.includes(e.message),
     );
 
     if (!isIgnored && toastId) {
@@ -200,7 +201,7 @@ apiInstance.interceptors.response.use(
       handleApiError(error, null);
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export {

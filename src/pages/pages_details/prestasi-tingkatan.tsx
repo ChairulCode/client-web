@@ -84,7 +84,8 @@ const TingkatanPrestasi = () => {
 
         if (params?.level) {
           // Filter by level
-          const filteredData = response.data.filter((item) =>
+          const rawData = Array.isArray(response?.data) ? response.data : [];
+          const filteredData = rawData.filter((item) =>
             item.jenjang_relasi.some(
               (relasi) => relasi.jenjang.kode_jenjang === params.level,
             ),
@@ -93,8 +94,9 @@ const TingkatanPrestasi = () => {
           setData(filteredData.slice(0, limit)); // Show first page
         } else {
           // No filter, show all
-          setBackupData(response.data);
-          setData(response.data.slice(0, limit)); // Show first page
+          const rawData = Array.isArray(response?.data) ? response.data : [];
+          setBackupData(rawData);
+          setData(rawData.slice(0, limit)); // Show first page
         }
 
         // Reset to page 1 when level changes

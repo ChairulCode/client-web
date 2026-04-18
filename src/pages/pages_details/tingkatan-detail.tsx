@@ -6,7 +6,7 @@ import Activity from "../../components/activity/index";
 import { useEffect } from "react";
 
 // Definisikan tipe yang valid
-type ValidJenjang = "SMA" | "SMP" | "SD" | "PGTK";
+type ValidJenjang = "SMA" | "SMP" | "SD" | "PG-TK";
 
 const TingkatanDetail = () => {
   // PENTING: Gunakan 'level' karena di App.tsx lu nulisnya :level
@@ -31,7 +31,7 @@ const TingkatanDetail = () => {
     rawLevel.includes("TK") ||
     rawLevel.includes("PGTK")
   ) {
-    finalJenjang = "PGTK";
+    finalJenjang = "PG-TK";
   }
 
   console.log("📍 [RESULT] Jenjang yang dikirim ke API:", finalJenjang);

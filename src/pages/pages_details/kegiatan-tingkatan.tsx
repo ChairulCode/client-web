@@ -84,7 +84,8 @@ const KegiatanTingkatan = () => {
         );
 
         if (params?.level) {
-          const filteredData = response.data.filter((item) =>
+          const rawData = Array.isArray(response?.data) ? response.data : [];
+          const filteredData = rawData.filter((item) =>
             item.jenjang_relasi.some(
               (relasi) => relasi.jenjang.kode_jenjang === params.level,
             ),
@@ -93,7 +94,7 @@ const KegiatanTingkatan = () => {
           setData(filteredData.slice(0, page * limit));
           return;
         }
-        setData(response.data);
+        setData(Array.isArray(response?.data) ? response.data : []);
       } catch (error) {
         console.log(error);
       }

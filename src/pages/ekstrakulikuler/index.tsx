@@ -12,7 +12,8 @@ import {
 import { getRequest } from "../../utils/api-call";
 import "./ekstrakulikuler.css";
 
-const SERVER_BASE_URL = "http://localhost:3000";
+const SERVER_BASE_URL =
+  import.meta.env.VITE_BASE_URL || "http://localhost:3000";
 
 // ── INTERFACES ────────────────────────────────────────────────────────────────
 

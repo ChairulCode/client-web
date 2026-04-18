@@ -149,7 +149,8 @@ const Announcement = ({}: { jenjang?: string }) => {
         const response: AchievementsResponse = await getRequest(
           "prestasi?page=1&limit=1000",
         );
-        let filteredData = response.data.filter((item) => item.is_published);
+        const rawData = Array.isArray(response?.data) ? response.data : [];
+        let filteredData = rawData.filter((item) => item.is_published);
         if (params?.level) {
           filteredData = filteredData.filter((item) =>
             item.jenjang_relasi.some(
