@@ -25,7 +25,7 @@ const Songs = () => {
   const [showLyricsId, setShowLyricsId] = useState<number | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-const songs: Song[] = [
+  const songs: Song[] = [
     {
       id: 1,
       title: "Mars Perguruan W.R. Supratman",
@@ -35,7 +35,7 @@ const songs: Song[] = [
       audioUrl: `${audio}`,
       lyrics: [
         "Tribukit, Tribukit, Tribukit itu nama suatu perguruan",
-        "Tribukit, Tribukit, Tribukit perguruan yang slalu dibanggakan",
+        "Tribukit, Tribukit, Tribukit perguruan yang s'lalu dibanggakan",
         "Tribukit, Tribukit, Tribukit dari dulu sampai akhir zaman",
         "Tribukit, Tribukit, Tribukit sekarang bernama W.R. Supratman",
         "",

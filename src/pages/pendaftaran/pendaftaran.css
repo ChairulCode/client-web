@@ -4,7 +4,7 @@
   --color-bg: #f9fafb;
   --color-text: #1f2937;
   --color-muted: #6b7280;
-  --color-border: #e5e7eb;
+  --color-border: #b8b8b8; /* ✅ Diubah dari #e5e7eb → lebih gelap & tegas */
   --color-success: #10b981;
   --color-destructive: #dc2626;
   --gradient-1: linear-gradient(to right, #f7d14c 0%, #86f8f9 100%);
@@ -737,7 +737,7 @@ input[type="email"],
 textarea,
 select {
   border-radius: 0.75rem !important;
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--color-border); /* ✅ Otomatis pakai #b8b8b8 */
   padding: 1rem 1.25rem;
   width: 100%;
   transition: all 0.3s ease;
@@ -770,7 +770,7 @@ textarea {
 
 input[type="file"] {
   padding: 1rem;
-  border: 2px dashed var(--color-border);
+  border: 2px dashed var(--color-border); /* ✅ Otomatis pakai #b8b8b8 */
   border-radius: 0.75rem;
   background-color: #fafafa;
   transition: all 0.3s ease;
@@ -794,7 +794,7 @@ input[type="file"]:focus {
   justify-content: space-between;
   width: 100%;
   padding: 1rem 1.25rem;
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--color-border); /* ✅ Otomatis pakai #b8b8b8 */
   border-radius: 0.75rem;
   background-color: white;
   font-size: 1rem;
@@ -911,7 +911,7 @@ input[type="file"]:focus {
   align-items: center;
   gap: 0.75rem;
   padding: 1rem 1.25rem;
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--color-border); /* ✅ Otomatis pakai #b8b8b8 */
   border-radius: 0.75rem;
   background-color: white;
   transition: all 0.3s ease;
@@ -962,7 +962,7 @@ input[type="file"]:focus {
 .radio-group-item [role="radio"] {
   width: 20px;
   height: 20px;
-  border: 2px solid var(--color-border);
+  border: 2px solid var(--color-border); /* ✅ Otomatis pakai #b8b8b8 */
   border-radius: 50%;
   transition: all 0.3s ease;
   position: relative;
