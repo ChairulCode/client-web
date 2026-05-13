@@ -10,7 +10,7 @@ import {
   Users,
   Award,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // Tambahkan useLocation
 import mikrologo from "/assets/mikroskil.png";
 import "./footer.css";
 
@@ -104,20 +104,24 @@ const PLATFORM_CONFIG: Record<
 
 const Footer: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // Gunakan location untuk mendeteksi perpindahan halaman
   const [socialData, setSocialData] = useState<SocialMedia[]>([]);
   const schoolLocation = "Jl. Asia No No.143 Medan 20214, Sumatera Utara";
 
   useEffect(() => {
     const fetchSocials = async () => {
       try {
-        const response = await axios.get(API_URL);
+        // Tambahkan timestamp agar browser tidak melakukan caching data lama
+        const response = await axios.get(
+          `${API_URL}?t=${new Date().getTime()}`,
+        );
         setSocialData(response.data.data || response.data || []);
       } catch (error) {
         console.error("Gagal memuat data:", error);
       }
     };
     fetchSocials();
-  }, []);
+  }, [location.pathname]); // Memicu fetch ulang setiap kali URL berubah
 
   const handleMapClick = () => {
     const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(schoolLocation)}`;
@@ -130,7 +134,6 @@ const Footer: React.FC = () => {
     { icon: Award, label: "Prestasi", value: "50+" },
   ];
 
-  // ─── Render social links dengan icon + card style baru ───────────────────
   const renderSocialLinks = (level: string) => {
     const filtered = socialData.filter(
       (item) => item.level?.toLowerCase() === level.toLowerCase(),
@@ -171,7 +174,6 @@ const Footer: React.FC = () => {
               onClick={() => window.open(link.url, "_blank")}
               title={`Buka ${link.platform} ${link.username}`}
               style={{
-                /* ── kartu transparan dengan blur ── */
                 background: "rgba(255,255,255,0.08)",
                 backdropFilter: "blur(10px)",
                 WebkitBackdropFilter: "blur(10px)",
@@ -202,7 +204,6 @@ const Footer: React.FC = () => {
                   "0 2px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)";
               }}
             >
-              {/* Icon brand — putih agar terlihat di atas bg gelap */}
               <div
                 style={{
                   color: cfg?.iconColor ?? "#fff",
@@ -213,7 +214,6 @@ const Footer: React.FC = () => {
                 <SocialIcon platform={link.platform} size={24} />
               </div>
 
-              {/* Nama platform — pill warna brand */}
               <span
                 style={{
                   background: cfg?.pillBg ?? "rgba(255,255,255,0.2)",
@@ -230,7 +230,6 @@ const Footer: React.FC = () => {
                 {link.platform}
               </span>
 
-              {/* Username — putih dengan shadow agar terbaca */}
               <span
                 style={{
                   fontSize: 10,
@@ -255,11 +254,6 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="footer">
-      {/* <div className="footer-bg-pattern"></div>
-      <div className="footer-bg-element footer-bg-element--1"></div>
-      <div className="footer-bg-element footer-bg-element--2"></div>
-      <div className="footer-bg-element footer-bg-element--3"></div> */}
-
       <div className="footer-container">
         <div className="footer-header">
           <div className="footer-header-icon">
@@ -442,7 +436,6 @@ const Footer: React.FC = () => {
               </div>
             </div>
 
-            {/* ── Social Media Section ── */}
             <div className="footer-social-sections">
               {[
                 { level: "SMA", label: "Media Sosial SMA" },
