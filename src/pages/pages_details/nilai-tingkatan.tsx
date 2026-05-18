@@ -55,7 +55,7 @@ const LABEL_TINGKATAN: Record<string, string> = {
 
 const NilaiTingkatan = () => {
   const { level } = useParams<{ level: string }>();
-  const tingkatan = (level || "").toLowerCase(); // "sma" | "smp" | "sd" | "pgtk"
+  const tingkatan = (level || "").toLowerCase().replace(/-/g, "");
 
   const daftarKelas = KELAS_PER_TINGKATAN[tingkatan] || [];
   const labelTingkatan = LABEL_TINGKATAN[tingkatan] || tingkatan.toUpperCase();

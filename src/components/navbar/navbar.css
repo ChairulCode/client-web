@@ -1,3 +1,6 @@
+/* ══════════════════════════════════════════════════
+   NAVBAR BASE
+   ══════════════════════════════════════════════════ */
 .navbar {
   display: flex;
   align-items: center;
@@ -29,7 +32,13 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── LOGO ── */
+.navbar * {
+  box-sizing: border-box;
+}
+
+/* ══════════════════════════════════════════════════
+   LOGO
+   ══════════════════════════════════════════════════ */
 .navbar > img.img-logo {
   width: 110px !important;
   height: auto !important;
@@ -40,12 +49,11 @@
 
 .navbar.visible > img.img-logo {
   width: 82px !important;
-  height: auto !important;
 }
 
-/* =============================================
+/* ══════════════════════════════════════════════════
    NAV LABEL
-   ============================================= */
+   ══════════════════════════════════════════════════ */
 .nav-label {
   font-size: 20px;
   font-weight: 700;
@@ -59,7 +67,9 @@
   font-size: 17px;
 }
 
-/* ── TAB (desktop) ── */
+/* ══════════════════════════════════════════════════
+   TAB — DESKTOP
+   ══════════════════════════════════════════════════ */
 .navbar .nav_tabs .tab {
   position: relative;
   display: inline-flex;
@@ -78,15 +88,8 @@
   padding: 15px 24px;
 }
 
-/* Active tab — gradient text */
-.navbar .nav_tabs .tab.active {
-  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-}
-
-/* Hover tab — gradient text */
+/* Gradient text — active & hover */
+.navbar .nav_tabs .tab.active,
 .navbar .nav_tabs .tab:hover {
   background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
   -webkit-background-clip: text !important;
@@ -115,13 +118,17 @@
   width: 100%;
 }
 
-/* ── DROPDOWN CONTAINER ── */
+/* ══════════════════════════════════════════════════
+   DROPDOWN CONTAINER
+   ══════════════════════════════════════════════════ */
 .navbar-dropdown-container {
   position: relative;
   display: inline-block;
 }
 
-/* ── DROPDOWN TRIGGER ── */
+/* ══════════════════════════════════════════════════
+   DROPDOWN TRIGGER — DESKTOP
+   ══════════════════════════════════════════════════ */
 .navbar-dropdown-trigger {
   position: relative;
   display: inline-flex;
@@ -130,19 +137,22 @@
   cursor: pointer;
   color: var(--color-text);
   border-radius: var(--radius-3);
-  text-decoration: none;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   background: none;
   border: none;
   font-family: inherit;
   font-weight: 700;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 
 .navbar.visible .navbar-dropdown-trigger {
   padding: 15px 24px;
 }
 
-/* Hover trigger — gradient text */
+/* Gradient text — active & hover */
+.navbar-dropdown-trigger.active,
 .navbar-dropdown-trigger:hover {
   background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
   -webkit-background-clip: text !important;
@@ -150,15 +160,7 @@
   background-clip: text !important;
 }
 
-/* Active trigger — gradient text */
-.navbar-dropdown-trigger.active {
-  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-}
-
-/* Underline trigger */
+/* Underline */
 .navbar-dropdown-trigger::after {
   content: "";
   position: absolute;
@@ -174,12 +176,19 @@
   height: 2px;
 }
 
-.navbar-dropdown-trigger:hover::after,
-.navbar-dropdown-trigger.active::after {
+.navbar-dropdown-trigger.active::after,
+.navbar-dropdown-trigger:hover::after {
   width: 100%;
 }
 
-/* ── DROPDOWN MENU ── */
+.navbar-dropdown-trigger:focus {
+  outline: 2px solid #3730a3;
+  outline-offset: 2px;
+}
+
+/* ══════════════════════════════════════════════════
+   DROPDOWN MENU — DESKTOP
+   ══════════════════════════════════════════════════ */
 .navbar-dropdown-menu {
   display: block;
   position: absolute;
@@ -208,38 +217,6 @@
   max-height: 300px;
 }
 
-/* ── DROPDOWN ITEM ── */
-.navbar-dropdown-item {
-  display: block;
-  padding: 1.4rem 2rem;
-  color: var(--color-text, #374151);
-  text-decoration: none;
-  transition: all 0.2s ease;
-  font-size: 17px;
-  font-weight: 600;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.navbar-dropdown-item:last-child {
-  border-bottom: none;
-}
-
-.navbar-dropdown-item:hover {
-  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
-  color: white !important;
-  transform: translateX(4px);
-}
-
-.navbar-dropdown-item.active {
-  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
-  color: white !important;
-  font-weight: 700;
-}
-
-.navbar-dropdown-item:active {
-  transform: translateX(2px);
-}
-
 .navbar-dropdown-menu::before {
   content: "";
   position: absolute;
@@ -255,7 +232,47 @@
   z-index: -1;
 }
 
-/* ── CONTACT BUTTON (desktop) ── */
+/* ══════════════════════════════════════════════════
+   DROPDOWN ITEM — DESKTOP
+   ══════════════════════════════════════════════════ */
+.navbar-dropdown-item {
+  display: block;
+  padding: 1.4rem 2rem;
+  color: var(--color-text, #374151);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 17px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.navbar-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.navbar-dropdown-item:hover,
+.navbar-dropdown-item.active,
+.navbar-dropdown-item:focus {
+  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
+  color: white !important;
+  outline: none;
+}
+
+.navbar-dropdown-item.active {
+  font-weight: 700;
+}
+
+.navbar-dropdown-item:hover {
+  transform: translateX(4px);
+}
+
+.navbar-dropdown-item:active {
+  transform: translateX(2px);
+}
+
+/* ══════════════════════════════════════════════════
+   CONTACT BUTTON — DESKTOP
+   ══════════════════════════════════════════════════ */
 .navbar .contact_btn,
 .navbar a.contact_btn,
 .navbar .btn.contact_btn,
@@ -263,9 +280,9 @@
   background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
   color: var(--color-white) !important;
   border-radius: var(--radius-3);
-  font-weight: 700;
-  font-size: 1.45rem;
-  letter-spacing: 0.5px;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -274,8 +291,8 @@
 .navbar.visible a.contact_btn,
 .navbar.visible .btn.contact_btn,
 .navbar.visible a.btn.contact_btn {
-  padding: 14px 28px;
-  font-size: 1.3rem;
+  padding: 10px 20px;
+  font-size: 0.9rem;
 }
 
 .navbar .contact_btn:hover,
@@ -287,13 +304,18 @@
   background: linear-gradient(135deg, #7c3aed, #3730a3, #1e3a8a) !important;
 }
 
-/* ── MENU / CANCEL BUTTONS ── */
+/* ══════════════════════════════════════════════════
+   MENU / CANCEL BUTTONS
+   ══════════════════════════════════════════════════ */
 .navbar .cancel_btn,
 .navbar .menu_btn {
   display: none;
   background: transparent;
   font-size: 1.8rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 
 .navbar .cancel_btn {
@@ -310,6 +332,9 @@
   font-size: 1.8rem;
 }
 
+/* ══════════════════════════════════════════════════
+   SIDEBAR OVERLAY
+   ══════════════════════════════════════════════════ */
 .sidebar_overlay {
   position: fixed;
   top: 0;
@@ -336,6 +361,7 @@
     padding: 8px 15px;
   }
 
+  /* Logo — tengah */
   .navbar > img.img-logo {
     position: absolute;
     left: 50%;
@@ -343,7 +369,6 @@
     transform: translate(-50%, -50%);
     width: 52px !important;
     height: 52px !important;
-    object-fit: contain !important;
     min-height: unset !important;
   }
 
@@ -355,7 +380,6 @@
   .navbar .nav_tabs:not(.open) {
     display: none;
   }
-
   .navbar .buttons .contact_btn {
     display: none;
   }
@@ -366,6 +390,7 @@
     z-index: 10;
   }
 
+  /* Sidebar nav */
   .navbar .nav_tabs {
     position: fixed;
     height: 100%;
@@ -390,11 +415,16 @@
     display: flex;
   }
 
+  .sidebar_overlay {
+    display: block;
+  }
+
   .nav-label {
     font-size: 0.95rem !important;
     font-weight: 600;
   }
 
+  /* Tab — mobile: solid color, no gradient text, no underline */
   .navbar .nav_tabs .tab {
     padding: 13px 18px;
     border-radius: var(--radius-3);
@@ -403,7 +433,6 @@
     font-weight: 600;
   }
 
-  /* Mobile: reset gradient text, pakai warna solid */
   .navbar .nav_tabs .tab.active {
     background: rgba(55, 48, 163, 0.1) !important;
     -webkit-background-clip: unset !important;
@@ -424,6 +453,7 @@
     display: none;
   }
 
+  /* Menu & cancel btn */
   .navbar .cancel_btn,
   .navbar .menu_btn {
     display: flex;
@@ -434,7 +464,6 @@
     z-index: 10;
     width: 40px;
     height: 40px;
-    display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(55, 48, 163, 0.1);
@@ -451,15 +480,11 @@
     background: rgba(55, 48, 163, 0.2);
     transform: scale(1.1);
   }
-
   .navbar .menu_btn:active {
     transform: scale(0.95);
   }
 
-  .sidebar_overlay {
-    display: block;
-  }
-
+  /* Dropdown trigger — mobile */
   .navbar-dropdown-container {
     width: 100%;
     margin-bottom: 4px;
@@ -510,6 +535,7 @@
     transform: rotate(180deg);
   }
 
+  /* Dropdown menu — static inside sidebar */
   .navbar-dropdown-menu {
     position: static;
     margin: 4px 0 12px 12px;
@@ -539,6 +565,7 @@
     display: none;
   }
 
+  /* Dropdown item — mobile */
   .navbar-dropdown-item {
     padding: 11px 18px 11px 28px;
     font-size: 0.9rem;
@@ -577,6 +604,7 @@
     opacity: 1;
   }
 
+  /* ── CONTACT BUTTON MOBILE ── */
   .navbar .nav_tabs .contact_tab_mobile {
     background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
     color: var(--color-white) !important;
@@ -589,17 +617,28 @@
     text-align: center;
     margin-top: 10px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
+    /* Hanya animasikan background & shadow — tidak ada transform */
+    transition:
+      background 0.3s ease,
+      box-shadow 0.3s ease;
     justify-content: center;
     width: 100%;
     display: flex;
     line-height: 1.4;
   }
 
+  /* FIX: hover hanya ganti warna gradient, teks tetap putih, tidak ada transform */
   .navbar .nav_tabs .contact_tab_mobile:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.2);
     background: linear-gradient(135deg, #7c3aed, #3730a3, #1e3a8a) !important;
+    color: var(--color-white) !important;
+    -webkit-text-fill-color: var(--color-white) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    transform: none;
+  }
+
+  .navbar .nav_tabs .contact_tab_mobile:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 }
 
@@ -614,9 +653,7 @@
   .navbar > img.img-logo {
     width: 42px !important;
     height: 42px !important;
-    min-height: unset !important;
   }
-
   .navbar.visible > img.img-logo {
     width: 34px !important;
     height: 34px !important;
@@ -627,7 +664,6 @@
     width: 36px;
     height: 36px;
   }
-
   .navbar.visible .menu_btn {
     font-size: 1.4rem;
     width: 30px;
@@ -643,20 +679,16 @@
   .nav-label {
     font-size: 0.875rem !important;
   }
-
   .navbar .nav_tabs .tab {
     padding: 11px 16px;
   }
-
   .navbar-dropdown-trigger {
     padding: 11px 16px;
   }
-
   .navbar-dropdown-item {
     font-size: 0.85rem;
     padding: 10px 16px 10px 26px;
   }
-
   .navbar .nav_tabs .contact_tab_mobile {
     font-size: 0.875rem;
     padding: 11px 16px;
@@ -681,47 +713,18 @@
   .nav-label {
     font-size: 0.825rem !important;
   }
-
   .navbar .nav_tabs .tab {
     padding: 10px 14px;
   }
-
   .navbar-dropdown-trigger {
     padding: 10px 14px;
   }
-
   .navbar-dropdown-item {
     font-size: 0.8rem;
     padding: 9px 14px 9px 24px;
   }
-
   .navbar .nav_tabs .contact_tab_mobile {
     font-size: 0.825rem;
     padding: 10px 14px;
   }
-}
-
-/* ── Accessibility ── */
-.navbar-dropdown-trigger:focus {
-  outline: 2px solid #3730a3;
-  outline-offset: 2px;
-}
-
-.navbar-dropdown-item:focus {
-  background: linear-gradient(135deg, #1e3a8a, #3730a3, #7c3aed) !important;
-  color: white !important;
-  outline: none;
-}
-
-/* Utility */
-.navbar * {
-  box-sizing: border-box;
-}
-
-.navbar-dropdown-trigger,
-.navbar .menu_btn,
-.navbar .cancel_btn {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
 }

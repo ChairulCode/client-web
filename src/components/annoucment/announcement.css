@@ -105,17 +105,18 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: #f3f4f6;
+  background: #1f2937;
   flex-shrink: 0;
   border-radius: 1.25rem 1.25rem 0 0;
   line-height: 0;
   display: block;
+  object-fit: contain;
 }
 .announcement-img {
   width: 100%;
   height: 100%;
   display: inline-block;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 0.3s ease;
 }
 

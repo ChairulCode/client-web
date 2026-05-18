@@ -133,10 +133,10 @@ const Footer: React.FC = () => {
     { icon: BookOpen, label: "Tingkatan", value: "4" },
     { icon: Award, label: "Prestasi", value: "50+" },
   ];
-
+  const normalizeLevel = (l: string) => l.toLowerCase().replace(/-/g, "");
   const renderSocialLinks = (level: string) => {
     const filtered = socialData.filter(
-      (item) => item.level?.toLowerCase() === level.toLowerCase(),
+      (item) => normalizeLevel(item.level || "") === normalizeLevel(level),
     );
     const order = ["Instagram", "Youtube", "Facebook", "Tiktok"];
     const sorted = [...filtered].sort(
@@ -441,7 +441,7 @@ const Footer: React.FC = () => {
                 { level: "SMA", label: "Media Sosial SMA" },
                 { level: "SMP", label: "Media Sosial SMP" },
                 { level: "SD", label: "Media Sosial SD" },
-                { level: "PG-TK", label: "Media Sosial PG/TK" },
+                { level: "PGTK", label: "Media Sosial PG/TK" },
               ].map(({ level, label }) => (
                 <div key={level} className="footer-social-item">
                   <h3 className="footer-section-title">

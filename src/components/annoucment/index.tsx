@@ -61,7 +61,6 @@ const Announcement = ({}: { jenjang?: string }) => {
   const [expandedCards, setExpandedCards] = useState<{
     [key: string]: boolean;
   }>({});
-  // State untuk track active image index per card
   const [activeImageIndex, setActiveImageIndex] = useState<{
     [key: string]: number;
   }>({});
@@ -70,15 +69,15 @@ const Announcement = ({}: { jenjang?: string }) => {
   const getGradeColors = (grade: string) => {
     switch (grade) {
       case "PG-TK":
-        return "#86efac"; // bg-green-300
+        return "#86efac";
       case "SD":
-        return "#fde047"; // bg-yellow-300
+        return "#fde047";
       case "SMP":
-        return "#fca5a5"; // bg-red-300
+        return "#fca5a5";
       case "SMA":
-        return "#93c5fd"; // bg-blue-300
+        return "#93c5fd";
       default:
-        return "#93c5fd"; // bg-blue-300
+        return "#93c5fd";
     }
   };
 
@@ -138,8 +137,25 @@ const Announcement = ({}: { jenjang?: string }) => {
     setExpandedCards((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  // Ganti gambar aktif pada card tertentu
-  const handleImageDotClick = (prestasi_id: string, index: number) => {
+  const handlePrev = (prestasi_id: string, currentIdx: number) => {
+    setActiveImageIndex((prev) => ({
+      ...prev,
+      [prestasi_id]: Math.max(0, currentIdx - 1),
+    }));
+  };
+
+  const handleNext = (
+    prestasi_id: string,
+    currentIdx: number,
+    total: number,
+  ) => {
+    setActiveImageIndex((prev) => ({
+      ...prev,
+      [prestasi_id]: Math.min(total - 1, currentIdx + 1),
+    }));
+  };
+
+  const handleDotClick = (prestasi_id: string, index: number) => {
     setActiveImageIndex((prev) => ({ ...prev, [prestasi_id]: index }));
   };
 
@@ -182,7 +198,7 @@ const Announcement = ({}: { jenjang?: string }) => {
       </div>
 
       <p className="announcement-subtitle">
-        Informasi terbaru seputar aktivitas sekolah
+        Informasi terbaru seputar prestasi sekolah
       </p>
 
       <div className="announcement-grid">
@@ -191,6 +207,7 @@ const Announcement = ({}: { jenjang?: string }) => {
             const images = parseImages(item.path_gambar);
             const activeIdx = activeImageIndex[item.prestasi_id] ?? 0;
             const currentImage = images[activeIdx] || images[0] || "";
+            const isMultiple = images.length > 1;
 
             return (
               <div
@@ -199,86 +216,149 @@ const Announcement = ({}: { jenjang?: string }) => {
                 data-aos="fade-up"
                 data-aos-delay={index * 120}
               >
-                {/* IMAGE */}
-                <div
-                  className="announcement-image"
-                  style={{
-                    position: "relative",
-                    background: "#f0f0f0",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden",
-                    minHeight: "200px",
-                  }}
-                >
-                  <img
-                    src={`${BASE_URL}/${currentImage}`}
-                    alt={item.judul}
-                    className="announcement-img"
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      maxHeight: "280px",
-                      objectFit: "contain",
-                      display: "block",
-                    }}
-                  />
-
-                  {/* Dot navigator — hanya tampil jika ada lebih dari 1 gambar */}
-                  {images.length > 1 && (
+                {/* IMAGE WRAPPER — overflow visible supaya counter badge tidak terpotong */}
+                <div style={{ position: "relative", overflow: "visible" }}>
+                  {/* Counter badge — di luar .announcement-image agar tidak terpotong border-radius */}
+                  {isMultiple && (
                     <div
                       style={{
                         position: "absolute",
-                        bottom: "8px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        display: "flex",
-                        gap: "6px",
-                      }}
-                    >
-                      {images.map((_, imgIdx) => (
-                        <button
-                          key={imgIdx}
-                          onClick={() =>
-                            handleImageDotClick(item.prestasi_id, imgIdx)
-                          }
-                          style={{
-                            width: "8px",
-                            height: "8px",
-                            borderRadius: "50%",
-                            border: "none",
-                            cursor: "pointer",
-                            backgroundColor:
-                              imgIdx === activeIdx
-                                ? "#fff"
-                                : "rgba(255,255,255,0.5)",
-                            padding: 0,
-                            transition: "background-color 0.2s",
-                          }}
-                        />
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Badge jumlah gambar */}
-                  {images.length > 1 && (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "8px",
-                        right: "8px",
-                        background: "rgba(0,0,0,0.55)",
+                        top: "10px",
+                        right: "10px",
+                        background: "rgba(0,0,0,0.60)",
                         color: "#fff",
                         borderRadius: "12px",
-                        padding: "2px 8px",
+                        padding: "2px 9px",
                         fontSize: "12px",
                         fontWeight: 600,
+                        zIndex: 20,
+                        pointerEvents: "none",
                       }}
                     >
                       {activeIdx + 1}/{images.length}
                     </div>
                   )}
+
+                  {/* IMAGE — overflow hidden tetap ada untuk crop gambar */}
+                  <div
+                    className="announcement-image"
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <img
+                      src={`${BASE_URL}/${currentImage}`}
+                      alt={item.judul}
+                      className="announcement-img"
+                    />
+
+                    {/* Prev Button */}
+                    {isMultiple && (
+                      <button
+                        onClick={() => handlePrev(item.prestasi_id, activeIdx)}
+                        disabled={activeIdx === 0}
+                        style={{
+                          position: "absolute",
+                          left: "8px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0,0,0,0.45)",
+                          border: "none",
+                          borderRadius: "50%",
+                          width: "36px",
+                          height: "36px",
+                          cursor: activeIdx === 0 ? "default" : "pointer",
+                          color: "#fff",
+                          fontSize: "22px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          opacity: activeIdx === 0 ? 0.3 : 1,
+                          transition: "opacity 0.2s",
+                          zIndex: 10,
+                          flexShrink: 0,
+                        }}
+                      >
+                        ‹
+                      </button>
+                    )}
+
+                    {/* Next Button */}
+                    {isMultiple && (
+                      <button
+                        onClick={() =>
+                          handleNext(item.prestasi_id, activeIdx, images.length)
+                        }
+                        disabled={activeIdx === images.length - 1}
+                        style={{
+                          position: "absolute",
+                          right: "8px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "rgba(0,0,0,0.45)",
+                          border: "none",
+                          borderRadius: "50%",
+                          width: "36px",
+                          height: "36px",
+                          cursor:
+                            activeIdx === images.length - 1
+                              ? "default"
+                              : "pointer",
+                          color: "#fff",
+                          fontSize: "22px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          opacity: activeIdx === images.length - 1 ? 0.3 : 1,
+                          transition: "opacity 0.2s",
+                          zIndex: 10,
+                          flexShrink: 0,
+                        }}
+                      >
+                        ›
+                      </button>
+                    )}
+
+                    {/* Pill dot indicator */}
+                    {isMultiple && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: "10px",
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          display: "flex",
+                          gap: "6px",
+                          zIndex: 10,
+                        }}
+                      >
+                        {images.map((_, imgIdx) => (
+                          <button
+                            key={imgIdx}
+                            onClick={() =>
+                              handleDotClick(item.prestasi_id, imgIdx)
+                            }
+                            style={{
+                              width: imgIdx === activeIdx ? "20px" : "8px",
+                              height: "8px",
+                              borderRadius: "4px",
+                              border: "none",
+                              cursor: "pointer",
+                              backgroundColor:
+                                imgIdx === activeIdx
+                                  ? "#fff"
+                                  : "rgba(255,255,255,0.5)",
+                              padding: 0,
+                              transition: "all 0.25s ease",
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* CONTENT */}
